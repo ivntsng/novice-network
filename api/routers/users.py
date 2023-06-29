@@ -9,3 +9,5 @@ class UserIn(BaseModel):
     password: str
     email: str
     type: str
+
+class UserOut(BaseModel):
