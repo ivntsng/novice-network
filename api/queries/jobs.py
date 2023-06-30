@@ -30,6 +30,37 @@ class JobOut(BaseModel):
 
 
 class JobRepository:
+    def update(self, job_id: int, job: JobsIn) -> Union[JobOut, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        UPDATE job
+                        SET company_name = %s
+                          , job_title = %s
+                          , job_description = %s
+                          , location = %s
+                          , department = %s
+                          , level = %s
+                          , created_on = %s
+                        WHERE id = %s
+                        """,
+                        [
+                            job.company_name,
+                            job.job_title,
+                            job.job_description,
+                            job.location,
+                            job.department,
+                            job.level,
+                            job.created_on,
+                            job_id,
+                        ],
+                    )
+                    return self.job_in_to_out(job_id, job)
+        except Exception:
+            return {"message": f"Could not update the {job_id}"}
+
     def get_all(self) -> Union[List[JobOut], Error]:
         try:
             with pool.connection() as conn:
@@ -80,7 +111,12 @@ class JobRepository:
                         ],
                     )
                     id = result.fetchone()[0]
-                    old_data = job.dict()
-                    return JobOut(id=id, **old_data)
+                    # old_data = job.dict()
+                    # return JobOut(id=id, **old_data)
+                    return self.job_in_to_out(id, job)
         except Exception:
             return {"message": "Could not create job posting."}
+
+    def job_in_to_out(self, id: int, job: JobsIn):
+        old_data = job.dict()
+        return JobOut(id=id, **old_data)

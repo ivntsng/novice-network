@@ -19,3 +19,12 @@ def get_all(
     repo: JobRepository = Depends(),
 ):
     return repo.get_all()
+
+
+@router.put("/jobs/{job_id}", response_model=Union[JobOut, Error])
+def update_job(
+    job_id: int,
+    job: JobsIn,
+    repo: JobRepository = Depends(),
+) -> Union[JobOut, Error]:
+    return repo.update(job_id, job)
