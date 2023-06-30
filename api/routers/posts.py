@@ -15,7 +15,6 @@ def create_post(
     response: Response,
     repo: PostRepository = Depends()
 ):
-    response.status_code = 400
     return repo.create(post)
 
 @router.get("/posts", response_model=Union[List[PostOut], Error])
