@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import os
 from psycopg_pool import ConnectionPool
 from pydantic import BaseModel
@@ -6,9 +5,7 @@ from typing import Union, List, Optional
 
 
 pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
-=======
 from queries.pool import pool
->>>>>>> main
 
 
 class UserOut(BaseModel):
@@ -51,7 +48,6 @@ class UserQueries:
 
                 return record
 
-<<<<<<< HEAD
     def get_all(self) -> Union[Error, List[UserOut]]:
         try:
             with pool.connection() as conn:
@@ -113,7 +109,7 @@ class UserQueries:
             email=record[3],
             type=record[4],
         )
-=======
+
     def update_user(self, user_id, data):
         with pool.connection() as conn:
             with conn.cursor() as cur:
@@ -145,4 +141,3 @@ class UserQueries:
                         record[column.name] = row[i]
 
                 return record
->>>>>>> main
