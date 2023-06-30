@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Response
 from pydantic import BaseModel
-from datetime import datetime
+from queries.user_queries import UserQueries
+
 
 router = APIRouter()
 
@@ -22,3 +23,8 @@ class UserOut(BaseModel):
 
 class UsersOut(BaseModel):
     users: list[UserOut]
+
+
+@router.post("/api/users/", response_model=UserOut)
+def create_user(user_in: UserIn, queries: UserQueries = Depends()):
+    return queries.create_user(user_in)
