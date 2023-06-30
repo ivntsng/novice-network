@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import jobs
 import os
+from routers import users
 
 app = FastAPI()
 
@@ -13,4 +14,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(jobs.router)
+
+app.include_router(users.router)
+
+
+@app.get("/api/launch-details")
+def launch_details():
+    return {
+        "launch_details": {
+            "module": 3,
+            "week": 17,
+            "day": 5,
+            "hour": 19,
+            "min": "00"
+        }
+    }
