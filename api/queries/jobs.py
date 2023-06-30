@@ -86,7 +86,7 @@ class JobRepository:
                         for job_records in db
                     ]
         except Exception:
-            return {"message": "Could not get list of jobs."}
+            return {"message": "Could not grab the list of jobs."}
 
     def create(self, job: JobsIn) -> JobOut:
         try:
