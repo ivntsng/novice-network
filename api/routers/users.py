@@ -52,3 +52,17 @@ def get_one(
     if user is None:
         response.status_code = 404
     return user
+
+
+@router.put("/api/users/{user_id}", response_model=UserOut)
+def update_user(
+    user_id: int,
+    user_in: UserIn,
+    response: Response,
+    queries: UserQueries = Depends(),
+):
+    record = queries.update_user(user_id, user_in)
+    if record is None:
+        response.status_code = 404
+    else:
+        return record
