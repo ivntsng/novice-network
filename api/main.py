@@ -2,9 +2,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import jobs
 import os
+from routers import posts
 from routers import users
 
 app = FastAPI()
+app.include_router(posts.router)
 
 app.add_middleware(
     CORSMiddleware,
