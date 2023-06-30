@@ -59,7 +59,7 @@ class JobRepository:
                     )
                     return self.job_in_to_out(job_id, job)
         except Exception:
-            return {"message": f"Could not update the {job_id}"}
+            return {"message": f"Could not update job ID: {job_id}"}
 
     def get_all(self) -> Union[List[JobOut], Error]:
         try:
