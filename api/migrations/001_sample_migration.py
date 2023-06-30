@@ -1,17 +1,37 @@
 steps = [
     [
+        # "Up" SQL statement
         """
-        CREATE TABLE posts (
+        CREATE TABLE users (
             id SERIAL PRIMARY KEY NOT NULL,
-            title VARCHAR (1000) NOT NULL,
-            created_datetime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            description TEXT NOT NULL,
-            owner_id INTEGER NOT NULL
+            username VARCHAR(1000) NOT NULL,
+            password TEXT NOT NULL,
+            email VARCHAR(1000) NOT NULL,
+            created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            type VARCHAR(1000) NOT NULL
         );
         """,
-
+        # "Down" SQL statement
         """
-        DROP TABLE posts;
+        DROP TABLE users;
+        """,
+    ],
+    [
+        # "Up" SQL statement
+        """
+        CREATE TABLE big_dummy (
+            id SERIAL PRIMARY KEY NOT NULL,
+            required_limited_text VARCHAR(1000) NOT NULL,
+            required_unlimited_text TEXT NOT NULL,
+            required_date_time TIMESTAMP NOT NULL,
+            automatically_set_date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            required_integer INTEGER NOT NULL,
+            required_money MONEY NOT NULL
+        );
+        """,
+        # "Down" SQL statement
+        """
+        DROP TABLE big_dummy;
         """,
     ],
     [
@@ -30,6 +50,21 @@ steps = [
         """,
         """
         DROP TABLE job
+        """,
+    ],
+    [
+        """
+        CREATE TABLE posts (
+            id SERIAL PRIMARY KEY NOT NULL,
+            title VARCHAR (1000) NOT NULL,
+            created_datetime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            description TEXT NOT NULL,
+            owner_id INTEGER NOT NULL
+        );
+        """,
+
+        """
+        DROP TABLE posts;
         """,
     ],
 ]
