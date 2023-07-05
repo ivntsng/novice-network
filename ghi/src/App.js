@@ -1,36 +1,43 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Construct from "./Construct.js";
 import ErrorNotification from "./ErrorNotification";
 import "./App.css";
+import Nav from "./Nav";
+import MainPage from "./MainPage.js";
+import JobsList from "./Jobs.js";
 
 function App() {
-  const [launchInfo, setLaunchInfo] = useState([]);
-  const [error, setError] = useState(null);
+  const [jobs, setJobs] = useState([]);
+
+  async function getJobs() {
+    const jobsUrl = "http://localhost:8000/jobs/";
+    const response = await fetch(jobsUrl);
+    if (response.ok) {
+      const data = await response.json();
+      setJobs(data.jobs);
+    }
+  }
 
   useEffect(() => {
-    async function getData() {
-      let url = `${process.env.REACT_APP_API_HOST}/api/launch-details`;
-      console.log("fastapi url: ", url);
-      let response = await fetch(url);
-      console.log("------- hello? -------");
-      let data = await response.json();
-
-      if (response.ok) {
-        console.log("got launch data!");
-        setLaunchInfo(data.launch_details);
-      } else {
-        console.log("drat! something happened");
-        setError(data.message);
-      }
-    }
-    getData();
+    getJobs();
   }, []);
 
   return (
-    <div>
-      <ErrorNotification error={error} />
-      <Construct info={launchInfo} />
-    </div>
+    <BrowserRouter>
+      <Nav />
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="jobs">
+            <Route
+              index
+              element={<JobsList jobsList={jobs} getJobs={getJobs} />}
+            />
+          </Route>
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
