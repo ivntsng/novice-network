@@ -37,7 +37,7 @@ export default function Nav() {
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/placerholder">
-                Placeholder
+                About Us
               </NavLink>
             </li>
           </ul>
