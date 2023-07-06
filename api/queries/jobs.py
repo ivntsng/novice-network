@@ -30,6 +30,22 @@ class JobOut(BaseModel):
 
 
 class JobRepository:
+    def delete(self, job_id: int) -> bool:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        DELETE FROM job
+                        WHERE id = %s
+                        """,
+                        [job_id],
+                    )
+                    return True
+        except Exception as e:
+            print(e)
+            return False
+
     def update(self, job_id: int, job: JobsIn) -> Union[JobOut, Error]:
         try:
             with pool.connection() as conn:
@@ -59,7 +75,7 @@ class JobRepository:
                     )
                     return self.job_in_to_out(job_id, job)
         except Exception:
-            return {"message": f"Could not update the {job_id}"}
+            return {"message": f"Could not update job ID: {job_id}"}
 
     def get_all(self) -> Union[List[JobOut], Error]:
         try:
