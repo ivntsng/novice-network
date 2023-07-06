@@ -15,7 +15,6 @@ steps = [
         """
         DROP TABLE users;
         """,
-        """,
     ],
     [
         # "Up" SQL statement
@@ -64,8 +63,8 @@ steps = [
         );
         """,
 
-        """,
+        """
         DROP TABLE posts;
         """,
-    ],,
+    ],
 ]
