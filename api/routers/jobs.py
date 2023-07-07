@@ -14,7 +14,7 @@ def create_jobs(
     return repo.create(job)
 
 
-@router.get("/jobs", response_model=Union[List[JobOut], Error])
+@router.get("/jobs/", response_model=Union[List[JobOut], Error])
 def get_all(
     repo: JobRepository = Depends(),
 ):

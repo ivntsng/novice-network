@@ -81,7 +81,7 @@ class JobRepository:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    result = db.execute(
+                    db.execute(
                         """
                         SELECT id, company_name, job_title, job_description, location, department, level, created_on
                         FROM job
