@@ -13,6 +13,7 @@ code {
 .navbar {
   background-color: #008080;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.2rem;
 }
 
 .navbar-brand {
@@ -27,7 +28,7 @@ code {
   transition: color 0.3s;
 }
 
-.container {
+.nav-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
@@ -47,4 +48,52 @@ code {
   font-size: 24px;
   color: #333333;
   margin-bottom: 2.5rem;
+}
+
+.job-list {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.border-box {
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.jobs-container {
+  display: grid;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.job-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.job-details h3 {
+  margin-right: 30px;
+  font-size: 1.5rem;
+}
+
+.additional-details {
+  display: flex;
+  gap: 10px;
+}
+
+.job-description {
+  margin-bottom: 10px;
+}
+
+.job-level {
+  font-weight: bold;
 }

@@ -5,7 +5,7 @@ import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import Nav from "./Nav";
 import MainPage from "./MainPage.js";
-import JobsList from "./Jobs.js";
+import ListJobs from "./Jobs.js";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -15,7 +15,7 @@ function App() {
     const response = await fetch(jobsUrl);
     if (response.ok) {
       const data = await response.json();
-      setJobs(data.jobs);
+      setJobs(data);
     }
   }
 
@@ -30,10 +30,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="jobs">
-            <Route
-              index
-              element={<JobsList jobsList={jobs} getJobs={getJobs} />}
-            />
+            <Route index element={<ListJobs listJobs={jobs} />} />
           </Route>
         </Routes>
       </div>
