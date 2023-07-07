@@ -2,6 +2,8 @@ from pydantic import BaseModel
 from typing import Optional, List, Union
 from datetime import date
 from queries.pool import pool
+from fastapi import HTTPException
+import datetime
 
 
 class Error(BaseModel):
@@ -26,11 +28,33 @@ class JobOut(BaseModel):
     location: str
     department: str
     level: str
-    created_on: date
+    created_on: datetime.date
 
 
 class JobRepository:
-    def delete(self, job_id: int) -> bool:
+    def get_job(self, job_id: int) -> Union[JobOut, dict]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        SELECT id, company_name, job_title, job_description, location, department, level, created_on
+                        FROM job
+                        WHERE id = %s
+                        """,
+                        [job_id],
+                    )
+                    record = db.fetchone()
+                    if record is None:
+                        raise HTTPException(
+                            status_code=404,
+                            detail=f"Job ID {job_id} does not exist.",
+                        )
+                    return self.record_to_job_out(record)
+        except HTTPException as e:
+            raise e
+
+    def delete(self, job_id: int) -> None:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -41,10 +65,18 @@ class JobRepository:
                         """,
                         [job_id],
                     )
-                    return True
-        except Exception as e:
-            print(e)
-            return False
+                    if db.rowcount == 0:
+                        raise HTTPException(
+                            status_code=404,
+                            detail=f"Job ID {job_id} does not exist.",
+                        )
+            conn.commit()
+            raise HTTPException(
+                status_code=200,
+                detail=f"Successfully deleted {job_id}.",
+            )
+        except HTTPException as e:
+            raise e
 
     def update(self, job_id: int, job: JobsIn) -> Union[JobOut, Error]:
         try:
@@ -76,12 +108,13 @@ class JobRepository:
                     return self.job_in_to_out(job_id, job)
         except Exception:
             return {"message": f"Could not update job ID: {job_id}"}
+            return {"message": f"Could not update job ID: {job_id}"}
 
     def get_all(self) -> Union[List[JobOut], Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    result = db.execute(
+                    db.execute(
                         """
                         SELECT id, company_name, job_title, job_description, location, department, level, created_on
                         FROM job
@@ -127,8 +160,6 @@ class JobRepository:
                         ],
                     )
                     id = result.fetchone()[0]
-                    # old_data = job.dict()
-                    # return JobOut(id=id, **old_data)
                     return self.job_in_to_out(id, job)
         except Exception:
             return {"message": "Could not create job posting."}
@@ -136,3 +167,15 @@ class JobRepository:
     def job_in_to_out(self, id: int, job: JobsIn):
         old_data = job.dict()
         return JobOut(id=id, **old_data)
+
+    def record_to_job_out(self, record):
+        return JobOut(
+            id=record[0],
+            company_name=record[1],
+            job_title=record[2],
+            job_description=record[3],
+            location=record[4],
+            department=record[5],
+            level=record[6],
+            created_on=record[7],
+        )
