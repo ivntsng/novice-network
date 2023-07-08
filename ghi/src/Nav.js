@@ -25,7 +25,7 @@ export default function Nav() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <NavLink className="nav-link" exact to="/">
+              <NavLink className="nav-link" to="/">
                 Home
               </NavLink>
             </li>

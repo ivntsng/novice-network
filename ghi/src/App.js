@@ -4,9 +4,11 @@ import "./App.css";
 import Nav from "./Nav";
 import MainPage from "./MainPage.js";
 import ListJobs from "./ListJobs.js";
+import CreateJob from "./CreateJobs";
 
 function App() {
   const [jobs, setJobs] = useState([]);
+  const [createJob, setCreateJob] = useState([]);
 
   async function getJobs() {
     const jobsUrl = "http://localhost:8000/jobs/";
@@ -29,6 +31,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="jobs">
             <Route index element={<ListJobs listJobs={jobs} />} />
+            <Route path="create" element={<CreateJob getJobs={getJobs} />} />
           </Route>
         </Routes>
       </div>
