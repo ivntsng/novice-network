@@ -1,13 +1,14 @@
 import React from "react";
 
 export default function ListJobs({ listJobs, getJobs }) {
+  if (!listJobs || listJobs.length === 0) {
+    return <div>There are no jobs available.</div>;
+  }
+
   const sortJob = listJobs.sort(
     (a, b) => new Date(b.created_on) - new Date(a.created_on)
   );
 
-  if (!listJobs || listJobs.length === 0) {
-    return <div>Loading list of jobs...</div>;
-  }
   return (
     <div className="container">
       <h1 className="job-list">Latest Job Posting</h1>
