@@ -27,4 +27,11 @@ During the past week, I worked on the following tasks:
 * Configured routing and passed the listJobs prop to the ListJobs component.
 * Tested the changes and ensured they met the requirements.
 
+## July 8 - July 9
 
+During July 8 and July 9, I focused on the create job listing page and successfully implemented the functionality for submitting job listings. The key activities during this period include:
+
+* Created the frontend form for job listing creation.
+* Implemented the necessary validations and error handling for the form fields.
+* Integrated the form submission with the backend API.
+* Made adjustments to the UI and form layout for improved user experience.

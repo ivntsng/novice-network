@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional, List, Union
 from datetime import date
 from queries.pool import pool
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 import datetime
 
 
@@ -17,7 +17,7 @@ class JobsIn(BaseModel):
     location: str
     department: str
     level: str
-    created_on: date
+    created_on: date = str(date.today())
 
 
 class JobOut(BaseModel):
@@ -28,7 +28,7 @@ class JobOut(BaseModel):
     location: str
     department: str
     level: str
-    created_on: datetime.date
+    created_on: date
 
 
 class JobRepository:
@@ -108,7 +108,6 @@ class JobRepository:
                     return self.job_in_to_out(job_id, job)
         except Exception:
             return {"message": f"Could not update job ID: {job_id}"}
-            return {"message": f"Could not update job ID: {job_id}"}
 
     def get_all(self) -> Union[List[JobOut], Error]:
         try:
@@ -138,17 +137,18 @@ class JobRepository:
             return {"message": "Could not grab the list of jobs."}
 
     def create(self, job: JobsIn) -> JobOut:
+        created_on = datetime.date.today()
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    result = db.execute(
+                    db.execute(
                         """
-                      INSERT INTO job
+                        INSERT INTO job
                         (company_name, job_title, job_description, location, department, level, created_on)
-                      VALUES
-                        (%s, %s, %s, %s, %s, %s , %s)
-                      RETURNING id
-                      """,
+                        VALUES
+                        (%s, %s, %s, %s, %s, %s, %s)
+                        RETURNING id, company_name, job_title, job_description, location, department, level, created_on
+                        """,
                         [
                             job.company_name,
                             job.job_title,
@@ -156,12 +156,14 @@ class JobRepository:
                             job.location,
                             job.department,
                             job.level,
-                            job.created_on,
+                            str(created_on),
                         ],
                     )
-                    id = result.fetchone()[0]
-                    return self.job_in_to_out(id, job)
-        except Exception:
+                    record = db.fetchone()
+                    id = record[0]
+                    return self.record_to_job_out(record)
+        except Exception as e:
+            print(f"Console Error: {str(e)}")
             return {"message": "Could not create job posting."}
 
     def job_in_to_out(self, id: int, job: JobsIn):
