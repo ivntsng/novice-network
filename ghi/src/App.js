@@ -1,11 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Construct from "./Construct.js";
-import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import Nav from "./Nav";
 import MainPage from "./MainPage.js";
-import ListJobs from "./Jobs.js";
+import ListJobs from "./ListJobs.js";
+import CreateJob from "./CreateJobs";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -31,6 +30,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="jobs">
             <Route index element={<ListJobs listJobs={jobs} />} />
+            <Route path="create" element={<CreateJob getJobs={getJobs} />} />
           </Route>
         </Routes>
       </div>

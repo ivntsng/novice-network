@@ -14,6 +14,8 @@ code {
   background-color: #008080;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.2rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .navbar-brand {
@@ -63,6 +65,11 @@ code {
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
+  transition: all 300ms ease-in-out;
+}
+
+.border-box:hover {
+  box-shadow: 0px 8px 30px #005555;
 }
 
 .jobs-container {
@@ -83,17 +90,82 @@ code {
 .job-details h3 {
   margin-right: 30px;
   font-size: 1.5rem;
+  text-align: center;
 }
 
 .additional-details {
   display: flex;
   gap: 10px;
+  font-size: 1.1rem;
+  justify-content: space-around;
+  align-items: flex-start;
+  max-width: 450px;
+  width: 100%;
 }
 
 .job-description {
   margin-bottom: 10px;
 }
 
-.job-level {
+.detail-label {
+  display: flex;
+  justify-content: space-around;
   font-weight: bold;
+}
+
+.detail-value {
+  display: flex;
+  justify-content: space-around;
+}
+
+.job-company {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+/* New styles for the "Create Job" button */
+.create-job-button {
+  display: flex;
+  align-items: center;
+}
+
+.create-job-button-link {
+  color: #ffffff;
+  font-weight: bold;
+  margin-left: 1rem;
+}
+
+@media (max-width: 768px) {
+  .navbar-collapse {
+    justify-content: space-between;
+  }
+}
+
+.job-description {
+  margin-bottom: 10px;
+}
+
+.detail-label {
+  display: flex;
+  justify-content: space-around;
+  font-weight: bold;
+}
+
+.detail-value {
+  display: flex;
+  justify-content: space-around;
+}
+
+.job-company {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.nav-link {
+  display: flex;
+  text-align: right;
+}
+
+.navbar-nav.jobs-page {
+  margin-left: auto;
 }

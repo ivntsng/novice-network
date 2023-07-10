@@ -1,6 +1,10 @@
-import { NavLink, Link } from "react-router-dom";
+import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
 export default function Nav() {
+  const location = useLocation();
+  const jobsPage = location.pathname.startsWith("/jobs");
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container">
@@ -21,7 +25,7 @@ export default function Nav() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <NavLink className="nav-link" exact="true" to="/">
+              <NavLink className="nav-link" to="/">
                 Home
               </NavLink>
             </li>
@@ -31,16 +35,25 @@ export default function Nav() {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/placeholder">
+              <NavLink className="nav-link" to="/forum">
                 Forum
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/placerholder">
+              <NavLink className="nav-link" to="/about-us">
                 About Us
               </NavLink>
             </li>
           </ul>
+          {jobsPage && (
+            <ul className="navbar-nav ml-auto jobs-page">
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/jobs/create">
+                  Create Job
+                </NavLink>
+              </li>
+            </ul>
+          )}
         </div>
       </div>
     </nav>
