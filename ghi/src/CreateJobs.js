@@ -7,7 +7,6 @@ export default function CreateJob({ getJobs }) {
   const [location, setLocation] = useState("");
   const [department, setDepartment] = useState("");
   const [level, setLevel] = useState("");
-  const [createdOn, setCreatedOn] = useState("");
 
   const handleCompanyNameChange = (e) => {
     const value = e.target.value;
@@ -39,28 +38,22 @@ export default function CreateJob({ getJobs }) {
     setLevel(value);
   };
 
-  const handleCreatedOnChange = (e) => {
-    const value = e.target.value;
-    setCreatedOn(value);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {};
-    data.companyName = companyName;
-    data.jobTitle = jobTitle;
-    data.jobDescription = jobDescription;
+    data.company_name = companyName;
+    data.job_title = jobTitle;
+    data.job_description = jobDescription;
     data.location = location;
     data.department = department;
     data.level = level;
-    data.createdOn = createdOn;
 
     const createJobUrl = "http://localhost:8000/jobs";
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(data),
       headers: {
-        "Content-type": "applicaiton/json",
+        "Content-Type": "application/json",
       },
     };
 
@@ -73,7 +66,7 @@ export default function CreateJob({ getJobs }) {
       setLocation("");
       setDepartment("");
       setLevel("");
-      setCreatedOn("");
+      getJobs();
     }
   };
 
@@ -82,6 +75,96 @@ export default function CreateJob({ getJobs }) {
       <div className="offset-3 col-6">
         <div className="shadow p-4 mt-4">
           <h1>Create job listing</h1>
+          <form onSubmit={handleSubmit} id="create-job-posting-form">
+            <div className="form-floating mb-3">
+              <input
+                onChange={handleCompanyNameChange}
+                value={companyName}
+                placeholder="company-name"
+                required
+                type="text"
+                id="company-name"
+                className="form-control"
+              />
+              <label htmlFor="company-name">Company Name</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                onChange={handleJobTitleChange}
+                value={jobTitle}
+                placeholder="job-title"
+                required
+                type="text"
+                id="job-title"
+                className="form-control"
+              />
+              <label htmlFor="job-title">Job Title</label>
+            </div>
+            <div className="form-floating mb-3">
+              <textarea
+                onChange={handleJobDescriptionChange}
+                value={jobDescription}
+                placeholder="job-description"
+                required
+                type="text"
+                id="job-description"
+                className="form-control"
+                rows="4"
+              />
+              <label htmlFor="job-description">Job Description</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                onChange={handleLocationChange}
+                value={location}
+                placeholder="location"
+                required
+                type="text"
+                id="location"
+                className="form-control"
+              />
+              <label htmlFor="location">Location</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                onChange={handleDepartmentChange}
+                value={department}
+                placeholder="department"
+                required
+                type="text"
+                id="department"
+                className="form-control"
+              />
+              <label htmlFor="department">Department</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                onChange={handleLevelChange}
+                value={level}
+                placeholder="job-level"
+                required
+                type="text"
+                id="job-level"
+                className="form-control"
+              />
+              <label htmlFor="job-level">Job Level</label>
+            </div>
+            {/* <div className="form-floating mb-3">
+              <input
+                onChange={handleCreatedOnChange}
+                value={createdOn}
+                placeholder="created-on"
+                required
+                type="date"
+                id="date"
+                className="form-control"
+              />
+              <label htmlFor="date">Today's Date</label>
+            </div> */}
+            <button className="btn btn-primary" type="submit">
+              Create job
+            </button>
+          </form>
         </div>
       </div>
     </div>
