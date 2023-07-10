@@ -5,6 +5,7 @@ import Nav from "./Nav";
 import MainPage from "./MainPage.js";
 import ListJobs from "./ListJobs.js";
 import CreateJob from "./CreateJobs";
+import JobDetail from "./JobDetail";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -31,6 +32,9 @@ function App() {
           <Route path="jobs">
             <Route index element={<ListJobs listJobs={jobs} />} />
             <Route path="create" element={<CreateJob getJobs={getJobs} />} />
+          </Route>
+          <Route path="jobs/:id">
+            <Route index element={<JobDetail listJobs={jobs} />} />
           </Route>
         </Routes>
       </div>
