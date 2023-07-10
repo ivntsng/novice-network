@@ -8,7 +8,6 @@ import CreateJob from "./CreateJobs";
 
 function App() {
   const [jobs, setJobs] = useState([]);
-  const [createJob, setCreateJob] = useState([]);
 
   async function getJobs() {
     const jobsUrl = "http://localhost:8000/jobs/";

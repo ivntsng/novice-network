@@ -59,7 +59,6 @@ export default function CreateJob({ getJobs }) {
 
     const response = await fetch(createJobUrl, fetchConfig);
     if (response.ok) {
-      const newJob = await response.json();
       setCompanyName("");
       setJobTitle("");
       setJobDescription("");
