@@ -10,7 +10,7 @@ export default function ListJobs({ listJobs, getJobs }) {
   );
 
   return (
-    <div className="container">
+    <div className="job-container">
       <h1 className="job-list">Latest Job Posting</h1>
       <div className="jobs-container">
         {sortJob.map((job) => (
