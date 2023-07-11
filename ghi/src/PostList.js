@@ -7,9 +7,11 @@ function PostList({ posts }){
         <>
         <h1>The #1 Tech Bootcamp Community</h1>
         <div>
+            <Link to="/posts/create">
             <button type="button" className="btn btn-primary">
                 Write a post
             </button>
+            </Link>
         </div>
         <div className="row">
             {posts.map((post) => (
