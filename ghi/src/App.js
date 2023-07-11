@@ -8,6 +8,7 @@ import CreateJob from "./CreateJobs";
 import JobDetail from "./JobDetail";
 import PostList from "./PostList";
 import PostForm from "./PostForm";
+import PostDetail from "./PostDetail";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -59,6 +60,9 @@ function App() {
               path="create"
               element={<PostForm posts={posts} getPosts={getPosts} />}
             />
+          </Route>
+          <Route path="post/:id">
+            <Route index element={<PostDetail posts={posts} getPosts={getPosts} />} />
           </Route>
         </Routes>
       </div>
