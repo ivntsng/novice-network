@@ -35,7 +35,7 @@ export default function Nav() {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/forum">
+              <NavLink className="nav-link" to="/posts">
                 Forum
               </NavLink>
             </li>

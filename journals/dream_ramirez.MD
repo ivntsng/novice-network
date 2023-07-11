@@ -16,3 +16,11 @@ Today, I worked on:
 * Create posts endpoint
 
 The thing that's blocking me is how to add user data to my posts. I watch Curtis' video about FastAPI - Complex Models, I kinda understand that I can create a class that has user models in it then use it as a type of data in my posts base model. Then I have to also think of how two databases connect to each other in order to get user as foreign key
+
+## July 10, 2023
+
+Today, I finished
+
+* posts endpoints (create, get one, get all, update, and delete posts)
+
+I finished the endpoints for posts. THe only thing that I need to figure out is getting the user information into a post they create right now I have owner_id as a placeholder. I started working on the front end for post. I got the post list running. Not what's I hope for but I'll look into bootstrap more after I got the create post form done. I also look into authentication and I will bring it up to the team tomorrow.
