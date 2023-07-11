@@ -171,6 +171,11 @@ code {
   margin-left: auto;
 }
 
+.job-linking {
+  text-decoration: none;
+  color: black;
+}
+
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
