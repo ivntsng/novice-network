@@ -33,7 +33,7 @@ function App() {
             <Route index element={<ListJobs listJobs={jobs} />} />
             <Route path="create" element={<CreateJob getJobs={getJobs} />} />
           </Route>
-          <Route path="jobs/:id">
+          <Route path="/jobs/:jobs_id">
             <Route index element={<JobDetail listJobs={jobs} />} />
           </Route>
         </Routes>

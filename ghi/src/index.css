@@ -170,3 +170,8 @@ code {
 .navbar-nav.jobs-page {
   margin-left: auto;
 }
+
+.job-linking {
+  text-decoration: none;
+  color: black;
+}
