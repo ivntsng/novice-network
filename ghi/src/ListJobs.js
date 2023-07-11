@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function ListJobs({ listJobs, getJobs }) {
   if (!listJobs || listJobs.length === 0) {
@@ -15,27 +16,29 @@ export default function ListJobs({ listJobs, getJobs }) {
       <div className="jobs-container">
         {sortJob.length > 0 ? (
           sortJob.map((job) => (
-            <div className="border-box" key={job.id}>
-              <div className="job-details">
-                <h3>{job.job_title}</h3>
-                <div className="details-separator"></div>
-                <div className="additional-details">
-                  <div className="detail-row">
-                    <div className="detail-label">Location:</div>
-                    <div className="detail-value">{job.location}</div>
-                  </div>
-                  <div className="detail-row">
-                    <div className="detail-label">Department:</div>
-                    <div className="detail-value">{job.department}</div>
-                  </div>
-                  <div className="detail-row">
-                    <div className="detail-label">Level:</div>
-                    <div className="detail-value">{job.level}</div>
+            <Link className="job-linking" to={`/jobs/${job.id}`} key={job.id}>
+              <div className="border-box" key={job.id}>
+                <div className="job-details">
+                  <h3>{job.job_title}</h3>
+                  <div className="details-separator"></div>
+                  <div className="additional-details">
+                    <div className="detail-row">
+                      <div className="detail-label">Location:</div>
+                      <div className="detail-value">{job.location}</div>
+                    </div>
+                    <div className="detail-row">
+                      <div className="detail-label">Department:</div>
+                      <div className="detail-value">{job.department}</div>
+                    </div>
+                    <div className="detail-row">
+                      <div className="detail-label">Level:</div>
+                      <div className="detail-value">{job.level}</div>
+                    </div>
                   </div>
                 </div>
+                <div className="job-company">{job.company_name}</div>
               </div>
-              <div className="job-company">{job.company_name}</div>
-            </div>
+            </Link>
           ))
         ) : (
           <div>There are no jobs available.</div>
