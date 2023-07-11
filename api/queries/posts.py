@@ -11,14 +11,14 @@ class PostIn(BaseModel):
     title: str
     created_datetime: datetime
     description: str
-    owner_id: int
+    owner_id: str
 
 class PostOut(BaseModel):
     id: int
     title: str
     created_datetime: datetime
     description: str
-    owner_id: int
+    owner_id: str
 
 class PostRepository:
     def delete(self, post_id: int) -> bool:
