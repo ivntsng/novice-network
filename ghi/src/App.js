@@ -27,10 +27,9 @@ function App() {
     const response = await fetch(postsUrl);
     if (response.ok) {
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       setPosts(data);
     }
-
   }
 
   useEffect(() => {
@@ -48,12 +47,18 @@ function App() {
             <Route index element={<ListJobs listJobs={jobs} />} />
             <Route path="create" element={<CreateJob getJobs={getJobs} />} />
           </Route>
-          <Route path="jobs/:id">
+          <Route path="/jobs/:jobs_id">
             <Route index element={<JobDetail listJobs={jobs} />} />
           </Route>
           <Route path="posts">
-            <Route index element={<PostList posts={posts} getPosts={getPosts} />} />
-            <Route path="create" element={<PostForm posts={posts} getPosts={getPosts} />} />
+            <Route
+              index
+              element={<PostList posts={posts} getPosts={getPosts} />}
+            />
+            <Route
+              path="create"
+              element={<PostForm posts={posts} getPosts={getPosts} />}
+            />
           </Route>
         </Routes>
       </div>
