@@ -23,15 +23,21 @@ export default function JobDetail() {
   }, [jobs_id]);
 
   return (
-    <>
+    <div className="border-box-job-detail">
       {job ? (
-        <div>
-          <h1>{job.company_name}</h1>
+        <>
+          <h1>Job details for {job.company_name}</h1>
+          <div>{job.company_name}</div>
+          <div>{job.job_title}</div>
           <div>{job.job_description}</div>
-        </div>
+          <div>{job.location}</div>
+          <div>{job.department}</div>
+          <div>{job.level}</div>
+          <div>{job.created_on}</div>
+        </>
       ) : (
         <p>Loading...</p>
       )}
-    </>
+    </div>
   );
 }
