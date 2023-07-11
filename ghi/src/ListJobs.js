@@ -5,37 +5,41 @@ export default function ListJobs({ listJobs, getJobs }) {
     return <div>There are no jobs available.</div>;
   }
 
-  const sortJob = listJobs.sort(
-    (a, b) => new Date(b.created_on) - new Date(a.created_on)
-  );
+  const sortJob = Array.isArray(listJobs)
+    ? listJobs.sort((a, b) => new Date(b.created_on) - new Date(a.created_on))
+    : [];
 
   return (
     <div className="job-container">
       <h1 className="job-list">Latest Job Posting</h1>
       <div className="jobs-container">
-        {sortJob.map((job) => (
-          <div className="border-box" key={job.id}>
-            <div className="job-details">
-              <h3>{job.job_title}</h3>
-              <div className="details-separator"></div>
-              <div className="additional-details">
-                <div className="detail-row">
-                  <div className="detail-label">Location:</div>
-                  <div className="detail-value">{job.location}</div>
-                </div>
-                <div className="detail-row">
-                  <div className="detail-label">Department:</div>
-                  <div className="detail-value">{job.department}</div>
-                </div>
-                <div className="detail-row">
-                  <div className="detail-label">Level:</div>
-                  <div className="detail-value">{job.level}</div>
+        {sortJob.length > 0 ? (
+          sortJob.map((job) => (
+            <div className="border-box" key={job.id}>
+              <div className="job-details">
+                <h3>{job.job_title}</h3>
+                <div className="details-separator"></div>
+                <div className="additional-details">
+                  <div className="detail-row">
+                    <div className="detail-label">Location:</div>
+                    <div className="detail-value">{job.location}</div>
+                  </div>
+                  <div className="detail-row">
+                    <div className="detail-label">Department:</div>
+                    <div className="detail-value">{job.department}</div>
+                  </div>
+                  <div className="detail-row">
+                    <div className="detail-label">Level:</div>
+                    <div className="detail-value">{job.level}</div>
+                  </div>
                 </div>
               </div>
+              <div className="job-company">{job.company_name}</div>
             </div>
-            <div className="job-company">{job.company_name}</div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <div>There are no jobs available.</div>
+        )}
       </div>
     </div>
   );
