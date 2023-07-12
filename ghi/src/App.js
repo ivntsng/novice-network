@@ -33,9 +33,9 @@ function App() {
             <Route index element={<ListJobs listJobs={jobs} />} />
             <Route path="create" element={<CreateJob getJobs={getJobs} />} />
           </Route>
-          <Route path="jobs/:id">
+          {/* <Route path="jobs/:id">
             <Route index element={<JobDetail listJobs={jobs} />} />
-          </Route>
+          </Route> */}
         </Routes>
       </div>
     </BrowserRouter>

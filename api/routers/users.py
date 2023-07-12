@@ -1,38 +1,74 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import (
+    Depends,
+    HTTPException,
+    status,
+    Response,
+    APIRouter,
+    Request,
+)
+from jwtdown_fastapi.authentication import Token
+from authenticator import authenticator
+
 from pydantic import BaseModel
 from typing import List, Union, Optional
-from queries.user_queries import UserQueries
+from queries.user_queries import (
+    UserQueries,
+    UserIn,
+    UserOut,
+    UsersOutWithPassword,
+)
 
 
 router = APIRouter()
 
 
-class UserIn(BaseModel):
+class UserForm(BaseModel):
     username: str
     password: str
-    email: str
-    type: str
 
 
-class UserOut(BaseModel):
-    id: int
-    username: str
-    password: str
-    email: str
-    type: str
+class UserToken(Token):
+    user: UserOut
 
 
-class UsersOut(BaseModel):
-    users: list[UserOut]
+class HttpError(BaseModel):
+    detail: str
 
 
 class Error(BaseModel):
     message: str
 
 
-@router.post("/api/users/", response_model=UserOut)
-def create_user(user_in: UserIn, queries: UserQueries = Depends()):
-    return queries.create_user(user_in)
+@router.get("/token", response_model=Union[UserToken, None])
+async def get_token(
+    request: Request,
+    user: dict = Depends(authenticator.try_get_current_account_data),
+):
+    if user and authenticator.cookie_name in request.cookies:
+        return {
+            "access_token": request.cookies[authenticator.cookie_name],
+            "type": "Bearer",
+            "user": user,
+        }
+
+
+@router.post("/api/users/", response_model=UserToken | HttpError)
+async def create_user(
+    info: UserIn,
+    request: Request,
+    response: Response,
+    queries: UserQueries = Depends(),
+):
+    hashed_password = authenticator.hash_password(info.password)
+    try:
+        account = queries.create(info, hashed_password)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)
+        )
+    form = UserForm(username=info.email, password=info.password)
+    token = await authenticator.login(response, request, form, queries)
+    return UserToken(account=account, **token.dict())
 
 
 @router.get("/api/users/", response_model=Union[Error, List[UserOut]])
@@ -46,6 +82,7 @@ def get_all(
 def get_one(
     user_id: int,
     response: Response,
+    user: dict = Depends(authenticator.try_get_current_account_data),
     repo: UserQueries = Depends(),
 ) -> UserOut:
     user = repo.get_one(user_id)

@@ -5,10 +5,11 @@ steps = [
         CREATE TABLE users (
             id SERIAL PRIMARY KEY NOT NULL,
             username VARCHAR(1000) NOT NULL,
-            password TEXT NOT NULL,
+            hashed_password varchar(200) not null
             email VARCHAR(1000) NOT NULL,
             created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            type VARCHAR(1000) NOT NULL
+            is_mentor bool default false,
+            is_recruiter bool default false
         );
         """,
         # "Down" SQL statement
@@ -62,7 +63,6 @@ steps = [
             owner_id INTEGER NOT NULL
         );
         """,
-
         """
         DROP TABLE posts;
         """,
