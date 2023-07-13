@@ -27,7 +27,9 @@ export default function JobDetail() {
       {job ? (
         <div className="job-detail">
           <h2 className="detail-company-name">{job.company_name}</h2>
-          <h1 className="detail-job-title">{job.job_title}</h1>
+          <h1 className="detail-job-title">
+            {job.job_title.replace(/, /g, ",\n")}
+          </h1>
           <div className="job-detail-content">
             <div className="job-description-container">
               <div className="job-description">

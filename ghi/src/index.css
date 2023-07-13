@@ -86,14 +86,15 @@ code {
   align-self: flex-start;
 }
 
+.job-container {
+  position: relative;
+}
+
 .additional-details {
   display: flex;
   gap: 10px;
   font-size: 1.1rem;
   justify-content: space-around;
-  align-items: flex-start;
-  max-width: 450px;
-  width: 100%;
 }
 
 .detail-label {
@@ -187,6 +188,7 @@ code {
   font-size: 36px;
   font-weight: bold;
   margin-bottom: 10px;
+  white-space: pre-line;
 }
 
 .job-detail-content {
@@ -210,6 +212,11 @@ code {
   top: 0;
   justify-content: space-between;
   align-self: flex-start;
+  white-space: pre;
+}
+
+.job-details h3 {
+  padding-right: 20rem;
 }
 
 .detail-info-container {
