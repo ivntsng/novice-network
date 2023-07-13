@@ -50,7 +50,13 @@ export default function JobDetail() {
                 </div>
                 <div className="detail-info-item">
                   <span className="detail-info-label">Created On:</span>
-                  <span className="detail-info-value">{job.created_on}</span>
+                  <span className="detail-info-value">
+                    {new Date(job.created_on).toLocaleDateString("en-us", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </span>
                 </div>
               </div>
             </div>

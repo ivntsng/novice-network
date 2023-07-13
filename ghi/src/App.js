@@ -12,6 +12,7 @@ import PostForm from "./PostForm";
 function App() {
   const [jobs, setJobs] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [currentJobId, setCurrentJobId] = useState(null);
 
   async function getJobs() {
     const jobsUrl = "http://localhost:8000/jobs/";
@@ -46,7 +47,12 @@ function App() {
           <Route path="jobs">
             <Route index element={<ListJobs listJobs={jobs} />} />
             <Route path="create" element={<CreateJob getJobs={getJobs} />} />
-            <Route path=":jobs_id" element={<JobDetail listJobs={jobs} />} />
+            <Route
+              path=":jobs_id"
+              element={
+                <JobDetail listJobs={jobs} setCurrentJobId={setCurrentJobId} />
+              }
+            />
           </Route>
           <Route path="posts">
             <Route
