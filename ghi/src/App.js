@@ -14,6 +14,7 @@ import CreateUser from "./Signup.js";
 function App() {
   const [jobs, setJobs] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [currentJobId, setCurrentJobId] = useState(null);
 
   async function getJobs() {
     const jobsUrl = "http://localhost:8000/jobs/";

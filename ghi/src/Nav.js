@@ -3,7 +3,8 @@ import { NavLink, useLocation } from "react-router-dom";
 
 export default function Nav() {
   const location = useLocation();
-  const jobsPage = location.pathname.startsWith("/jobs");
+  const jobsPage = location.pathname === "/jobs";
+  const jobsDetailPage = location.pathname.startsWith("/jobs/");
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
@@ -45,9 +46,23 @@ export default function Nav() {
               </NavLink>
             </li>
           </ul>
+          {jobsDetailPage && (
+            <ul className="navbar-nav ml-auto jobs-page">
+              <li className="nav-edit-job">
+                <NavLink className="nav-link" to={"/jobs/edit"}>
+                  Edit Job
+                </NavLink>
+              </li>
+              <li className="nav-delete-job">
+                <NavLink className="nav-link" to={"/jobs/deletez"}>
+                  Delete Job
+                </NavLink>
+              </li>
+            </ul>
+          )}
           {jobsPage && (
             <ul className="navbar-nav ml-auto jobs-page">
-              <li className="nav-item">
+              <li className="nav-create-job">
                 <NavLink className="nav-link" to="/jobs/create">
                   Create Job
                 </NavLink>
