@@ -3,12 +3,12 @@ steps = [
         # "Up" SQL statement
         """
         CREATE TABLE users (
-            id SERIAL PRIMARY KEY NOT NULL,
-            username VARCHAR(1000) NOT NULL,
-            password TEXT NOT NULL,
-            email VARCHAR(1000) NOT NULL,
+            user_id SERIAL PRIMARY KEY NOT NULL,
+            username VARCHAR(1000) NOT NULL UNIQUE,
+            hashed_password varchar(200) NOT NULL,
+            email VARCHAR(1000) NOT NULL UNIQUE,
             created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            type VARCHAR(1000) NOT NULL
+            role VARCHAR(1000) NOT NULL
         );
         """,
         # "Down" SQL statement
@@ -62,7 +62,6 @@ steps = [
             owner_id INTEGER NOT NULL
         );
         """,
-
         """
         DROP TABLE posts;
         """,
