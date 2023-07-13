@@ -4,6 +4,7 @@ from routers import jobs
 import os
 from routers import posts
 from routers import users
+from routers import comments
 
 app = FastAPI()
 app.include_router(posts.router)
@@ -19,3 +20,4 @@ app.add_middleware(
 
 app.include_router(users.router)
 app.include_router(jobs.router)
+app.include_router(comments.router)
