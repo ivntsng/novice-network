@@ -83,7 +83,7 @@ class AccountRepo:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                            SELECT id
+                            SELECT user_id
                             , username
                             , hashed_password
                             , email
