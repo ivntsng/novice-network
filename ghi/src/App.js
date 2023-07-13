@@ -46,9 +46,7 @@ function App() {
           <Route path="jobs">
             <Route index element={<ListJobs listJobs={jobs} />} />
             <Route path="create" element={<CreateJob getJobs={getJobs} />} />
-          </Route>
-          <Route path="/jobs/:jobs_id">
-            <Route index element={<JobDetail listJobs={jobs} />} />
+            <Route path=":jobs_id" element={<JobDetail listJobs={jobs} />} />
           </Route>
           <Route path="posts">
             <Route

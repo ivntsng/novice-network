@@ -23,18 +23,39 @@ export default function JobDetail() {
   }, [jobs_id]);
 
   return (
-    <div className="border-box-job-detail">
+    <div className="job-detail-container">
       {job ? (
-        <>
-          <h1>Job details for {job.company_name}</h1>
-          <div>{job.company_name}</div>
-          <div>{job.job_title}</div>
-          <div>{job.job_description}</div>
-          <div>{job.location}</div>
-          <div>{job.department}</div>
-          <div>{job.level}</div>
-          <div>{job.created_on}</div>
-        </>
+        <div className="job-detail">
+          <h2 className="detail-company-name">{job.company_name}</h2>
+          <h1 className="detail-job-title">{job.job_title}</h1>
+          <div className="job-detail-content">
+            <div className="job-description-container">
+              <div className="job-description">
+                <p>{job.job_description}</p>
+              </div>
+            </div>
+            <div className="job-details-container">
+              <div className="detail-info-container">
+                <div className="detail-info-item">
+                  <span className="detail-info-label">Location:</span>
+                  <span className="detail-info-value">{job.location}</span>
+                </div>
+                <div className="detail-info-item">
+                  <span className="detail-info-label">Department:</span>
+                  <span className="detail-info-value">{job.department}</span>
+                </div>
+                <div className="detail-info-item">
+                  <span className="detail-info-label">Level:</span>
+                  <span className="detail-info-value">{job.level}</span>
+                </div>
+                <div className="detail-info-item">
+                  <span className="detail-info-label">Created On:</span>
+                  <span className="detail-info-value">{job.created_on}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       ) : (
         <p>Loading...</p>
       )}

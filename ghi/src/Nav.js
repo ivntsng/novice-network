@@ -47,9 +47,19 @@ export default function Nav() {
           </ul>
           {jobsPage && (
             <ul className="navbar-nav ml-auto jobs-page">
-              <li className="nav-item">
+              <li className="nav-create-job">
                 <NavLink className="nav-link" to="/jobs/create">
                   Create Job
+                </NavLink>
+              </li>
+              <li className="nav-edit-job">
+                <NavLink className="nav-link" to="/jobs/edit">
+                  Edit Job
+                </NavLink>
+              </li>
+              <li className="nav-delete-job">
+                <NavLink className="nav-link" to="/jobs/delete">
+                  Delete Job
                 </NavLink>
               </li>
             </ul>
