@@ -74,7 +74,7 @@ function App() {
               element={<PostForm posts={posts} getPosts={getPosts} />}
             />
           </Route>
-          <Route path="post/:id">
+          <Route path="posts/:post_id">
             <Route
               index
               element={<PostDetail posts={posts} getPosts={getPosts} />}
