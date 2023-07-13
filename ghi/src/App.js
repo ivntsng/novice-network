@@ -9,6 +9,7 @@ import JobDetail from "./JobDetail";
 import PostList from "./PostList";
 import PostForm from "./PostForm";
 import PostDetail from "./PostDetail";
+import CreateUser from "./Signup.js";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -33,9 +34,21 @@ function App() {
     }
   }
 
+  const [users, setUsers] = useState([]);
+
+  async function getUsers() {
+    const usersUrl = "http://localhost:8000/users/";
+    const response = await fetch(usersUrl);
+    if (response.ok) {
+      const data = await response.json();
+      setUsers(data);
+    }
+  }
+
   useEffect(() => {
     getJobs();
     getPosts();
+    getUsers();
   }, []);
 
   return (
@@ -62,8 +75,12 @@ function App() {
             />
           </Route>
           <Route path="post/:id">
-            <Route index element={<PostDetail posts={posts} getPosts={getPosts} />} />
+            <Route
+              index
+              element={<PostDetail posts={posts} getPosts={getPosts} />}
+            />
           </Route>
+          <Route path="signup" element={<CreateUser />}></Route>
         </Routes>
       </div>
     </BrowserRouter>
