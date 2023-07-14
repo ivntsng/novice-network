@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Union, List
 from datetime import datetime
 from queries.pool import pool
 
@@ -17,13 +17,12 @@ class CommentOut(BaseModel):
 
 class Error(BaseModel):
     message: str
-    detail: Optional[str] = None
 
 class Status(BaseModel):
     status: str
 
 class CommentRepository:
-    def create_comment(self, comment_in: CommentIn) -> CommentOut:
+    def create(self, comment: CommentIn) -> CommentOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
@@ -35,13 +34,19 @@ class CommentRepository:
                     RETURNING comment_id
                     """,
                     [
-                        comment_in.user_id,
-                        comment_in.post_id,
-                        comment_in.comment
+                        comment.user_id,
+                        comment.post_id,
+                        comment.comment
                     ],
                 )
                 comment_id = result.fetchone()[0]
-                return CommentOut(comment_id=comment_id, created_on=datetime.now(), **comment_in.dict())
+                old_data = comment.dict()
+                return {"message": "error!"}
+                return CommentOut(comment_id=comment_id, **old_data)
+
+
+
+
 '''
     def get_comment(self, comment_id: int) -> Union[CommentOut, dict]:
         try:
@@ -84,52 +89,46 @@ class CommentRepository:
         except HTTPException as e:
             raise e
 
-    def update_comment(self, comment_id: int, comment: CommentIn) -> Union[CommentOut, Error]:
+    def update(self, comment_id: int, comment: CommentIn) -> Union[CommentOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     db.execute(
                         """
-                        UPDATE comment
-                        SET user_id = %s,
-                            post_id = %s,
+                        UPDATE comments
+                        SET comment_id = %s,
+                            user_id = %s,
                             comment = %s
-                        WHERE id = %s
+                        Where id = %s
                         """,
                         [
                             comment.user_id,
                             comment.post_id,
                             comment.comment,
                             comment_id,
-                        ],
+                        ]
                     )
-                    return CommentOut(comment_id=comment_id, created_on=datetime.now(), **comment.dict())
-        except Exception:
-            return {"message": f"Could not update comment ID: {comment_id}"}
+                    return self.comment_in_to_out(comment_id, comment)
+        except Exception as e:
+            print(e)
+            return {"message": "Could not update that comment"}
 
-    def get_all_comments(self, post_id: int) -> List[CommentOut]:
+    def get_all(self) -> Union[Error, List[CommentOut]]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    db.execute(
+                    result = db.execute(
                         """
-                        SELECT id, post_id, user_id, comment, created_on
-                        FROM comment
-                        WHERE post_id = %s
-                        ORDER BY created_on
-                        """,
-                        [post_id],
+                        SELECT user_id, comment_id, post_id, comment, created_on
+                        FROM comments
+                        ORDER BY created_on;
+                        """
                     )
                     return [
-                        CommentOut(
-                            comment_id=comment_records[0],
-                            post_id=comment_records[1],
-                            user_id=comment_records[2],
-                            comment=comment_records[3],
-                            created_on=comment_records[4],
-                        )
-                        for comment_records in db
+                        self.record_to_comment_out(record)
+                        for record in result
                     ]
-        except Exception:
-            return {"message": f"Could not retrieve comments for Post ID: {post_id}"}
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get all comments"}
 '''
