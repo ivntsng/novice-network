@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateJob({ getJobs }) {
   const [companyName, setCompanyName] = useState("");
@@ -7,6 +8,7 @@ export default function CreateJob({ getJobs }) {
   const [location, setLocation] = useState("");
   const [department, setDepartment] = useState("");
   const [level, setLevel] = useState("");
+  const navigate = useNavigate();
 
   const handleCompanyNameChange = (e) => {
     const value = e.target.value;
@@ -66,6 +68,7 @@ export default function CreateJob({ getJobs }) {
       setDepartment("");
       setLevel("");
       getJobs();
+      navigate("/jobs");
     }
   };
 
