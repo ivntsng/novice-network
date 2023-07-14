@@ -7,6 +7,7 @@ export default function Nav() {
   const navigate = useNavigate();
   const jobsPage = location.pathname === "/jobs";
   const jobsDetailPage = location.pathname.startsWith("/jobs/");
+  const createJobPage = location.pathname === "/jobs/create";
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const { jobs_id } = useParams();
 
@@ -63,7 +64,7 @@ export default function Nav() {
               </NavLink>
             </li>
           </ul>
-          {jobsDetailPage && (
+          {jobsDetailPage && !createJobPage && (
             <ul className="navbar-nav ml-auto jobs-page">
               <li className="nav-edit-job">
                 <NavLink className="nav-link" to={"/jobs/edit"}>
