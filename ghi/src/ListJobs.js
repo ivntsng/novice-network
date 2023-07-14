@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function ListJobs({ listJobs, getJobs }) {
   if (!listJobs || listJobs.length === 0) {
@@ -19,7 +19,7 @@ export default function ListJobs({ listJobs, getJobs }) {
             <Link className="job-linking" to={`/jobs/${job.id}`} key={job.id}>
               <div className="border-box" key={job.id}>
                 <div className="job-details">
-                  <h3>{job.job_title}</h3>
+                  <h3>{job.job_title.replace(/, /g, ",\n")}</h3>
                   <div className="details-separator"></div>
                   <div className="additional-details">
                     <div className="detail-row">
