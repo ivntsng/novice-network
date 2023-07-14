@@ -24,3 +24,7 @@ Today, I finished
 * posts endpoints (create, get one, get all, update, and delete posts)
 
 I finished the endpoints for posts. THe only thing that I need to figure out is getting the user information into a post they create right now I have owner_id as a placeholder. I started working on the front end for post. I got the post list running. Not what's I hope for but I'll look into bootstrap more after I got the create post form done. I also look into authentication and I will bring it up to the team tomorrow.
+
+## July 14, 2023
+
+I've made a good progress on my part of the project. I finished front end for create post, post detail, and post list. In the past 3 days. Yesterday I was working on backend Auth 
