@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, useLocation, useParams, useNavigate } from "react-router-dom";
+import DeleteJob from "./DeleteJob";
 
 export default function Nav() {
   const location = useLocation();

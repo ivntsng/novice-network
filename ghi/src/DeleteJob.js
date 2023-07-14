@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 export default function DeleteJob({ currentJobId, getJobs }) {
@@ -16,6 +16,7 @@ export default function DeleteJob({ currentJobId, getJobs }) {
       const response = await fetch(deleteUrl, { method: "DELETE" });
       if (response.ok) {
         // Job deleted successfully
+        getJobs();
         navigate("/jobs");
       } else {
         console.error("Failed to delete job");
@@ -24,4 +25,6 @@ export default function DeleteJob({ currentJobId, getJobs }) {
       console.error("Error occurred during job deletion: ", error);
     }
   };
+
+  return null; // or any UI you want to render during the deletion process
 }
