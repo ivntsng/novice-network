@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function ListJobs({ listJobs, getJobs }) {
   if (!listJobs || listJobs.length === 0) {
