@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-export default function JobDetail() {
+export default function JobDetail({ setCurrentJobId, deleteJob }) {
   const { jobs_id } = useParams();
-
+  const navigate = useNavigate();
   const [job, setJob] = useState(null);
 
   useEffect(() => {
@@ -14,13 +14,14 @@ export default function JobDetail() {
         );
         const data = await response.json();
         setJob(data);
+        setCurrentJobId(jobs_id);
       } catch (error) {
         console.error("Error grabbing job details: ", error);
       }
     };
 
     fetchData();
-  }, [jobs_id]);
+  }, [jobs_id, setCurrentJobId]);
 
   return (
     <div className="job-detail-container">
@@ -59,6 +60,18 @@ export default function JobDetail() {
                       day: "numeric",
                     })}
                   </span>
+                </div>
+                <div className="detail-info-item">
+                  <span className="detail-info-label">Job ID:</span>
+                  <span className="detail-info-value">{job.id}</span>
+                </div>
+                <div className="detail-info-item ">
+                  <button
+                    className="detail-info-label btn btn-primary"
+                    onClick={() => deleteJob(jobs_id)}
+                  >
+                    Apply to job
+                  </button>
                 </div>
               </div>
             </div>

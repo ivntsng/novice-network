@@ -1,10 +1,26 @@
-import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useLocation, useParams, useNavigate } from "react-router-dom";
 
 export default function Nav() {
   const location = useLocation();
+  const navigate = useNavigate();
   const jobsPage = location.pathname === "/jobs";
   const jobsDetailPage = location.pathname.startsWith("/jobs/");
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const { jobs_id } = useParams();
+
+  const handleDelete = () => {
+    setDeleteConfirmation(true);
+  };
+
+  const confirmDeleteJob = () => {
+    navigate(`/jobs/${jobs_id}/delete`);
+    setDeleteConfirmation(false);
+  };
+
+  const cancelDeleteJob = () => {
+    setDeleteConfirmation(false);
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
@@ -54,9 +70,12 @@ export default function Nav() {
                 </NavLink>
               </li>
               <li className="nav-delete-job">
-                <NavLink className="nav-link" to={"/jobs/deletez"}>
+                <button
+                  className={`nav-link ${jobs_id}`}
+                  onClick={handleDelete}
+                >
                   Delete Job
-                </NavLink>
+                </button>
               </li>
             </ul>
           )}
@@ -71,6 +90,24 @@ export default function Nav() {
           )}
         </div>
       </div>
+      {deleteConfirmation && (
+        <div className="delete-prompt-overlay">
+          <div className="delete-prompt">
+            <p>Are you sure you want to delete the job posting?</p>
+            <div className="prompt-actions">
+              <button
+                className="btn btn-danger"
+                onClick={() => confirmDeleteJob(jobs_id)}
+              >
+                Confirm
+              </button>
+              <button className="btn btn-secondary" onClick={cancelDeleteJob}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
