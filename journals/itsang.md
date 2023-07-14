@@ -35,3 +35,27 @@ During July 8 and July 9, I focused on the create job listing page and successfu
 * Implemented the necessary validations and error handling for the form fields.
 * Integrated the form submission with the backend API.
 * Made adjustments to the UI and form layout for improved user experience.
+
+## July 10:
+
+* Implemented the job posting deletion functionality.
+* Tested the deletion feature to ensure proper functionality and user experience.
+
+## July 11:
+
+* Fixed UI bugs related to deleting a job and the job list not refreshing afterward.
+* Ensured that the job list refreshes correctly after deleting a job.
+* Implemented the redirection to the job list after successfully creating a new job.
+
+## July 12:
+
+* Worked on revamping the UI for job details.
+* Added additional UI elements for job details, improving the overall design.
+* Updated the background color to an off-white shade.
+* Added edit and delete buttons to the job details page for enhanced functionality.
+
+## July 13:
+
+* Reworked the navigation bar to display edit and delete buttons only when inside the job details page.
+* Implemented conditional rendering of the edit and delete buttons based on the current page.
+* Modified the format of the date display for better readability.
