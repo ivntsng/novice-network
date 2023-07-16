@@ -8,6 +8,7 @@ export default function EditJob({ currentJobId, getJobs }) {
   const [location, setLocation] = useState("");
   const [department, setDepartment] = useState("");
   const [level, setLevel] = useState("");
+  const [link, setLink] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function EditJob({ currentJobId, getJobs }) {
         setLocation(data.location);
         setDepartment(data.department);
         setLevel(data.level);
+        setLink(data.job_link);
       } else {
         console.error("Failed to fetch job details");
       }
@@ -67,6 +69,11 @@ export default function EditJob({ currentJobId, getJobs }) {
     setLevel(value);
   };
 
+  const handleLinkChange = (e) => {
+    const value = e.target.value;
+    setLink(value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -76,6 +83,7 @@ export default function EditJob({ currentJobId, getJobs }) {
       location: location,
       department: department,
       level: level,
+      job_link: link,
     };
 
     const editUrl = `http://localhost:8000/jobs/${currentJobId}`;
@@ -178,6 +186,18 @@ export default function EditJob({ currentJobId, getJobs }) {
                 className="form-control"
               />
               <label htmlFor="job-level">Job Level</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                onChange={handleLinkChange}
+                value={link}
+                placeholder="job-link"
+                required
+                type="text"
+                id="job-link"
+                className="form-control"
+              />
+              <label htmlFor="job-link">Job Link</label>
             </div>
             <button className="btn btn-primary" type="submit">
               Update job

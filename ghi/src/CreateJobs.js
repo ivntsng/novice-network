@@ -8,6 +8,7 @@ export default function CreateJob({ getJobs }) {
   const [location, setLocation] = useState("");
   const [department, setDepartment] = useState("");
   const [level, setLevel] = useState("");
+  const [link, setLink] = useState("");
   const navigate = useNavigate();
 
   const handleCompanyNameChange = (e) => {
@@ -40,6 +41,11 @@ export default function CreateJob({ getJobs }) {
     setLevel(value);
   };
 
+  const handleLinkChange = (e) => {
+    const value = e.target.value;
+    setLink(value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {};
@@ -49,6 +55,7 @@ export default function CreateJob({ getJobs }) {
     data.location = location;
     data.department = department;
     data.level = level;
+    data.job_link = link;
 
     const createJobUrl = "http://localhost:8000/jobs";
     const fetchConfig = {
@@ -67,6 +74,7 @@ export default function CreateJob({ getJobs }) {
       setLocation("");
       setDepartment("");
       setLevel("");
+      setLink("");
       getJobs();
       navigate("/jobs");
     }
@@ -151,6 +159,18 @@ export default function CreateJob({ getJobs }) {
                 className="form-control"
               />
               <label htmlFor="job-level">Job Level</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                onChange={handleLinkChange}
+                value={link}
+                placeholder="job-link"
+                required
+                type="text"
+                id="job-link"
+                className="form-control"
+              />
+              <label htmlFor="job-link">Job Link</label>
             </div>
             {/* <div className="form-floating mb-3">
               <input
