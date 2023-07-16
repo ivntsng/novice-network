@@ -15,7 +15,6 @@ export default function DeleteJob({ currentJobId, getJobs }) {
       const deleteUrl = `http://localhost:8000/jobs/${currentJobId}`;
       const response = await fetch(deleteUrl, { method: "DELETE" });
       if (response.ok) {
-        // Job deleted successfully
         getJobs();
         navigate("/jobs");
       } else {
@@ -26,5 +25,5 @@ export default function DeleteJob({ currentJobId, getJobs }) {
     }
   };
 
-  return null; // or any UI you want to render during the deletion process
+  return null;
 }

@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import jobs
 import os
 from routers import posts
-from routers import users
 from routers import comments
 from routers import accounts
 from authenticator import authenticator
