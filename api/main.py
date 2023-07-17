@@ -5,6 +5,7 @@ import os
 from routers import posts
 from routers import comments
 from routers import accounts
+from routers import replies
 from authenticator import authenticator
 
 app = FastAPI()
@@ -21,3 +22,4 @@ app.include_router(authenticator.router)
 app.include_router(accounts.router)
 app.include_router(jobs.router)
 app.include_router(comments.router)
+app.include_router(replies.router)
