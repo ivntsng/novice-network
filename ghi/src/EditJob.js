@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function EditJob({ currentJobId, getJobs }) {
   const [companyName, setCompanyName] = useState("");
@@ -18,7 +18,6 @@ export default function EditJob({ currentJobId, getJobs }) {
 
   async function fetchJobDetails() {
     try {
-      console.log(currentJobId);
       const response = await fetch(
         `http://localhost:8000/jobs/${currentJobId}?job_id=${currentJobId}`
       );

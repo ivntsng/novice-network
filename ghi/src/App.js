@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { AuthProvider } from "@galvanize-inc/jwtdown-for-react";
 import "./App.css";
 import Nav from "./Nav";
 import MainPage from "./MainPage";
@@ -53,48 +54,52 @@ function App() {
     setCurrentJobId(currentJobId);
   }, []);
   return (
-    <BrowserRouter>
-      <Nav setCurrentJobId={setCurrentJobId} />
-      <div className="container">
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/jobs" element={<ListJobs listJobs={jobs} />} />
-          <Route
-            path="/jobs/create"
-            element={<CreateJob getJobs={getJobs} />}
-          />
-          <Route
-            path="/jobs/:jobs_id"
-            element={
-              <JobDetail listJobs={jobs} setCurrentJobId={setCurrentJobId} />
-            }
-          />
-          <Route
-            path="/jobs/:jobs_id/delete"
-            element={
-              <DeleteJob currentJobId={currentJobId} getJobs={getJobs} />
-            }
-          />
-          <Route
-            path="/jobs/:jobs_id/edit"
-            element={<EditJob currentJobId={currentJobId} getJobs={getJobs} />}
-          />
-          <Route
-            path="/posts"
-            element={<PostList posts={posts} getPosts={getPosts} />}
-          />
-          <Route
-            path="/posts/create"
-            element={<PostForm posts={posts} getPosts={getPosts} />}
-          />
-          <Route
-            path="/posts/:post_id"
-            element={<PostDetail posts={posts} getPosts={getPosts} />}
-          />
-          <Route path="/signup" element={<CreateUser />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Nav setCurrentJobId={setCurrentJobId} />
+        <div className="container">
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/jobs" element={<ListJobs listJobs={jobs} />} />
+            <Route
+              path="/jobs/create"
+              element={<CreateJob getJobs={getJobs} />}
+            />
+            <Route
+              path="/jobs/:jobs_id"
+              element={
+                <JobDetail listJobs={jobs} setCurrentJobId={setCurrentJobId} />
+              }
+            />
+            <Route
+              path="/jobs/:jobs_id/delete"
+              element={
+                <DeleteJob currentJobId={currentJobId} getJobs={getJobs} />
+              }
+            />
+            <Route
+              path="/jobs/:jobs_id/edit"
+              element={
+                <EditJob currentJobId={currentJobId} getJobs={getJobs} />
+              }
+            />
+            <Route
+              path="/posts"
+              element={<PostList posts={posts} getPosts={getPosts} />}
+            />
+            <Route
+              path="/posts/create"
+              element={<PostForm posts={posts} getPosts={getPosts} />}
+            />
+            <Route
+              path="/posts/:post_id"
+              element={<PostDetail posts={posts} getPosts={getPosts} />}
+            />
+            <Route path="/signup" element={<CreateUser />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
