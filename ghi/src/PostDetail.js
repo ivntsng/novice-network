@@ -1,11 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
-function PostDetail() {
+function PostDetail({ getPosts }) {
   const { post_id } = useParams();
-
+  const navigate = useNavigate();
   const [post, setPost] = useState(null);
+  const onDelete = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this post?"
+    );
+    if (confirmed) {
+      try {
+        const response = await fetch(`http://localhost:8000/posts/${post_id}`, {
+          method: "DELETE",
+        });
 
+        if (response.ok) {
+          navigate("/posts"); // Redirect to the posts page
+          getPosts();
+        } else {
+          console.log("Error deleting post");
+        }
+      } catch (error) {
+        console.log("Error deleting post:", error);
+      }
+    }
+  };
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
@@ -71,6 +91,16 @@ function PostDetail() {
                         Post created: {formattedDate} {formattedTime}
                       </p>
                       <p>{post.description}</p>
+                      <div className="align-items-right">
+                        <Link href="#!" style={{ color: "gray" }}>
+                          <i className="bi bi-pencil-fill"></i>
+                          Edit
+                        </Link>
+                        <Link onClick={onDelete} style={{ color: "gray" }}>
+                          <i className="bi bi-trash3-fill"></i>
+                          Delete
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
