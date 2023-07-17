@@ -8,8 +8,6 @@ from routers import accounts
 from authenticator import authenticator
 
 app = FastAPI()
-app.include_router(posts.router)
-app.include_router(authenticator.router)
 
 app.add_middleware(
     CORSMiddleware,
@@ -19,7 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+app.include_router(authenticator.router)
 app.include_router(accounts.router)
 app.include_router(jobs.router)
 app.include_router(comments.router)
