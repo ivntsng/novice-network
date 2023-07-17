@@ -41,19 +41,19 @@ class AccountRepo:
     def record_to_all_user_out(self, records):
         accounts = []
         for record in records:
-            accounts.append(AccountOut(
-                id=record[0],
-                username=record[1],
-                hashed_password=record[2],
-                email=record[3],
-                role=record[4],
-            ))
+            accounts.append(
+                AccountOut(
+                    id=record[0],
+                    username=record[1],
+                    hashed_password=record[2],
+                    email=record[3],
+                    role=record[4],
+                )
+            )
         print(accounts)
         return accounts
 
-    def create_user(
-        self, user: AccountIn, hashed_password: str
-    ) -> AccountOut:
+    def create_user(self, user: AccountIn, hashed_password: str) -> AccountOut:
         try:
             print("Username", user)
             with pool.connection() as conn:
@@ -99,23 +99,21 @@ class AccountRepo:
                 )
 
                 record = cur.fetchone()
-                print('account row:', record)
+                print("account row:", record)
                 return self.record_to_user_out(record)
-
 
     def get_all(self):
         with pool.connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(
-                            """
+                    """
                             SELECT *
                                 FROM accounts
                             """
-                            )
+                )
                 record = cur.fetchall()
-                print('account row:', record)
+                print("account row:", record)
                 return self.record_to_all_user_out(record)
-
 
     # def get_all(self) -> Union[Error, List[AccountOut]]:
     #     try:

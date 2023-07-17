@@ -41,14 +41,19 @@ class HttpError(BaseModel):
 class Error(BaseModel):
     message: str
 
+
 @router.get("/api/protected", response_model=bool)
-async def get_token(request: Request, account_data: dict = Depends(authenticator.get_current_account_data)):
+async def get_token(
+    request: Request,
+    account_data: dict = Depends(authenticator.get_current_account_data),
+):
     return True
+
 
 @router.get("/token", response_model=AccountToken | None)
 async def get_token(
     request: Request,
-    account: AccountOut = Depends(authenticator.try_get_current_account_data)
+    account: AccountOut = Depends(authenticator.try_get_current_account_data),
 ):
     if account and authenticator.cookie_name in request.cookies:
         return {
@@ -56,6 +61,7 @@ async def get_token(
             "type": "Bearer",
             "account": account,
         }
+
 
 @router.post("/users", response_model=AccountToken | HttpError)
 async def create_user(
