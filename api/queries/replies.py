@@ -3,149 +3,150 @@ from typing import Optional, Union, List
 from datetime import datetime
 from queries.pool import pool
 
-class CommentIn(BaseModel):
+class ReplyIn(BaseModel):
     user_id: int
-    post_id: int
-    comment: str
+    comment_id: int
+    reply: str
     created_on: datetime
 
-class CommentOut(BaseModel):
-    comment_id: int
+class ReplyOut(BaseModel):
+    reply_id: int
     user_id: int
-    post_id: int
-    comment: str
+    comment_id: int
+    reply: str
     created_on: datetime
 
 class Error(BaseModel):
     message: str
 
-class CommentRepository:
-    def get_one(self, comment_id: int) -> Optional[CommentOut]:
+class ReplyRepository:
+    def get_one(self, reply_id: int) -> Optional[ReplyOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT comment_id
+                        SELECT reply_id
                                 , user_id
-                                , post_id
-                                , comment
+                                , comment_id
+                                , reply
                                 , created_on
-                        FROM comments
-                        WHERE comment_id = %s
+                        FROM replies
+                        WHERE reply_id = %s
                         """,
                         [
-                            comment_id,
+                            reply_id,
                         ]
                     )
                     record = result.fetchone()
                     if record is None:
                         return None
-                    return self.record_to_comment_out(record)
+                    return self.record_to_reply_out(record)
         except Exception as e:
             print(e)
-            return {"message": "Could not get that comment"}
+            return {"message": "Could not get that reply"}
 
-    def delete(self, comment_id: int) -> bool:
+    def delete(self, reply_id: int) -> bool:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     db.execute(
                         """
-                        DELETE FROM comments
-                        WHERE comment_id = %s
+                        DELETE FROM replies
+                        WHERE reply_id = %s
                         """,
-                        [comment_id]
+                        [reply_id]
                     )
                     return True
         except Exception as e:
             print(e)
             return False
 
-    def update(self, comment_id: int, comment: CommentIn) -> Union[CommentOut, Error]:
+    def update(self, reply_id: int, reply: ReplyIn) -> Union[ReplyOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     db.execute(
                         """
-                        UPDATE comments
+                        UPDATE replies
                         SET user_id = %s
-                           , comment = %s
+                           , reply = %s
                            , created_on = %s
-                        WHERE comment_id = %s
+                        WHERE reply_id = %s
                         """,
                         [
-                            comment.user_id,
-                            comment.comment,
-                            comment.created_on,
-                            comment_id,
+                            reply.user_id,
+                            reply.reply,
+                            reply.created_on,
+                            reply_id,
                         ]
                     )
-                    return self.comment_in_to_out(comment_id, comment)
+                    return self.reply_in_to_out(reply_id, reply)
         except Exception as e:
             print(e)
-            return {"message": "Could not update that comment"}
+            return {"message": "Could not update that reply"}
 
-    def get_all(self) -> Union[Error, List[CommentOut]]:
+    def get_all(self, comment_id: int) -> Union[Error, List[ReplyOut]]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     db.execute(
                         """
-                        SELECT comment_id, user_id, post_id, comment, created_on
-                        FROM comments
+                        SELECT reply_id, user_id, comment_id, reply, created_on
+                        FROM replies
+                        WHERE comment_id = %s
                         ORDER BY created_on;
-                        """
+                        """,
+                        [comment_id]
                     )
                     result = db.fetchall()
-                    print(result)
                     return [
-                        CommentOut(
-                            comment_id=record[0],
+                        ReplyOut(
+                            reply_id=record[0],
                             user_id=record[1],
-                            post_id=record[2],
-                            comment=record[3],
+                            comment_id=record[2],
+                            reply=record[3],
                             created_on=record[4],
                         )
                         for record in result
                     ]
         except Exception as e:
             print(e)
-            return {"message": "Could not get all comments"}
+            return {"message": "Could not get all replies"}
 
-    def create(self, comment: CommentIn) -> Union[CommentOut, Error]:
+    def create(self, reply: ReplyIn) -> Union [ReplyOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result=db.execute(
                         """
-                        INSERT INTO comments
-                        (user_id, post_id, comment, created_on)
+                        INSERT INTO replies
+                        (user_id, comment_id, reply, created_on)
                         VALUES
                             (%s, %s, %s, CURRENT_TIMESTAMP)
-                        RETURNING comment_id;
+                        RETURNING reply_id;
                         """,
                         [
-                            comment.user_id,
-                            comment.post_id,
-                            comment.comment,
+                            reply.user_id,
+                            reply.comment_id,
+                            reply.reply,
                         ],
                     )
-                    comment_id = result.fetchone()[0]
-                    return self.comment_in_to_out(comment_id, comment)
+                    reply_id = result.fetchone()[0]
+                    return self.reply_in_to_out(reply_id, reply)
         except Exception as e:
             print(e)
             return {"message": "Create did not work"}
 
-    def comment_in_to_out(self, id: int, comment: CommentIn):
-        old_data = comment.dict()
-        return CommentOut(comment_id=id, **old_data)
+    def reply_in_to_out(self, id: int, reply: ReplyIn):
+        old_data = reply.dict()
+        return ReplyOut(reply_id=id, **old_data)
 
-    def record_to_comment_out(self, record):
-        return CommentOut(
-            comment_id=record[0],
+    def record_to_reply_out(self, record):
+        return ReplyOut(
+            reply_id=record[0],
             user_id=record[1],
-            post_id=record[2],
-            comment=record[3],
+            comment_id=record[2],
+            reply=record[3],
             created_on=record[4],
         )
