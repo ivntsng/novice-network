@@ -8,9 +8,9 @@ class UserAuthenticator(Authenticator):
     async def get_account_data(
         self,
         username: str,
-        account_repo: AccountRepo,
+        accounts: AccountRepo,
     ):
-        return account_repo.get_one(username)
+        return accounts.get_one(username)
 
     def get_account_getter(
         self,
@@ -24,7 +24,6 @@ class UserAuthenticator(Authenticator):
 
     def get_account_data_for_cookie(self, account: AccountOut):
         return account.username, AccountOut(**account.dict())
-
 
 
 authenticator = UserAuthenticator(os.environ["SIGNING_KEY"])
