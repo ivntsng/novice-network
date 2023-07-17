@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function JobDetail({ setCurrentJobId, deleteJob }) {
@@ -66,12 +66,11 @@ export default function JobDetail({ setCurrentJobId, deleteJob }) {
                   <span className="detail-info-value">{job.id}</span>
                 </div>
                 <div className="detail-info-item ">
-                  <button
-                    className="detail-info-label btn btn-primary"
-                    onClick={() => deleteJob(jobs_id)}
-                  >
-                    Apply to job
-                  </button>
+                  <Link target="_blank" to={job.job_link}>
+                    <button className="detail-info-label btn btn-primary">
+                      Apply to job
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

@@ -11,6 +11,7 @@ import PostForm from "./PostForm";
 import PostDetail from "./PostDetail";
 import CreateUser from "./Signup";
 import DeleteJob from "./DeleteJob";
+import EditJob from "./EditJob";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -73,6 +74,10 @@ function App() {
             element={
               <DeleteJob currentJobId={currentJobId} getJobs={getJobs} />
             }
+          />
+          <Route
+            path="/jobs/:jobs_id/edit"
+            element={<EditJob currentJobId={currentJobId} getJobs={getJobs} />}
           />
           <Route
             path="/posts"
