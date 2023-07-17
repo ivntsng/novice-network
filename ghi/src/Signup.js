@@ -1,11 +1,10 @@
 import { React, useState } from "react";
 
-export default function CreateUser({ getUsers }) {
+export default function CreateUser() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("grad");
-  const [selectedOption, setSelectedOption] = useState("");
+  const [role, setRole] = useState("");
 
   const handleUsernameChange = (event) => {
     const value = event.target.value;
@@ -24,7 +23,6 @@ export default function CreateUser({ getUsers }) {
 
   const handleRoleChange = (event) => {
     const value = event.target.value;
-    console.log(value);
     setRole(value);
   };
 
@@ -51,7 +49,6 @@ export default function CreateUser({ getUsers }) {
       setPassword("");
       setEmail("");
       setRole("");
-      getUsers();
     }
   };
 
