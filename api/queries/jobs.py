@@ -17,6 +17,7 @@ class JobsIn(BaseModel):
     location: str
     department: str
     level: str
+    job_link: str
     created_on: date = str(date.today())
 
 
@@ -28,6 +29,7 @@ class JobOut(BaseModel):
     location: str
     department: str
     level: str
+    job_link: str
     created_on: date
 
 
@@ -38,7 +40,7 @@ class JobRepository:
                 with conn.cursor() as db:
                     db.execute(
                         """
-                        SELECT id, company_name, job_title, job_description, location, department, level, created_on
+                        SELECT id, company_name, job_title, job_description, location, department, level, job_link, created_on
                         FROM job
                         WHERE id = %s
                         """,
@@ -91,6 +93,7 @@ class JobRepository:
                           , location = %s
                           , department = %s
                           , level = %s
+                          , job_link = %s
                           , created_on = %s
                         WHERE id = %s
                         """,
@@ -101,12 +104,14 @@ class JobRepository:
                             job.location,
                             job.department,
                             job.level,
+                            job.job_link,
                             job.created_on,
                             job_id,
                         ],
                     )
                     return self.job_in_to_out(job_id, job)
-        except Exception:
+        except Exception as e:
+            print(f"Failed to update {job_id} due to: ", e)
             return {"message": f"Could not update job ID: {job_id}"}
 
     def get_all(self) -> Union[List[JobOut], Error]:
@@ -115,7 +120,7 @@ class JobRepository:
                 with conn.cursor() as db:
                     db.execute(
                         """
-                        SELECT id, company_name, job_title, job_description, location, department, level, created_on
+                        SELECT id, company_name, job_title, job_description, location, department, level, job_link, created_on
                         FROM job
                         ORDER BY created_on
                         """
@@ -129,11 +134,13 @@ class JobRepository:
                             location=job_records[4],
                             department=job_records[5],
                             level=job_records[6],
-                            created_on=job_records[7],
+                            job_link=job_records[7],
+                            created_on=job_records[8],
                         )
                         for job_records in db
                     ]
-        except Exception:
+        except Exception as e:
+            print("Failed to grab job due to: ", e)
             return {"message": "Could not grab the list of jobs."}
 
     def create(self, job: JobsIn) -> JobOut:
@@ -144,10 +151,10 @@ class JobRepository:
                     db.execute(
                         """
                         INSERT INTO job
-                        (company_name, job_title, job_description, location, department, level, created_on)
+                        (company_name, job_title, job_description, location, department, level, job_link, created_on)
                         VALUES
-                        (%s, %s, %s, %s, %s, %s, %s)
-                        RETURNING id, company_name, job_title, job_description, location, department, level, created_on
+                        (%s, %s, %s, %s, %s, %s, %s, %s)
+                        RETURNING id, company_name, job_title, job_description, location, department, level, job_link, created_on
                         """,
                         [
                             job.company_name,
@@ -156,6 +163,7 @@ class JobRepository:
                             job.location,
                             job.department,
                             job.level,
+                            job.job_link,
                             str(created_on),
                         ],
                     )
@@ -179,5 +187,6 @@ class JobRepository:
             location=record[4],
             department=record[5],
             level=record[6],
-            created_on=record[7],
+            job_link=record[7],
+            created_on=record[8],
         )

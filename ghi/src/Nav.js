@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useLocation, useParams, useNavigate } from "react-router-dom";
 import DeleteJob from "./DeleteJob";
+import EditJob from "./EditJob";
 
 export default function Nav() {
   const location = useLocation();
@@ -22,6 +23,10 @@ export default function Nav() {
 
   const cancelDeleteJob = () => {
     setDeleteConfirmation(false);
+  };
+
+  const handleEditJob = () => {
+    navigate(`/jobs/${jobs_id}/edit`);
   };
 
   return (
@@ -67,15 +72,12 @@ export default function Nav() {
           {jobsDetailPage && !createJobPage && (
             <ul className="navbar-nav ml-auto jobs-page">
               <li className="nav-edit-job">
-                <NavLink className="nav-link" to={"/jobs/edit"}>
+                <button className={`nav-link`} onClick={handleEditJob}>
                   Edit Job
-                </NavLink>
+                </button>
               </li>
               <li className="nav-delete-job">
-                <button
-                  className={`nav-link ${jobs_id}`}
-                  onClick={handleDelete}
-                >
+                <button className={`nav-link`} onClick={handleDelete}>
                   Delete Job
                 </button>
               </li>

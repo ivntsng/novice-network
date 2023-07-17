@@ -45,6 +45,7 @@ steps = [
             location VARCHAR(100) NOT NULL,
             department VARCHAR(100) NOT NULL,
             level VARCHAR(100) NOT NULL,
+            job_link VARCHAR(100) NOT NULL,
             created_on DATE DEFAULT CURRENT_DATE
         )
         """,
