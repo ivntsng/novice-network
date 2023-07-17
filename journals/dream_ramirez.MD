@@ -27,4 +27,8 @@ I finished the endpoints for posts. THe only thing that I need to figure out is 
 
 ## July 14, 2023
 
-I've made a good progress on my part of the project. I finished front end for create post, post detail, and post list. In the past 3 days. Yesterday I was working on backend Auth 
+I've made a good progress on my part of the project. I finished front end for create post, post detail, and post list. In the past 3 days. Yesterday I was working on backend Auth and was able to figure it out. I handed over to other group members to handle frontend auth
+
+## July 17, 2023
+
+I added delete button for post and am working on edit post. My plan is once 
