@@ -26,6 +26,12 @@ export default function CreateUser() {
     setRole(value);
   };
 
+  const roles = [
+    {id: 1, name: "Grad", value: "grad"},
+    {id: 2, name: "Mentor", value: "mentor"},
+    {id: 3, name: "Recruiter", value: "recruiter"}
+  ]
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {};

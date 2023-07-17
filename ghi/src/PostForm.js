@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function PostForm({ getPosts }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [CreatedDateTime, setCreatedDateTime] = useState("");
   const [OwnerId, setOwnerId] = useState("");
+  const navigate = useNavigate();
 
   const handleTitleChange = (event) => {
     const value = event.target.value;
@@ -47,6 +49,7 @@ function PostForm({ getPosts }) {
           setCreatedDateTime('');
           setOwnerId('');
           getPosts();
+          navigate('/posts');
         }
     }
 
