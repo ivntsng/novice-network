@@ -20,7 +20,7 @@ class Error(BaseModel):
     message: str
 
 class CommentRepository:
-    def get_one(self, comment_id: int) -> Optional[CommentOut]:
+    def get_one(self, post_id: int, comment_id: int) -> Optional[CommentOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -32,13 +32,15 @@ class CommentRepository:
                                 , comment
                                 , created_on
                         FROM comments
-                        WHERE comment_id = %s
+                        WHERE post_id = %s AND comment_id = %s
                         """,
                         [
+                            post_id,
                             comment_id,
                         ]
                     )
                     record = result.fetchone()
+                    print(record)
                     if record is None:
                         return None
                     return self.record_to_comment_out(record)
@@ -46,23 +48,23 @@ class CommentRepository:
             print(e)
             return {"message": "Could not get that comment"}
 
-    def delete(self, comment_id: int) -> bool:
+    def delete(self, post_id: int, comment_id: int) -> bool:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     db.execute(
                         """
                         DELETE FROM comments
-                        WHERE comment_id = %s
+                        WHERE post_id = %s AND comment_id = %s
                         """,
-                        [comment_id]
+                        [post_id, comment_id]
                     )
                     return True
         except Exception as e:
             print(e)
             return False
 
-    def update(self, comment_id: int, comment: CommentIn) -> Union[CommentOut, Error]:
+    def update(self, post_id: int, comment_id: int, comment: CommentIn) -> Union[CommentOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -72,12 +74,13 @@ class CommentRepository:
                         SET user_id = %s
                            , comment = %s
                            , created_on = %s
-                        WHERE comment_id = %s
+                        WHERE post_id = %s AND comment_id = %s
                         """,
                         [
                             comment.user_id,
                             comment.comment,
                             comment.created_on,
+                            post_id,
                             comment_id,
                         ]
                     )
@@ -86,7 +89,7 @@ class CommentRepository:
             print(e)
             return {"message": "Could not update that comment"}
 
-    def get_all(self) -> Union[Error, List[CommentOut]]:
+    def get_all(self, post_id: int) -> Union[Error, List[CommentOut]]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -94,8 +97,10 @@ class CommentRepository:
                         """
                         SELECT comment_id, user_id, post_id, comment, created_on
                         FROM comments
+                        WHERE post_id = %s
                         ORDER BY created_on;
-                        """
+                        """,
+                        [post_id]
                     )
                     result = db.fetchall()
                     print(result)
@@ -113,22 +118,23 @@ class CommentRepository:
             print(e)
             return {"message": "Could not get all comments"}
 
-    def create(self, comment: CommentIn) -> Union[CommentOut, Error]:
+    def create(self, post_id: int, comment: CommentIn) -> Union[CommentOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    result=db.execute(
+                    result = db.execute(
                         """
                         INSERT INTO comments
                         (user_id, post_id, comment, created_on)
                         VALUES
-                            (%s, %s, %s, CURRENT_TIMESTAMP)
+                            (%s, %s, %s, %s)
                         RETURNING comment_id;
                         """,
                         [
                             comment.user_id,
-                            comment.post_id,
+                            post_id,
                             comment.comment,
+                            comment.created_on,
                         ],
                     )
                     comment_id = result.fetchone()[0]
