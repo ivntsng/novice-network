@@ -226,6 +226,7 @@ code {
   top: 0;
   align-self: flex-start;
   margin-left: 20px;
+  padding-top: 25px;
 }
 
 .detail-info-item {
@@ -266,4 +267,17 @@ code {
 
 .prompt-actions {
   margin-top: 20px;
+}
+
+#job-description {
+  min-height: 300px;
+}
+
+.job-description {
+  white-space: pre-wrap;
+  padding-top: 25px;
+}
+
+h1.detail-job-title {
+  padding-top: 25px;
 }

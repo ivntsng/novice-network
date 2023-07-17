@@ -1,7 +1,7 @@
-import { React, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
-export default function CreateJob({ getJobs }) {
+export default function EditJob({ currentJobId, getJobs }) {
   const [companyName, setCompanyName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
@@ -10,6 +10,34 @@ export default function CreateJob({ getJobs }) {
   const [level, setLevel] = useState("");
   const [link, setLink] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchJobDetails();
+    getJobs();
+  }, []);
+
+  async function fetchJobDetails() {
+    try {
+      console.log(currentJobId);
+      const response = await fetch(
+        `http://localhost:8000/jobs/${currentJobId}?job_id=${currentJobId}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setCompanyName(data.company_name);
+        setJobTitle(data.job_title);
+        setJobDescription(data.job_description);
+        setLocation(data.location);
+        setDepartment(data.department);
+        setLevel(data.level);
+        setLink(data.job_link);
+      } else {
+        console.error("Failed to fetch job details");
+      }
+    } catch (error) {
+      console.error("Error occurred during job details fetching: ", error);
+    }
+  }
 
   const handleCompanyNameChange = (e) => {
     const value = e.target.value;
@@ -48,35 +76,35 @@ export default function CreateJob({ getJobs }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {};
-    data.company_name = companyName;
-    data.job_title = jobTitle;
-    data.job_description = jobDescription;
-    data.location = location;
-    data.department = department;
-    data.level = level;
-    data.job_link = link;
+    const data = {
+      company_name: companyName,
+      job_title: jobTitle,
+      job_description: jobDescription,
+      location: location,
+      department: department,
+      level: level,
+      job_link: link,
+    };
 
-    const createJobUrl = "http://localhost:8000/jobs";
+    const editUrl = `http://localhost:8000/jobs/${currentJobId}`;
     const fetchConfig = {
-      method: "post",
+      method: "PUT",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
       },
     };
 
-    const response = await fetch(createJobUrl, fetchConfig);
-    if (response.ok) {
-      setCompanyName("");
-      setJobTitle("");
-      setJobDescription("");
-      setLocation("");
-      setDepartment("");
-      setLevel("");
-      setLink("");
-      getJobs();
-      navigate("/jobs");
+    try {
+      const response = await fetch(editUrl, fetchConfig);
+      if (response.ok) {
+        getJobs();
+        navigate(`/jobs/${currentJobId}`);
+      } else {
+        console.error("There was an error updating the job.");
+      }
+    } catch (e) {
+      console.log("There was an error: ", e);
     }
   };
 
@@ -84,8 +112,8 @@ export default function CreateJob({ getJobs }) {
     <div className="row">
       <div className="offset-3 col-6">
         <div className="shadow p-4 mt-4">
-          <h1>Create job listing</h1>
-          <form onSubmit={handleSubmit} id="create-job-posting-form">
+          <h1>Edit job listing</h1>
+          <form onSubmit={handleSubmit} id="edit-job-posting-form">
             <div className="form-floating mb-3">
               <input
                 onChange={handleCompanyNameChange}
@@ -119,8 +147,7 @@ export default function CreateJob({ getJobs }) {
                 type="text"
                 id="job-description"
                 className="form-control"
-                rows="10"
-                cols="30"
+                rows="4"
               />
               <label htmlFor="job-description">Job Description</label>
             </div>
@@ -172,20 +199,8 @@ export default function CreateJob({ getJobs }) {
               />
               <label htmlFor="job-link">Job Link</label>
             </div>
-            {/* <div className="form-floating mb-3">
-              <input
-                onChange={handleCreatedOnChange}
-                value={createdOn}
-                placeholder="created-on"
-                required
-                type="date"
-                id="date"
-                className="form-control"
-              />
-              <label htmlFor="date">Today's Date</label>
-            </div> */}
             <button className="btn btn-primary" type="submit">
-              Create job
+              Update job
             </button>
           </form>
         </div>
