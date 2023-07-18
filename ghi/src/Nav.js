@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, useLocation, useParams, useNavigate } from "react-router-dom";
+import { useAuthContext, useToken } from "@galvanize-inc/jwtdown-for-react";
 import DeleteJob from "./DeleteJob";
 import EditJob from "./EditJob";
 
@@ -11,6 +12,11 @@ export default function Nav() {
   const createJobPage = location.pathname === "/jobs/create";
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const { jobs_id } = useParams();
+
+  const { isAuthenticated, user, token } = useAuthContext();
+  console.log("isAuthenticated:", isAuthenticated);
+  console.log("user:", user);
+  console.log("token:", token);
 
   const handleDelete = () => {
     setDeleteConfirmation(true);
@@ -53,6 +59,8 @@ export default function Nav() {
                 Home
               </NavLink>
             </li>
+            {/* {isAuthenticated && (
+              <> */}
             <li className="nav-item">
               <NavLink className="nav-link" to="/jobs">
                 Jobs
@@ -68,6 +76,8 @@ export default function Nav() {
                 About Us
               </NavLink>
             </li>
+            {/* </>
+            )} */}
           </ul>
           {jobsDetailPage && !createJobPage && (
             <ul className="navbar-nav ml-auto jobs-page">
