@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function DeleteJob({ currentJobId, getJobs }) {
-  const { jobs_id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
