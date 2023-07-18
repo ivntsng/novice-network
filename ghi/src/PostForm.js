@@ -6,6 +6,7 @@ function PostForm({ getPosts }) {
   const [description, setDescription] = useState("");
   const [CreatedDateTime, setCreatedDateTime] = useState("");
   const [OwnerId, setOwnerId] = useState("");
+  const [userData, setUserData] = useState("");
   const navigate = useNavigate();
 
   const handleTitleChange = (event) => {
@@ -21,6 +22,19 @@ function PostForm({ getPosts }) {
   const handleOwnerIdChange = (event) => {
     const value = event.target.value;
     setOwnerId(value);
+  };
+
+  const fetchUserData = async () => {
+    const url = `${process.env.REACT_APP_USER_SERVICE_API_HOST}/token`;
+    fetch(url, {
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.account);
+        setUserData(data);
+      })
+      .catch((error) => console.error(error));
   };
 
   const handleSubmit = async (event) => {
