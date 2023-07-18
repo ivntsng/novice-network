@@ -71,6 +71,7 @@ async def create_user(
     repo: AccountRepo = Depends(),
 ):
     hashed_password = authenticator.hash_password(info.password)
+
     try:
         account = repo.create_user(info, hashed_password)
     except DuplicateAccountError:

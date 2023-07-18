@@ -1,10 +1,27 @@
 import { React, useState } from "react";
+import useToken from "@galvanize-inc/jwtdown-for-react";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateUser() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
+  const { register } = useToken();
+  const navigate = useNavigate();
+
+  const handleRegistration = (e) => {
+    e.preventDefault();
+    const accountData = {
+      username: username,
+      password: password,
+      email: email,
+      role: role,
+    };
+    register(accountData, `${process.env.REACT_APP_API_HOST}/users`);
+    e.target.reset();
+    navigate("/");
+  };
 
   const handleUsernameChange = (event) => {
     const value = event.target.value;
@@ -26,44 +43,12 @@ export default function CreateUser() {
     setRole(value);
   };
 
-  const roles = [
-    {id: 1, name: "Grad", value: "grad"},
-    {id: 2, name: "Mentor", value: "mentor"},
-    {id: 3, name: "Recruiter", value: "recruiter"}
-  ]
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = {};
-    data.username = username;
-    data.password = password;
-    data.email = email;
-    data.role = role;
-
-    const createUserUrl = "http://localhost:8000/users/";
-    const fetchConfig = {
-      method: "post",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const response = await fetch(createUserUrl, fetchConfig);
-    if (response.ok) {
-      setUsername("");
-      setPassword("");
-      setEmail("");
-      setRole("");
-    }
-  };
-
   return (
     <div className="row">
       <div className="offset-3 col-6">
         <div className="shadow p-4 mt-4">
           <h1>Create a User</h1>
-          <form onSubmit={handleSubmit} id="create-user-form">
+          <form onSubmit={handleRegistration} id="create-user-form">
             <div className="form-floating mb-3">
               <input
                 onChange={handleUsernameChange}
