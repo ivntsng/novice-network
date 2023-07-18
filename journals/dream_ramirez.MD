@@ -31,4 +31,5 @@ I've made a good progress on my part of the project. I finished front end for cr
 
 ## July 17, 2023
 
-I added delete button for post and am working on edit post. My plan is once 
+I added delete and edit buttons for post. I got the front end done for both so I finished CRUD for posts.
+I also helped edit the backend endpoint for comments which connect to the posts.
