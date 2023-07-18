@@ -13,6 +13,7 @@ import PostDetail from "./PostDetail";
 import CreateUser from "./Signup";
 import DeleteJob from "./DeleteJob";
 import EditJob from "./EditJob";
+import LoginPage from "./Login";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -96,6 +97,7 @@ function App() {
               element={<PostDetail posts={posts} getPosts={getPosts} />}
             />
             <Route path="/signup" element={<CreateUser />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </div>
       </BrowserRouter>
