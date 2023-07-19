@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, Union, List
 from datetime import datetime
 from queries.pool import pool
@@ -7,7 +7,7 @@ class CommentIn(BaseModel):
     user_id: int
     post_id: int
     comment: str
-    created_on: datetime
+    created_on: datetime = Field(default_factory=datetime.now)
 
 class CommentOut(BaseModel):
     comment_id: int
