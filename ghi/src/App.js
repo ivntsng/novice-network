@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { AuthProvider } from "@galvanize-inc/jwtdown-for-react";
+import { AuthProvider, useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import "./App.css";
 import Nav from "./Nav";
 import MainPage from "./MainPage";
@@ -20,7 +20,7 @@ function App() {
   const [jobs, setJobs] = useState([]);
   const [posts, setPosts] = useState([]);
   const [currentJobId, setCurrentJobId] = useState(null);
-  const [deleteJobId, setDeleteJobId] = useState(null);
+  const { isAuthenticated, user, token } = useAuthContext();
 
   async function getJobs() {
     try {
@@ -56,7 +56,7 @@ function App() {
     setCurrentJobId(currentJobId);
   }, []);
   return (
-    <AuthProvider>
+    <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
       <BrowserRouter>
         <Nav setCurrentJobId={setCurrentJobId} />
         <div className="container">
