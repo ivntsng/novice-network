@@ -112,7 +112,10 @@ function PostDetail({ getPosts }) {
                       </p>
                       <p>{post.description}</p>
                       <div className="align-items-right">
-                        <Link href="#!" style={{ color: "gray" }}>
+                        <Link
+                          to={`/posts/${post.id}/edit`}
+                          style={{ color: "gray" }}
+                        >
                           <i className="bi bi-pencil-fill"></i>
                           Edit
                         </Link>
