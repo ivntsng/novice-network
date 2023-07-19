@@ -71,6 +71,11 @@ export default function Nav() {
                 Forum
               </NavLink>
             </li>
+            <li>
+              <NavLink className="nav-link" to="/users/:username">
+                My Profile
+              </NavLink>
+            </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/about-us">
                 About Us
