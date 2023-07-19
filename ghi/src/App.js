@@ -16,12 +16,14 @@ import EditJob from "./EditJob";
 import LoginPage from "./Login";
 import PostEdit from "./PostEdit";
 import UserProfile from "./UserProfile";
+import { UserContext } from "./UserContext";
 
 function App() {
   const [jobs, setJobs] = useState([]);
   const [posts, setPosts] = useState([]);
   const [currentJobId, setCurrentJobId] = useState(null);
   const { isAuthenticated, user, token } = useAuthContext();
+  const [userData, setUserData] = useState(null);
 
   async function getJobs() {
     try {
@@ -59,6 +61,7 @@ function App() {
 
   return (
     <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
+      <UserContext.Provider value={{ userData, setUserData }}>
       <BrowserRouter>
         <Nav setCurrentJobId={setCurrentJobId} />
         <div className="container">
@@ -97,7 +100,7 @@ function App() {
             />
             <Route
               path="/posts/:post_id/"
-              element={<PostDetail posts={posts} getPosts={getPosts} />}
+              element={<PostDetail posts={posts} getPosts={getPosts} userData={userData} />}
             />
             <Route
               path="/posts/:post_id/edit"
@@ -112,6 +115,7 @@ function App() {
           </Routes>
         </div>
       </BrowserRouter>
+      </UserContext.Provider>
     </AuthProvider>
   );
 }
