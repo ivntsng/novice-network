@@ -32,26 +32,26 @@ function PostForm({ getPosts }) {
     formdata.created_datetime = new Date().toISOString();
     formdata.owner_id = OwnerId; // after auth is done will be Use the ownerId prop received from the backend
 
-        const postUrl = 'http://localhost:8000/posts';
-        const fetchConfig = {
-          method: "post",
-          body: JSON.stringify(formdata),
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
+    const postUrl = "http://localhost:8000/posts";
+    const fetchConfig = {
+      method: "POST",
+      body: JSON.stringify(formdata),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-        const response = await fetch(postUrl, fetchConfig);
-        if (response.ok) {
-          const newPosts = await response.json();
-          setTitle('');
-          setDescription('');
-          setCreatedDateTime('');
-          setOwnerId('');
-          getPosts();
-          navigate('/posts');
-        }
+    const response = await fetch(postUrl, fetchConfig);
+    if (response.ok) {
+      const newPosts = await response.json();
+      setTitle("");
+      setDescription("");
+      setCreatedDateTime("");
+      setOwnerId("");
+      getPosts();
+      navigate("/posts");
     }
+  };
 
   return (
     <form onSubmit={handleSubmit} id="add-posts-form">

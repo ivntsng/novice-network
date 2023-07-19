@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AuthProvider, useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import "./App.css";
@@ -16,6 +16,7 @@ import EditJob from "./EditJob";
 import LoginPage from "./Login";
 import PostEdit from "./PostEdit";
 import { UserContext } from "./UserContext";
+import UserProfile from "./UserProfile";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -57,6 +58,7 @@ function App() {
     getPosts();
     setCurrentJobId(currentJobId);
   }, []);
+
   return (
     <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
       <UserContext.Provider value={{ userData, setUserData }}>
@@ -106,6 +108,12 @@ function App() {
             />
             <Route path="/signup" userData={userData} element={<CreateUser />} />
             <Route path="/login" userData={userData} element={<LoginPage />} />
+            <Route path="/signup" element={<CreateUser />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/users/:username"
+              element={<UserProfile posts={posts} />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
