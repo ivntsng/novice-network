@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { UserContext } from './UserContext';
 
 function PostDetail({ getPosts }) {
     const { post_id } = useParams();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
+    const {userData, setUserData} = useContext(UserContext);
     const onDelete = async () => {
         const confirmed = window.confirm('Are you sure you want to delete this post?');
         if (confirmed) {

@@ -15,12 +15,14 @@ import DeleteJob from "./DeleteJob";
 import EditJob from "./EditJob";
 import LoginPage from "./Login";
 import PostEdit from "./PostEdit";
+import { UserContext } from "./UserContext";
 
 function App() {
   const [jobs, setJobs] = useState([]);
   const [posts, setPosts] = useState([]);
   const [currentJobId, setCurrentJobId] = useState(null);
   const { isAuthenticated, user, token } = useAuthContext();
+  const [userData, setUserData] = useState(null);
 
   async function getJobs() {
     try {
@@ -57,6 +59,7 @@ function App() {
   }, []);
   return (
     <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
+      <UserContext.Provider value={{ userData, setUserData }}>
       <BrowserRouter>
         <Nav setCurrentJobId={setCurrentJobId} />
         <div className="container">
@@ -106,6 +109,7 @@ function App() {
           </Routes>
         </div>
       </BrowserRouter>
+      </UserContext.Provider>
     </AuthProvider>
   );
 }

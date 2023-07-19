@@ -32,7 +32,7 @@ function PostForm({ getPosts }) {
     formdata.created_datetime = new Date().toISOString();
     formdata.owner_id = OwnerId; // after auth is done will be Use the ownerId prop received from the backend
 
-        const postUrl = 'http://localhost:8000/posts/';
+        const postUrl = 'http://localhost:8000/posts';
         const fetchConfig = {
           method: "post",
           body: JSON.stringify(formdata),
