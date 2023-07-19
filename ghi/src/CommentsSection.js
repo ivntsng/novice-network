@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import CreateComment from "./CreateComment";
+import EditComment from "./EditComment";
+import CreateReply from "./CreateReply";
+import EditReply from "./EditReply"; // Make sure you have this component created
+import Reply from "./Reply";
 
 function CommentsSection({ post_id }) {
   const [comments, setComments] = useState([]);
+  const [editingComment, setEditingComment] = useState(null);
+  const [editingReply, setEditingReply] = useState(null);
+  const [addingReplyTo, setAddingReplyTo] = useState(null);
 
   async function fetchComments() {
     try {
@@ -11,6 +18,15 @@ function CommentsSection({ post_id }) {
       );
       if (response.ok) {
         const commentsData = await response.json();
+        for (let comment of commentsData) {
+          const repliesRes = await fetch(
+            `http://localhost:8000/posts/${post_id}/comments/${comment.comment_id}/replies`
+          );
+          if (repliesRes.ok) {
+            const repliesData = await repliesRes.json();
+            comment.replies = repliesData;
+          }
+        }
         setComments(commentsData);
       } else {
         console.log("Error fetching comments");
@@ -39,28 +55,59 @@ function CommentsSection({ post_id }) {
     }
   }
 
-  async function updateComment(comment_id, updatedComment) {
+  async function deleteReply(comment_id, reply_id) {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments/${comment_id}`,
+        `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
         {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedComment),
+          method: "DELETE",
         }
       );
 
       if (response.ok) {
         fetchComments();
       } else {
-        console.log("Error updating comment");
+        console.log("Error deleting reply");
       }
     } catch (error) {
-      console.log("Error updating comment:", error);
+      console.log("Error deleting reply:", error);
     }
   }
+
+  const startEditingComment = (comment) => {
+    if (editingComment && editingComment.comment_id === comment.comment_id) {
+      setEditingComment(null);
+    } else {
+      setEditingComment({
+        ...comment,
+        post_id,
+      });
+    }
+  };
+
+  const startEditingReply = (reply) => {
+    if (editingReply && editingReply.reply_id === reply.reply_id) {
+      setEditingReply(null);
+    } else {
+      setEditingReply(reply);
+    }
+  };
+
+  const stopEditingComment = () => {
+    setEditingComment(null);
+  };
+
+  const stopEditingReply = () => {
+    setEditingReply(null);
+  };
+
+  const startAddingReply = (comment) => {
+    if (addingReplyTo && addingReplyTo.comment_id === comment.comment_id) {
+      setAddingReplyTo(null);
+    } else {
+      setAddingReplyTo(comment);
+    }
+  };
 
   useEffect(() => {
     fetchComments();
@@ -97,9 +144,7 @@ function CommentsSection({ post_id }) {
                           <button
                             className="btn btn-sm btn-outline-primary ml-2"
                             style={{ fontSize: "0.7rem", padding: "2px 5px" }}
-                            onClick={() =>
-                              updateComment(comment.comment_id, {})
-                            }
+                            onClick={() => startEditingComment(comment)}
                           >
                             Edit
                           </button>
@@ -110,11 +155,51 @@ function CommentsSection({ post_id }) {
                           >
                             Delete
                           </button>
+                          <button
+                            className="btn btn-sm btn-outline-info ml-2"
+                            style={{ fontSize: "0.7rem", padding: "2px 5px" }}
+                            onClick={() => startAddingReply(comment)}
+                          >
+                            Reply
+                          </button>
                         </div>
                       </div>
                     </div>
+                    {comment.replies &&
+                      comment.replies.map((reply) => (
+                        <Reply
+                          reply={reply}
+                          key={reply.reply_id}
+                          deleteReply={() =>
+                            deleteReply(comment.comment_id, reply.reply_id)
+                          }
+                          startEditingReply={() => startEditingReply(reply)}
+                        />
+                      ))}
                   </div>
                 ))}
+              {editingComment && (
+                <EditComment
+                  post_id={editingComment.post_id}
+                  comment_id={editingComment.comment_id}
+                  onCommentUpdated={stopEditingComment}
+                />
+              )}
+              {editingReply && (
+                <EditReply
+                  post_id={post_id}
+                  comment_id={editingReply.comment_id}
+                  reply_id={editingReply.reply_id}
+                  onReplyUpdated={stopEditingReply}
+                />
+              )}
+              {addingReplyTo && (
+                <CreateReply
+                  post_id={post_id}
+                  comment_id={addingReplyTo.comment_id}
+                  onReplyCreated={fetchComments}
+                />
+              )}
             </div>
             <h5 className="mt-4">Add a Comment</h5>
             <CreateComment post_id={post_id} onCommentCreated={fetchComments} />
