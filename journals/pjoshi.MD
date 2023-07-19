@@ -1,153 +1,20 @@
-# Add a comment
+### Over the past week July 10 - July 17
 
-# Request Method: POST
+During the past week, I worked on the following tasks:
 
-# URL: http://localhost:xxxx/api/posts/{id:int}/comments
+- Implemented Get All Comments and Replies Endpoints
+- Developed the GET endpoint to fetch all comments and replies.
+- Added error handling for fetching scenarios where there are no comments or replies yet.
+- Ensured the endpoints were correctly exposed in the API documentation.
+- Conducted necessary testing to ensure the endpoints return appropriate data.
+- Implemented Delete Single Comment and Reply Endpoints
+- Created the DELETE endpoints for both comments and replies.
+- Added relevant HTTPException handling for situations where comments or replies to be deleted do not exist.
 
-# Response:
+* Tested the functionality thoroughly to guarantee smooth operation.
 
-```
-{
-    "status": "string",
-    "create_comment": {
-        "comment_id": "int",
-        "post_id": "int",
-        "user_id": "string",
-        "comment": "string"
-    }
-}
-```
-
-# List all comments in a post
-
-# Request Method: GET
-
-# URL: http://localhost:xxxx/api/posts/{id:int}/comments
-
-# Response:
-
-```
-{
-    "status": "string",
-    "list_comments": [
-        {
-            "comment_id": "int",
-            "post_id": "int",
-            "user_id": "string",
-            "comment": "string"
-        },
-    ]
-}
-
-```
-
-# Delete a comment
-
-# Request Method: DELETE
-
-# URL: http://localhost:xxxx/api/posts/{id:int}/comments/{id:int}
-
-# Response:
-
-```
-{
-    "status": "string"
-}
-```
-
-# Edit a comment
-
-# Request Method: PUT
-
-# URL: http://localhost:xxxx/api/posts/{id:int}/comments/{id:int}
-
-# Response:
-
-```
-{
-    "status": "string",
-    "edit_comment": {
-        "comment_id": "int",
-        "post_id": "int",
-        "user_id": "string",
-        "comment": "string"
-    }
-}
-```
-
-# Add a reply to a comment
-
-# Request Method: POST
-
-# URL: http://localhost:xxxx/api/posts/{id:int}/comments/{id:int}/replies
-
-# Response:
-
-```
-{
-    "status": "string",
-    "create_reply": {
-        "reply_id": "int",
-        "comment_id": "int",
-        "user_id": "string",
-        "reply": "string"
-    }
-}
-```
-
-# List all replies to a comment
-
-# Request Method: GET
-
-# URL: http://localhost:xxxx/api/posts/{id:int}/comments/{id:int}/replies
-
-# Response:
-
-```
-{
-    "status": "string",
-    "list_replies": [
-        {
-            "reply_id": "int",
-            "comment_id": "int",
-            "user_id": "string",
-            "reply": "string"
-        },
-
-    ]
-}
-```
-
-# Delete a reply to a comment
-
-# Request Method: DELETE
-
-# URL: http://localhost:xxxx/api/posts/{id:int}/comments/{id:int}/replies/{id:int}
-
-# Response:
-
-```
-{
-    "status": "string"
-}
-```
-
-# Edit a reply to a comment
-
-# Request Method: PUT
-
-# URL: http://localhost:xxxx/api/posts/{id:int}/comments/{id:int}/replies/{id:int}
-
-# Response:
-
-```
-{
-    "status": "string",
-    "edit_reply": {
-        "reply_id": "int",
-        "comment_id": "int",
-        "user_id": "string",
-        "reply": "string"
-    }
-}
-```
+- Developed Update Comments and Replies Endpoints
+- Created the PUT endpoints for updating comments and replies.
+- Included HTTPExceptions for situations where comments or replies to be updated do not exist.
+- Conducted thorough testing to ensure correct functionality.
+- Developing the POST endpoint for creating new replies.
