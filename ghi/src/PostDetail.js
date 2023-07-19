@@ -1,22 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
 import { UserContext } from './UserContext';
-import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate, Routes, Route } from "react-router-dom";
 import CommentsSection from "./CommentsSection";
 
+
 function PostDetail({ getPosts, userData }) {
-    const { post_id } = useParams();
-    const navigate = useNavigate();
-    const [post, setPost] = useState(null);
-    const onDelete = async () => {
-        const confirmed = window.confirm('Are you sure you want to delete this post?');
-        if (confirmed) {
-            try {
-            const response = await fetch(`http://localhost:8000/posts/${post_id}`, {
-                method: 'DELETE',
-            });
-function PostDetail({ getPosts }) {
   const { post_id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
