@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AuthProvider } from "@galvanize-inc/jwtdown-for-react";
 import "./App.css";
@@ -53,6 +53,7 @@ function App() {
     getPosts();
     setCurrentJobId(currentJobId);
   }, []);
+
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -92,7 +93,7 @@ function App() {
               element={<PostForm posts={posts} getPosts={getPosts} />}
             />
             <Route
-              path="/posts/:post_id"
+              path="/posts/:post_id/"
               element={<PostDetail posts={posts} getPosts={getPosts} />}
             />
             <Route path="/signup" element={<CreateUser />} />

@@ -1,10 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, Routes, Route } from "react-router-dom";
+import CommentsSection from "./CommentsSection";
 
 function PostDetail({ getPosts }) {
   const { post_id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
+
+  const getComments = async (post_id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/posts/${post_id}/comments`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setComments(data);
+      } else {
+        console.error("Failed to fetch comments");
+      }
+    } catch (error) {
+      console.error("Error occurred during comment fetching: ", error);
+    }
+  };
+
   const onDelete = async () => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this post?"
@@ -42,6 +61,7 @@ function PostDetail({ getPosts }) {
     };
 
     fetchPostDetails();
+    getComments(post_id);
   }, [post_id]);
 
   if (!post) {
@@ -108,6 +128,7 @@ function PostDetail({ getPosts }) {
             </div>
           </div>
         </div>
+        <CommentsSection post_id={post_id} comments={comments} />
       </section>
     </>
   );
