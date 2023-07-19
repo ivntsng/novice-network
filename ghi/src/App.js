@@ -99,8 +99,8 @@ function App() {
               element={<PostForm posts={posts} getPosts={getPosts} />}
             />
             <Route
-              path="/posts/:post_id/"
-              element={<PostDetail posts={posts} getPosts={getPosts} />}
+              path="/posts/:post_id"
+              element={<PostDetail posts={posts} getPosts={getPosts} userData={userData}/>}
             />
             <Route
               path="/posts/:post_id/edit"
