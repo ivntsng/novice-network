@@ -98,14 +98,14 @@ function App() {
             />
             <Route
               path="/posts/:post_id"
-              element={<PostDetail posts={posts} getPosts={getPosts} />}
+              element={<PostDetail posts={posts} getPosts={getPosts} userData={userData}/>}
             />
             <Route
               path="/posts/:post_id/edit"
               element={<PostEdit posts={posts} getPosts={getPosts} />}
             />
-            <Route path="/signup" element={<CreateUser />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" userData={userData} element={<CreateUser />} />
+            <Route path="/login" userData={userData} element={<LoginPage />} />
           </Routes>
         </div>
       </BrowserRouter>

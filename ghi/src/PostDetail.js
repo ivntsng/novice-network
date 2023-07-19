@@ -2,11 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { UserContext } from './UserContext';
 
-function PostDetail({ getPosts }) {
+function PostDetail({ getPosts, userData }) {
     const { post_id } = useParams();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
-    const {userData, setUserData} = useContext(UserContext);
     const onDelete = async () => {
         const confirmed = window.confirm('Are you sure you want to delete this post?');
         if (confirmed) {
@@ -76,7 +75,7 @@ function PostDetail({ getPosts }) {
                                 <div className="card-body p-4">
                                     <div className="">
                                         <h4>{post.title}</h4>
-                                        <p className="medium">@username {post.owner_id}</p>
+                                        <p className="medium">@username</p>
                                         <p className="small">Post created: {formattedDate} {formattedTime}</p>
                                         <p>{post.description}</p>
                                         <div className="align-items-right">

@@ -24,7 +24,7 @@ export default function LoginPage() {
 
   const handleUserData = async () => {
       try {
-        const url = `${process.env.REACT_APP_USER_SERVICE_API_HOST}/token`;
+        const url = `${process.env.REACT_APP_API_HOST}/token`;
         const response = await fetch(url, {
           credentials: "include",
         });
@@ -52,10 +52,10 @@ export default function LoginPage() {
   useEffect(() => {
     if (token) {
       handleUserData()
-      console.log(userData)
       ;
     }
   }, [token]);
+
 
   return (
     <div className="offset-3 col-6">
