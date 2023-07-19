@@ -14,9 +14,9 @@ export default function Nav() {
   const { jobs_id } = useParams();
 
   const { isAuthenticated, user, token } = useAuthContext();
-  console.log("isAuthenticated:", isAuthenticated);
-  console.log("user:", user);
-  console.log("token:", token);
+  // console.log("isAuthenticated:", isAuthenticated);
+  // console.log("user:", user);
+  // console.log("token:", token);
 
   const handleDelete = () => {
     setDeleteConfirmation(true);
