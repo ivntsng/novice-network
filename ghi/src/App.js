@@ -15,6 +15,7 @@ import DeleteJob from "./DeleteJob";
 import EditJob from "./EditJob";
 import LoginPage from "./Login";
 import PostEdit from "./PostEdit";
+import UserProfile from "./UserProfile";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -104,6 +105,10 @@ function App() {
             />
             <Route path="/signup" element={<CreateUser />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/users/:username"
+              element={<UserProfile posts={posts} />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
