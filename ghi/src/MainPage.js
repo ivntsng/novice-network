@@ -1,8 +1,12 @@
-import React from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 export default function MainPage() {
   const navigate = useNavigate();
+  const {userData, setUserData} = useContext(UserContext);
+  console.log(userData)
+
   const handleClick = () => {
     navigate("/signup");
   };
@@ -20,6 +24,7 @@ export default function MainPage() {
         <button type="button" className="btn btn-primary" onClick={handleClick}>
           Sign Up!
         </button>
+        <p>username: {userData && userData.username}</p>
       </div>
     </div>
   );
