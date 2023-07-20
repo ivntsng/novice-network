@@ -15,12 +15,15 @@ import DeleteJob from "./DeleteJob";
 import EditJob from "./EditJob";
 import LoginPage from "./Login";
 import PostEdit from "./PostEdit";
+import UserProfile from "./UserProfile";
+import { UserContext } from "./UserContext";
 
 function App() {
   const [jobs, setJobs] = useState([]);
   const [posts, setPosts] = useState([]);
   const [currentJobId, setCurrentJobId] = useState(null);
   const { isAuthenticated, user, token } = useAuthContext();
+  const [userData, setUserData] = useState(null);
 
   async function getJobs() {
     try {
@@ -58,55 +61,70 @@ function App() {
 
   return (
     <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
-      <BrowserRouter>
-        <Nav setCurrentJobId={setCurrentJobId} />
-        <div className="container">
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/jobs" element={<ListJobs listJobs={jobs} />} />
-            <Route
-              path="/jobs/create"
-              element={<CreateJob getJobs={getJobs} />}
-            />
-            <Route
-              path="/jobs/:jobs_id"
-              element={
-                <JobDetail listJobs={jobs} setCurrentJobId={setCurrentJobId} />
-              }
-            />
-            <Route
-              path="/jobs/:jobs_id/delete"
-              element={
-                <DeleteJob currentJobId={currentJobId} getJobs={getJobs} />
-              }
-            />
-            <Route
-              path="/jobs/:jobs_id/edit"
-              element={
-                <EditJob currentJobId={currentJobId} getJobs={getJobs} />
-              }
-            />
-            <Route
-              path="/posts"
-              element={<PostList posts={posts} getPosts={getPosts} />}
-            />
-            <Route
-              path="/posts/create"
-              element={<PostForm posts={posts} getPosts={getPosts} />}
-            />
-            <Route
-              path="/posts/:post_id/"
-              element={<PostDetail posts={posts} getPosts={getPosts} />}
-            />
-            <Route
-              path="/posts/:post_id/edit"
-              element={<PostEdit posts={posts} getPosts={getPosts} />}
-            />
-            <Route path="/signup" element={<CreateUser />} />
-            <Route path="/login" element={<LoginPage />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
+      <UserContext.Provider value={{ userData, setUserData }}>
+        <BrowserRouter>
+          <Nav setCurrentJobId={setCurrentJobId} />
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<MainPage />} />
+              <Route path="/jobs" element={<ListJobs listJobs={jobs} />} />
+              <Route
+                path="/jobs/create"
+                element={<CreateJob getJobs={getJobs} />}
+              />
+              <Route
+                path="/jobs/:jobs_id"
+                element={
+                  <JobDetail
+                    listJobs={jobs}
+                    setCurrentJobId={setCurrentJobId}
+                  />
+                }
+              />
+              <Route
+                path="/jobs/:jobs_id/delete"
+                element={
+                  <DeleteJob currentJobId={currentJobId} getJobs={getJobs} />
+                }
+              />
+              <Route
+                path="/jobs/:jobs_id/edit"
+                element={
+                  <EditJob currentJobId={currentJobId} getJobs={getJobs} />
+                }
+              />
+              <Route
+                path="/posts"
+                element={<PostList posts={posts} getPosts={getPosts} />}
+              />
+              <Route
+                path="/posts/create"
+                element={<PostForm posts={posts} getPosts={getPosts} />}
+              />
+              <Route
+                path="/posts/:post_id/"
+                element={
+                  <PostDetail
+                    posts={posts}
+                    getPosts={getPosts}
+                    userData={userData}
+                  />
+                }
+              />
+              <Route
+                path="/posts/:post_id/edit"
+                element={<PostEdit posts={posts} getPosts={getPosts} />}
+              />
+              <Route path="/signup" element={<CreateUser />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/users/:username"
+                element={<UserProfile posts={posts} />}
+              />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </UserContext.Provider>
     </AuthProvider>
   );
 }

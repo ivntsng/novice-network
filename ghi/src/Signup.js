@@ -21,6 +21,7 @@ export default function CreateUser() {
     register(accountData, `${process.env.REACT_APP_API_HOST}/users`);
     e.target.reset();
     navigate("/");
+    console.log(accountData);
   };
 
   const handleUsernameChange = (event) => {
@@ -91,6 +92,7 @@ export default function CreateUser() {
                 id="role"
                 className="form-control"
               >
+                <option>Choose a Role</option>
                 <option value="grad">Grad</option>
                 <option value="mentor">Mentor</option>
                 <option value="recruiter">Recruiter</option>
