@@ -76,9 +76,6 @@ export default function Nav() {
                     About Us
                   </NavLink>
                 </li>
-                <li className="nav-item">
-                  <span className="nav-link">Hello {userData.username}</span>
-                </li>
               </>
             )}
           </ul>
@@ -123,6 +120,14 @@ export default function Nav() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+      {userData.username && (
+        <div className="user-info">
+          <span className="nav-link">Hello {userData.username}</span>
+          <button className="btn btn-danger" onClick={"HandleLogOut"}>
+            Logout
+          </button>
         </div>
       )}
     </nav>
