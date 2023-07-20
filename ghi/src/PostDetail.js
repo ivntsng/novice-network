@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link, useNavigate, Routes, Route } from "react-router-dom";
 import CommentsSection from "./CommentsSection";
+import { UserContext } from "./UserContext";
 
 function PostDetail({ getPosts }) {
   const { post_id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
+  const { userData, setUserData } = useContext(UserContext);
 
   const getComments = async (post_id) => {
     try {
@@ -106,24 +108,26 @@ function PostDetail({ getPosts }) {
                   <div className="card-body p-4">
                     <div className="">
                       <h4>{post.title}</h4>
-                      <p className="medium">@username</p>
+                      <p className="medium">@{post.owner_username}</p>
                       <p className="small">
                         Post created: {formattedDate} {formattedTime}
                       </p>
                       <p>{post.description}</p>
-                      <div className="align-items-right">
-                        <Link
-                          to={`/posts/${post.id}/edit`}
-                          style={{ color: "gray" }}
-                        >
-                          <i className="bi bi-pencil-fill"></i>
-                          Edit
-                        </Link>
-                        <Link onClick={onDelete} style={{ color: "gray" }}>
-                          <i className="bi bi-trash3-fill"></i>
-                          Delete
-                        </Link>
-                      </div>
+                      {userData.username === post.owner_username && (
+                        <div className="align-items-right">
+                          <Link
+                            to={`/posts/${post.id}/edit`}
+                            style={{ color: "gray" }}
+                          >
+                            <i className="bi bi-pencil-fill"></i>
+                            Edit
+                          </Link>
+                          <Link onClick={onDelete} style={{ color: "gray" }}>
+                            <i className="bi bi-trash3-fill"></i>
+                            Delete
+                          </Link>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
