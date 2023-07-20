@@ -106,7 +106,7 @@ function PostDetail({ getPosts }) {
                   <div className="card-body p-4">
                     <div className="">
                       <h4>{post.title}</h4>
-                      <p className="medium">@username {post.owner_id}</p>
+                      <p className="medium">@username</p>
                       <p className="small">
                         Post created: {formattedDate} {formattedTime}
                       </p>
