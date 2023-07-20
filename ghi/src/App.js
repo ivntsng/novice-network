@@ -16,6 +16,7 @@ import EditJob from "./EditJob";
 import LoginPage from "./Login";
 import PostEdit from "./PostEdit";
 import UserProfile from "./UserProfile";
+import Logout from "./Logout";
 import { UserContext } from "./UserContext";
 
 function App() {
@@ -74,7 +75,7 @@ function App() {
       }
     } catch (error) {
       // Handle error
-      console.error(error);
+      return;
     }
   };
 
@@ -143,6 +144,7 @@ function App() {
               />
               <Route path="/signup" element={<CreateUser />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/logout" element={<Logout />} />
               <Route
                 path="/users/:username"
                 element={<UserProfile posts={posts} />}
