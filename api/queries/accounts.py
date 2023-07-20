@@ -200,3 +200,48 @@ class AccountRepo:
     #                     record[column.name] = row[i]
 
     #             return record
+
+    def update_account(self, username, account_update):
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                returned_values = None
+
+                if account_update.username:
+                    print("printing username")
+                    result = db.execute(
+                        """
+                            UPDATE accounts
+                            SET username = %s
+                            WHERE username = %s
+                            RETURNING *
+                        """,
+                        [account_update.username, username],
+                    )
+
+                if account_update.email:
+                    print("printing email")
+                    result = db.execute(
+                        """
+                            UPDATE accounts
+                            SET email = %s
+                            WHERE username = %s
+                            RETURNING *
+                        """,
+                        [account_update.email, username],
+                    )
+
+                returned_values = result.fetchone()
+                print("updates: ", returned_values)
+                return self.record_to_account(returned_values)
+
+    def record_to_account(self, record):
+        if record is None:
+            return None
+
+        return AccountOut(
+            id=record[0],
+            username=record[1],
+            hashed_password=record[2],
+            email=record[3],
+            role=record[4],
+        )
