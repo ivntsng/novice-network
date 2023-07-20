@@ -4,11 +4,22 @@ import { UserContext } from "./UserContext";
 
 export default function MainPage() {
   const navigate = useNavigate();
-  const {userData, setUserData} = useContext(UserContext);
-  console.log(userData)
+  const { userData, setUserData } = useContext(UserContext);
 
-  const handleClick = () => {
-    navigate("/signup");
+  const handleSignUpClick = () => {
+    if (userData && userData.username) {
+      alert("You are currently logged in.");
+    } else {
+      navigate("/signup");
+    }
+  };
+
+  const handleLoginClick = () => {
+    if (userData && userData.username) {
+      alert("You are logged in already!");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -21,10 +32,22 @@ export default function MainPage() {
           Join the community to expand your professional network and foster
           meaningful connections with fellow bootcamp graduates.
         </h2>
-        <button type="button" className="btn btn-primary" onClick={handleClick}>
-          Sign Up!
-        </button>
-        <p>username: {userData && userData.username}</p>
+        <div className="button-container">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleSignUpClick}
+          >
+            Sign Up!
+          </button>
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={handleLoginClick}
+          >
+            Log in!
+          </button>
+        </div>
       </div>
     </div>
   );
