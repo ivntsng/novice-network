@@ -1,14 +1,16 @@
-import { React, useState } from "react";
+import { React, useState, useContext, useEffect } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 export default function CreateUser() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
-  const { register } = useToken();
+  const { register, token } = useToken();
   const navigate = useNavigate();
+  const {userData, setUserData} = useContext(UserContext)
 
   const handleRegistration = (e) => {
     e.preventDefault();
@@ -43,6 +45,40 @@ export default function CreateUser() {
     const value = event.target.value;
     setRole(value);
   };
+
+  const handleUserData = async () => {
+      try {
+        const url = `${process.env.REACT_APP_API_HOST}/token`;
+        const response = await fetch(url, {
+          credentials: "include",
+        });
+        if (response.ok) {
+          const data = await response.json();
+          const { id, username, email, role } =
+            data.account;
+          setUserData({
+            id,
+            username,
+            email,
+            role,
+          })
+          navigate("/");
+        } else {
+          // Handle error
+          console.error("Failed to fetch user data");
+        }
+      } catch (error) {
+        // Handle error
+        console.error(error);
+      }
+    };
+
+  useEffect(() => {
+    if (token) {
+      handleUserData()
+      ;
+    }
+  }, [token]);
 
   return (
     <div className="row">

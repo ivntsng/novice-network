@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate, Routes, Route } from "react-router-dom";
 import CommentsSection from "./CommentsSection";
 
-function PostDetail({ getPosts, userData }) {
+function PostDetail({ getPosts }) {
   const { post_id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
@@ -106,7 +106,7 @@ function PostDetail({ getPosts, userData }) {
                   <div className="card-body p-4">
                     <div className="">
                       <h4>{post.title}</h4>
-                      <p className="medium">@username {userData.username}</p>
+                      <p className="medium">@username</p>
                       <p className="small">
                         Post created: {formattedDate} {formattedTime}
                       </p>
