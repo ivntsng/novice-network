@@ -23,7 +23,7 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [currentJobId, setCurrentJobId] = useState(null);
   const { isAuthenticated, user, token } = useAuthContext();
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState(UserContext);
 
   async function getJobs() {
     try {
@@ -53,10 +53,36 @@ function App() {
     }
   }
 
+  const handleUserData = async () => {
+    try {
+      const url = `${process.env.REACT_APP_API_HOST}/token`;
+      const response = await fetch(url, {
+        credentials: "include",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const { id, username, email, role } = data.account;
+        setUserData({
+          id,
+          username,
+          email,
+          role,
+        });
+      } else {
+        // Handle error
+        console.error("Failed to fetch user data");
+      }
+    } catch (error) {
+      // Handle error
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getJobs();
     getPosts();
     setCurrentJobId(currentJobId);
+    handleUserData();
   }, []);
 
   return (
