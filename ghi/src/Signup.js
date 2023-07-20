@@ -10,7 +10,7 @@ export default function CreateUser() {
   const [role, setRole] = useState("");
   const { register, token } = useToken();
   const navigate = useNavigate();
-  const {userData, setUserData} = useContext(UserContext)
+  const { userData, setUserData } = useContext(UserContext);
 
   const handleRegistration = (e) => {
     e.preventDefault();
@@ -23,7 +23,6 @@ export default function CreateUser() {
     register(accountData, `${process.env.REACT_APP_API_HOST}/users`);
     e.target.reset();
     navigate("/");
-    console.log(accountData);
   };
 
   const handleUsernameChange = (event) => {
@@ -47,36 +46,34 @@ export default function CreateUser() {
   };
 
   const handleUserData = async () => {
-      try {
-        const url = `${process.env.REACT_APP_API_HOST}/token`;
-        const response = await fetch(url, {
-          credentials: "include",
+    try {
+      const url = `${process.env.REACT_APP_API_HOST}/token`;
+      const response = await fetch(url, {
+        credentials: "include",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const { id, username, email, role } = data.account;
+        setUserData({
+          id,
+          username,
+          email,
+          role,
         });
-        if (response.ok) {
-          const data = await response.json();
-          const { id, username, email, role } =
-            data.account;
-          setUserData({
-            id,
-            username,
-            email,
-            role,
-          })
-          navigate("/");
-        } else {
-          // Handle error
-          console.error("Failed to fetch user data");
-        }
-      } catch (error) {
+        navigate("/");
+      } else {
         // Handle error
-        console.error(error);
+        console.error("Failed to fetch user data");
       }
-    };
+    } catch (error) {
+      // Handle error
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (token) {
-      handleUserData()
-      ;
+      handleUserData();
     }
   }, [token]);
 
