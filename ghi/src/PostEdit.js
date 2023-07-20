@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 function PostEdit({ getPosts }) {
   const [title, setTitle] = useState("");
@@ -9,6 +10,7 @@ function PostEdit({ getPosts }) {
   const navigate = useNavigate();
   const { post_id } = useParams();
   const [post, setPost] = useState(null);
+  const { userData, setUserData } = useContext(UserContext);
 
   const handleTitleChange = (event) => {
     const value = event.target.value;
@@ -18,11 +20,6 @@ function PostEdit({ getPosts }) {
   const handleDescriptionChange = (event) => {
     const value = event.target.value;
     setDescription(value);
-  };
-
-  const handleOwnerIdChange = (event) => {
-    const value = event.target.value;
-    setOwnerId(value);
   };
 
   useEffect(() => {
@@ -54,7 +51,7 @@ function PostEdit({ getPosts }) {
     formdata.title = title;
     formdata.description = description;
     formdata.created_datetime = new Date().toISOString();
-    formdata.owner_id = OwnerId; // after auth is done will be Use the ownerId prop received from the backend
+    formdata.owner_username = userData.username; // after auth is done will be Use the ownerId prop received from the backend
 
         const postUrl = `http://localhost:8000/posts/${post_id}`;
         const fetchConfig = {
@@ -71,7 +68,6 @@ function PostEdit({ getPosts }) {
           setTitle('');
           setDescription('');
           setCreatedDateTime('');
-          setOwnerId('');
           getPosts();
           navigate(`/posts/${post_id}`);
         }
@@ -109,19 +105,6 @@ function PostEdit({ getPosts }) {
                 required
               />
               <label htmlFor="description">Description</label>
-            </div>
-            <div className="form-floating mb-3">
-              <input
-                onChange={handleOwnerIdChange}
-                value={OwnerId}
-                placeholder="Owner Id"
-                type="number"
-                name="ownerid"
-                id="ownerid"
-                className="form-control"
-                required
-              />
-              <label htmlFor="ownerid">Owner ID</label>
             </div>
             <div className="text-center">
               <button className="btn btn-primary">Submit</button>
