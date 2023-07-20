@@ -19,14 +19,16 @@ function Reply({ reply, deleteReply, startEditingReply }) {
               <button
                 className="btn btn-sm btn-outline-primary ml-2"
                 style={{ fontSize: "0.7rem", padding: "2px 5px" }}
-                onClick={startEditingReply}
+                onClick={() =>
+                  startEditingReply(reply.reply_id, reply.comment_id)
+                }
               >
                 Edit
               </button>
               <button
                 className="btn btn-sm btn-outline-danger"
                 style={{ fontSize: "0.7rem", padding: "2px 5px" }}
-                onClick={deleteReply}
+                onClick={() => deleteReply(reply.comment_id, reply.reply_id)}
               >
                 Delete
               </button>

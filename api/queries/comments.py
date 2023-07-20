@@ -89,6 +89,7 @@ class CommentRepository:
             print(e)
             return {"message": "Could not update that comment"}
 
+
     def get_all(self, post_id: int) -> Union[Error, List[CommentOut]]:
         try:
             with pool.connection() as conn:

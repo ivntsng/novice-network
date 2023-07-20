@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import CreateComment from "./CreateComment";
 import EditComment from "./EditComment";
 import CreateReply from "./CreateReply";
-import EditReply from "./EditReply"; // Make sure you have this component created
+import EditReply from "./EditReply";
 import Reply from "./Reply";
 
 function CommentsSection({ post_id }) {
   const [comments, setComments] = useState([]);
   const [editingComment, setEditingComment] = useState(null);
   const [editingReply, setEditingReply] = useState(null);
-  const [addingReplyTo, setAddingReplyTo] = useState(null);
+  const [replyingToComment, setReplyingToComment] = useState(null);
 
   async function fetchComments() {
     try {
@@ -74,39 +74,29 @@ function CommentsSection({ post_id }) {
     }
   }
 
-  const startEditingComment = (comment) => {
-    if (editingComment && editingComment.comment_id === comment.comment_id) {
+  const startEditingComment = (comment_id) => {
+    if (editingComment === comment_id) {
       setEditingComment(null);
     } else {
-      setEditingComment({
-        ...comment,
-        post_id,
-      });
+      setEditingComment(comment_id);
     }
   };
 
-  const startEditingReply = (reply) => {
-    if (editingReply && editingReply.reply_id === reply.reply_id) {
-      setEditingReply(null);
+  const startEditingReply = (reply_id, comment_id) => {
+    if (editingReply && editingReply.reply_id === reply_id) {
+      setEditingReply({});
     } else {
-      setEditingReply(reply);
+      setEditingReply({ reply_id, comment_id });
     }
-  };
-
-  const stopEditingComment = () => {
-    setEditingComment(null);
-  };
-
-  const stopEditingReply = () => {
-    setEditingReply(null);
   };
 
   const startAddingReply = (comment) => {
-    if (addingReplyTo && addingReplyTo.comment_id === comment.comment_id) {
-      setAddingReplyTo(null);
-    } else {
-      setAddingReplyTo(comment);
-    }
+    setReplyingToComment(comment.comment_id);
+  };
+
+  const onReplyCreated = () => {
+    setReplyingToComment(null);
+    fetchComments();
   };
 
   useEffect(() => {
@@ -144,7 +134,9 @@ function CommentsSection({ post_id }) {
                           <button
                             className="btn btn-sm btn-outline-primary ml-2"
                             style={{ fontSize: "0.7rem", padding: "2px 5px" }}
-                            onClick={() => startEditingComment(comment)}
+                            onClick={() =>
+                              startEditingComment(comment.comment_id)
+                            }
                           >
                             Edit
                           </button>
@@ -173,36 +165,45 @@ function CommentsSection({ post_id }) {
                           deleteReply={() =>
                             deleteReply(comment.comment_id, reply.reply_id)
                           }
-                          startEditingReply={() => startEditingReply(reply)}
+                          startEditingReply={() =>
+                            startEditingReply(
+                              reply.reply_id,
+                              comment.comment_id
+                            )
+                          }
                         />
                       ))}
+                    {editingReply &&
+                      editingReply.comment_id === comment.comment_id && (
+                        <EditReply
+                          post_id={post_id}
+                          comment_id={editingReply.comment_id}
+                          reply_id={editingReply.reply_id}
+                          onReplyUpdated={fetchComments}
+                        />
+                      )}
+                    {editingComment === comment.comment_id && (
+                      <EditComment
+                        post_id={post_id}
+                        comment_id={editingComment}
+                        onCommentUpdated={fetchComments}
+                      />
+                    )}
+                    {replyingToComment === comment.comment_id && (
+                      <CreateReply
+                        post_id={post_id}
+                        comment_id={comment.comment_id}
+                        onReplyCreated={onReplyCreated}
+                      />
+                    )}
                   </div>
                 ))}
-              {editingComment && (
-                <EditComment
-                  post_id={editingComment.post_id}
-                  comment_id={editingComment.comment_id}
-                  onCommentUpdated={stopEditingComment}
-                />
-              )}
-              {editingReply && (
-                <EditReply
-                  post_id={post_id}
-                  comment_id={editingReply.comment_id}
-                  reply_id={editingReply.reply_id}
-                  onReplyUpdated={stopEditingReply}
-                />
-              )}
-              {addingReplyTo && (
-                <CreateReply
-                  post_id={post_id}
-                  comment_id={addingReplyTo.comment_id}
-                  onReplyCreated={fetchComments}
-                />
-              )}
+              <h5 className="mt-4">Add a Comment</h5>
+              <CreateComment
+                post_id={post_id}
+                onCommentCreated={fetchComments}
+              />
             </div>
-            <h5 className="mt-4">Add a Comment</h5>
-            <CreateComment post_id={post_id} onCommentCreated={fetchComments} />
           </div>
         </div>
       </div>

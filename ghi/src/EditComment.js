@@ -1,15 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function EditComment({ post_id, comment_id, onCommentUpdated }) {
   const [comment, setComment] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchCommentDetails();
-  }, []);
-
-  async function fetchCommentDetails() {
+  const fetchCommentDetails = useCallback(async () => {
     try {
       const response = await fetch(
         `http://localhost:8000/posts/${post_id}/comments/${comment_id}`
@@ -23,7 +19,11 @@ export default function EditComment({ post_id, comment_id, onCommentUpdated }) {
     } catch (error) {
       console.error("Error occurred during comment details fetching: ", error);
     }
-  }
+  }, [post_id, comment_id]);
+
+  useEffect(() => {
+    fetchCommentDetails();
+  }, [fetchCommentDetails]);
 
   const handleCommentChange = (e) => {
     const value = e.target.value;
@@ -33,8 +33,12 @@ export default function EditComment({ post_id, comment_id, onCommentUpdated }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
+      post_id: post_id,
+      comment: comment,
+      created_on: new Date().toISOString(),
       comment: comment,
     };
+    console.log(data);
 
     const editUrl = `http://localhost:8000/posts/${post_id}/comments/${comment_id}`;
     const fetchConfig = {
@@ -48,6 +52,7 @@ export default function EditComment({ post_id, comment_id, onCommentUpdated }) {
     try {
       const response = await fetch(editUrl, fetchConfig);
       if (response.ok) {
+        setComment("");
         if (onCommentUpdated) {
           onCommentUpdated();
         }

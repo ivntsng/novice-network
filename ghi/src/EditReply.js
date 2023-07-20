@@ -19,6 +19,7 @@ function EditReply({ post_id, comment_id, reply_id, onReplyUpdated }) {
       );
 
       if (response.ok) {
+        setReply("");
         onReplyUpdated();
       } else {
         console.log("Error updating reply");
