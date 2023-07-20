@@ -4,15 +4,15 @@ from datetime import datetime
 from queries.pool import pool
 
 class CommentIn(BaseModel):
-    user_id: int
     post_id: int
+    owner_username: str
     comment: str
     created_on: datetime = Field(default_factory=datetime.now)
 
 class CommentOut(BaseModel):
     comment_id: int
-    user_id: int
     post_id: int
+    owner_username: str
     comment: str
     created_on: datetime
 
@@ -27,8 +27,8 @@ class CommentRepository:
                     result = db.execute(
                         """
                         SELECT comment_id
-                                , user_id
                                 , post_id
+                                , owner_username
                                 , comment
                                 , created_on
                         FROM comments
@@ -71,13 +71,13 @@ class CommentRepository:
                     db.execute(
                         """
                         UPDATE comments
-                        SET user_id = %s
+                        SET owner_username = %s
                            , comment = %s
                            , created_on = %s
                         WHERE post_id = %s AND comment_id = %s
                         """,
                         [
-                            comment.user_id,
+                            comment.owner_username,
                             comment.comment,
                             comment.created_on,
                             post_id,
@@ -96,7 +96,7 @@ class CommentRepository:
                 with conn.cursor() as db:
                     db.execute(
                         """
-                        SELECT comment_id, user_id, post_id, comment, created_on
+                        SELECT comment_id, post_id, owner_username, comment, created_on
                         FROM comments
                         WHERE post_id = %s
                         ORDER BY created_on;
@@ -108,8 +108,8 @@ class CommentRepository:
                     return [
                         CommentOut(
                             comment_id=record[0],
-                            user_id=record[1],
-                            post_id=record[2],
+                            post_id=record[1],
+                            owner_username=record[2],
                             comment=record[3],
                             created_on=record[4],
                         )
@@ -126,14 +126,14 @@ class CommentRepository:
                     result = db.execute(
                         """
                         INSERT INTO comments
-                        (user_id, post_id, comment, created_on)
+                        (post_id, owner_username, comment, created_on)
                         VALUES
                             (%s, %s, %s, %s)
                         RETURNING comment_id;
                         """,
                         [
-                            comment.user_id,
                             post_id,
+                            comment.owner_username,
                             comment.comment,
                             comment.created_on,
                         ],
@@ -151,8 +151,8 @@ class CommentRepository:
     def record_to_comment_out(self, record):
         return CommentOut(
             comment_id=record[0],
-            user_id=record[1],
-            post_id=record[2],
+            post_id=record[1],
+            owner_username=record[2],
             comment=record[3],
             created_on=record[4],
         )

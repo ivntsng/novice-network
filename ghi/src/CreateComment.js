@@ -1,26 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 function CreateComment({ post_id, onCommentCreated }) {
   const [newComment, setNewComment] = useState("");
-  const [UserId, setUserId] = useState("");
   const navigate = useNavigate();
+  const { username } = useContext(UserContext);
 
   const handleCommentChange = (event) => {
     setNewComment(event.target.value);
-  };
-
-  const handleUserIdChange = (event) => {
-    setUserId(event.target.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const commentData = {
-      user_id: UserId,
+      owner_username: username,
       post_id,
       comment: newComment,
+      created_on: new Date().toISOString(),
     };
 
     const response = await fetch(
@@ -37,7 +35,6 @@ function CreateComment({ post_id, onCommentCreated }) {
     if (response.ok) {
       const commentDataResponse = await response.json();
       setNewComment("");
-      setUserId("");
       if (onCommentCreated) {
         onCommentCreated();
       }
@@ -66,19 +63,6 @@ function CreateComment({ post_id, onCommentCreated }) {
                 required
               />
               <label htmlFor="newComment">Your Comment</label>
-            </div>
-            <div className="form-floating mb-3">
-              <input
-                onChange={handleUserIdChange}
-                value={UserId}
-                placeholder="User Id"
-                type="number"
-                name="userId"
-                id="userId"
-                className="form-control"
-                required
-              />
-              <label htmlFor="userId">User ID</label>
             </div>
             <div className="text-center">
               <button className="btn btn-primary">Submit</button>

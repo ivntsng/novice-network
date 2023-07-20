@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import CreateComment from "./CreateComment";
 import EditComment from "./EditComment";
 import CreateReply from "./CreateReply";
 import EditReply from "./EditReply";
 import Reply from "./Reply";
+import { UserContext } from "./UserContext";
 
 function CommentsSection({ post_id }) {
   const [comments, setComments] = useState([]);
   const [editingComment, setEditingComment] = useState(null);
   const [editingReply, setEditingReply] = useState(null);
   const [replyingToComment, setReplyingToComment] = useState(null);
+  const { username } = useContext(UserContext);
 
   async function fetchComments() {
     try {
@@ -121,7 +123,7 @@ function CommentsSection({ post_id }) {
                     <div className="card-body p-4 d-flex justify-content-between align-items-start">
                       <div>
                         <h5>
-                          <strong>User {comment.user_id}:</strong>
+                          <strong>{comment.username} says:</strong>
                         </h5>
                         <p className="h5">{comment.comment}</p>
                       </div>
@@ -131,22 +133,34 @@ function CommentsSection({ post_id }) {
                           {new Date(comment.created_on).toLocaleString()}
                         </small>
                         <div className="mt-2">
-                          <button
-                            className="btn btn-sm btn-outline-primary ml-2"
-                            style={{ fontSize: "0.7rem", padding: "2px 5px" }}
-                            onClick={() =>
-                              startEditingComment(comment.comment_id)
-                            }
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="btn btn-sm btn-outline-danger"
-                            style={{ fontSize: "0.7rem", padding: "2px 5px" }}
-                            onClick={() => deleteComment(comment.comment_id)}
-                          >
-                            Delete
-                          </button>
+                          {comment.username === username && (
+                            <>
+                              <button
+                                className="btn btn-sm btn-outline-primary ml-2"
+                                style={{
+                                  fontSize: "0.7rem",
+                                  padding: "2px 5px",
+                                }}
+                                onClick={() =>
+                                  startEditingComment(comment.comment_id)
+                                }
+                              >
+                                Edit
+                              </button>
+                              <button
+                                className="btn btn-sm btn-outline-danger"
+                                style={{
+                                  fontSize: "0.7rem",
+                                  padding: "2px 5px",
+                                }}
+                                onClick={() =>
+                                  deleteComment(comment.comment_id)
+                                }
+                              >
+                                Delete
+                              </button>
+                            </>
+                          )}
                           <button
                             className="btn btn-sm btn-outline-info ml-2"
                             style={{ fontSize: "0.7rem", padding: "2px 5px" }}
