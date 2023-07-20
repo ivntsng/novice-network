@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { NavLink, useLocation, useParams, useNavigate } from "react-router-dom";
 import { useAuthContext, useToken } from "@galvanize-inc/jwtdown-for-react";
-import DeleteJob from "./DeleteJob";
-import EditJob from "./EditJob";
+import { UserContext } from "./UserContext";
 
 export default function Nav() {
   const location = useLocation();
@@ -12,11 +11,7 @@ export default function Nav() {
   const createJobPage = location.pathname === "/jobs/create";
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const { jobs_id } = useParams();
-
-  const { isAuthenticated, user, token } = useAuthContext();
-  // console.log("isAuthenticated:", isAuthenticated);
-  // console.log("user:", user);
-  // console.log("token:", token);
+  const { userData, setUserData } = useContext(UserContext);
 
   const handleDelete = () => {
     setDeleteConfirmation(true);
@@ -59,30 +54,33 @@ export default function Nav() {
                 Home
               </NavLink>
             </li>
-            {/* {isAuthenticated && (
-              <> */}
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/jobs">
-                Jobs
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/posts">
-                Forum
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className="nav-link" to="/users/:username">
-                My Profile
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/about-us">
-                About Us
-              </NavLink>
-            </li>
-            {/* </>
-            )} */}
+            {userData.username && (
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/jobs">
+                    Jobs
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/posts">
+                    Forum
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink className="nav-link" to="/users/:username">
+                    My Profile
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/about-us">
+                    About Us
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <span className="nav-link">Hello {userData.username}</span>
+                </li>
+              </>
+            )}
           </ul>
           {jobsDetailPage && !createJobPage && (
             <ul className="navbar-nav ml-auto jobs-page">
