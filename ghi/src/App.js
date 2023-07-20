@@ -83,7 +83,9 @@ function App() {
     getJobs();
     getPosts();
     setCurrentJobId(currentJobId);
-    handleUserData();
+    if (token) {
+      handleUserData();
+    }
   }, []);
 
   return (
@@ -144,7 +146,7 @@ function App() {
               />
               <Route path="/signup" element={<CreateUser />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/logout" element={<Logout />} />
+              <Route path="/logout" element={<Logout logOut={Logout} />} />
               <Route
                 path="/users/:username"
                 element={<UserProfile posts={posts} />}
