@@ -281,3 +281,25 @@ code {
 h1.detail-job-title {
   padding-top: 25px;
 }
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.button-container button {
+  margin: 0 5px;
+}
+
+.nav-item.username {
+  display: inline-block;
+  margin-right: 1rem;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.nav-item.username {
+  display: flex;
+  align-items: center;
+}
