@@ -11,14 +11,14 @@ class PostIn(BaseModel):
     title: str
     created_datetime: datetime
     description: str
-    owner_id: str
+    owner_username: str
 
 class PostOut(BaseModel):
     id: int
     title: str
     created_datetime: datetime
     description: str
-    owner_id: str
+    owner_username: str
 
 class PostRepository:
     def delete(self, post_id: int) -> bool:
@@ -47,14 +47,14 @@ class PostRepository:
                         SET title = %s
                         , created_datetime = %s
                         , description = %s
-                        , owner_id = %s
+                        , owner_username = %s
                         WHERE id = %s
                         """,
                         [
                             post.title,
                             post.created_datetime,
                             post.description,
-                            post.owner_id,
+                            post.owner_username,
                             post_id
                         ]
                     )
@@ -73,7 +73,7 @@ class PostRepository:
                             title=record[1],
                             created_datetime=record[2],
                             description=record[3],
-                            owner_id=record[4],
+                            owner_username=record[4],
                         )
 
     def get_all(self) -> Union[Error, List[PostOut]]:
@@ -82,7 +82,7 @@ class PostRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id, title, created_datetime, description, owner_id
+                        SELECT id, title, created_datetime, description, owner_username
                         FROM posts
                         ORDER BY id
                         """
@@ -106,7 +106,7 @@ class PostRepository:
                             , title
                             , created_datetime
                             , description
-                            , owner_id
+                            , owner_username
                         FROM posts
                         WHERE id = %s
                         """,
@@ -129,7 +129,7 @@ class PostRepository:
                 result = db.execute(
                     """
                     INSERT INTO posts
-                        (title, created_datetime, description, owner_id)
+                        (title, created_datetime, description, owner_username)
                     VALUES
                         (%s, %s, %s, %s)
                     RETURNING id;
@@ -138,7 +138,7 @@ class PostRepository:
                         post.title,
                         post.created_datetime,
                         post.description,
-                        post.owner_id
+                        post.owner_username
                     ]
                 )
                 # Return new data
