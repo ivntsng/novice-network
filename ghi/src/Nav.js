@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { NavLink, useLocation, useParams, useNavigate } from "react-router-dom";
 import { useAuthContext, useToken } from "@galvanize-inc/jwtdown-for-react";
 import { UserContext } from "./UserContext";
+import Logout from "./Logout";
 
 export default function Nav() {
   const location = useLocation();
@@ -28,6 +29,10 @@ export default function Nav() {
 
   const handleEditJob = () => {
     navigate(`/jobs/${jobs_id}/edit`);
+  };
+
+  const handleLogoutClick = () => {
+    navigate("/logout");
   };
 
   return (
@@ -125,7 +130,11 @@ export default function Nav() {
       {userData.username && (
         <div className="user-info">
           <span className="nav-link">Hello {userData.username}</span>
-          <button className="btn btn-danger" onClick={"HandleLogOut"}>
+          <button
+            className="btn btn-danger"
+            id="logout"
+            onClick={handleLogoutClick}
+          >
             Logout
           </button>
         </div>
