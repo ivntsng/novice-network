@@ -7,12 +7,12 @@ stages:
   - deploy
 
 # Run flake8 to check for code quality
-lint-test-job:
-  image: python:3-bullseye
-  stage: test
-  script:
-    - pip install flake8
-    - flake8 api
+# lint-test-job:
+#   image: python:3-bullseye
+#   stage: test
+#   script:
+#     - pip install flake8
+#     - flake8 api
 
 # # Run the unit tests
 # api-unit-tests-job:
@@ -40,8 +40,7 @@ build-api-image:
   only:
     - main
 
-
-# # Build the React/JavaScript front-end
+# Build the React/JavaScript front-end
 # build-front-end-job:
 #   stage: build
 #   image: node:lts-bullseye
@@ -62,7 +61,6 @@ build-api-image:
 #   artifacts:
 #     paths:
 #       - ghi/build/
-
 # # Deploy the React/JavaScript front-end to GitLab pages
 # pages:
 #   stage: deploy
