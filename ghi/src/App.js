@@ -25,7 +25,6 @@ function App() {
   const [currentJobId, setCurrentJobId] = useState(null);
   const { isAuthenticated, user, token } = useAuthContext();
   const [userData, setUserData] = useState(UserContext);
-  console.log(userData);
 
   async function getJobs() {
     try {
