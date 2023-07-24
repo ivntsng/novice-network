@@ -19,6 +19,7 @@ class JobsIn(BaseModel):
     level: str
     job_link: str
     created_on: date = str(date.today())
+    created_by: str
 
 
 class JobOut(BaseModel):
@@ -31,6 +32,7 @@ class JobOut(BaseModel):
     level: str
     job_link: str
     created_on: date
+    created_by: str
 
 
 class JobRepository:
@@ -40,7 +42,7 @@ class JobRepository:
                 with conn.cursor() as db:
                     db.execute(
                         """
-                        SELECT id, company_name, job_title, job_description, location, department, level, job_link, created_on
+                        SELECT id, company_name, job_title, job_description, location, department, level, job_link, created_on, created_by
                         FROM job
                         WHERE id = %s
                         """,
@@ -95,6 +97,7 @@ class JobRepository:
                           , level = %s
                           , job_link = %s
                           , created_on = %s
+                          , created_by = %s
                         WHERE id = %s
                         """,
                         [
@@ -106,6 +109,7 @@ class JobRepository:
                             job.level,
                             job.job_link,
                             job.created_on,
+                            job.created_by,
                             job_id,
                         ],
                     )
@@ -120,7 +124,7 @@ class JobRepository:
                 with conn.cursor() as db:
                     db.execute(
                         """
-                        SELECT id, company_name, job_title, job_description, location, department, level, job_link, created_on
+                        SELECT id, company_name, job_title, job_description, location, department, level, job_link, created_on, created_by
                         FROM job
                         ORDER BY created_on
                         """
@@ -136,6 +140,7 @@ class JobRepository:
                             level=job_records[6],
                             job_link=job_records[7],
                             created_on=job_records[8],
+                            created_by=job_records[9],
                         )
                         for job_records in db
                     ]
@@ -151,10 +156,10 @@ class JobRepository:
                     db.execute(
                         """
                         INSERT INTO job
-                        (company_name, job_title, job_description, location, department, level, job_link, created_on)
+                        (company_name, job_title, job_description, location, department, level, job_link, created_on, created_by)
                         VALUES
-                        (%s, %s, %s, %s, %s, %s, %s, %s)
-                        RETURNING id, company_name, job_title, job_description, location, department, level, job_link, created_on
+                        (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        RETURNING id, company_name, job_title, job_description, location, department, level, job_link, created_on, created_by
                         """,
                         [
                             job.company_name,
@@ -165,6 +170,7 @@ class JobRepository:
                             job.level,
                             job.job_link,
                             str(created_on),
+                            job.created_by,
                         ],
                     )
                     record = db.fetchone()
@@ -189,4 +195,5 @@ class JobRepository:
             level=record[6],
             job_link=record[7],
             created_on=record[8],
+            created_by=record[9],
         )
