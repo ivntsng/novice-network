@@ -25,6 +25,7 @@ function App() {
   const [currentJobId, setCurrentJobId] = useState(null);
   const { isAuthenticated, user, token } = useAuthContext();
   const [userData, setUserData] = useState(UserContext);
+  console.log(userData);
 
   async function getJobs() {
     try {
@@ -69,12 +70,11 @@ function App() {
           email,
           role,
         });
+        localStorage.setItem("token", data.token);
       } else {
-        // Handle error
         console.error("Failed to fetch user data");
       }
     } catch (error) {
-      // Handle error
       return;
     }
   };
@@ -83,9 +83,15 @@ function App() {
     getJobs();
     getPosts();
     setCurrentJobId(currentJobId);
-    if (token) {
-      handleUserData();
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setUserData({
+        ...userData,
+        token: storedToken,
+      });
     }
+
+    handleUserData();
   }, []);
 
   return (
@@ -146,7 +152,7 @@ function App() {
               />
               <Route path="/signup" element={<CreateUser />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/logout" element={<Logout logOut={Logout} />} />
+              <Route path="/logout" element={<Logout />} />
               <Route
                 path="/users/:username"
                 element={<UserProfile posts={posts} />}
