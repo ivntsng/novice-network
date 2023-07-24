@@ -33,3 +33,7 @@ I've made a good progress on my part of the project. I finished front end for cr
 
 I added delete and edit buttons for post. I got the front end done for both so I finished CRUD for posts.
 I also helped edit the backend endpoint for comments which connect to the posts.
+
+## July 20, 2023
+
+After helped the team figure out the frontend auth and handleUserData using useContext, I edited by code to be able to bring in username instead of user_id from UserData from token. I also finished coding unit test for get post and create post
