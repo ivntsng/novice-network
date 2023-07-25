@@ -7,12 +7,13 @@ export default function EditComment({ post_id, comment_id, onCommentUpdated }) {
 
   useEffect(() => {
     fetchCommentDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function fetchCommentDetails() {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments/${comment_id}`
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -36,7 +37,7 @@ export default function EditComment({ post_id, comment_id, onCommentUpdated }) {
       comment: comment,
     };
 
-    const editUrl = `http://localhost:8000/posts/${post_id}/comments/${comment_id}`;
+    const editUrl = `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}`;
     const fetchConfig = {
       method: "PUT",
       body: JSON.stringify(data),

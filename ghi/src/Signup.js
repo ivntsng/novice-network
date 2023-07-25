@@ -10,7 +10,7 @@ export default function CreateUser() {
   const [role, setRole] = useState("");
   const { register, token } = useToken();
   const navigate = useNavigate();
-  const { userData, setUserData } = useContext(UserContext);
+  const { setUserData } = useContext(UserContext);
   const [picture, setPicture] = useState("");
   const [bootcamp, setBootcamp] = useState("");
 
@@ -91,6 +91,7 @@ export default function CreateUser() {
     if (token) {
       handleUserData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (

@@ -6,7 +6,7 @@ export default function JobDetail({ setCurrentJobId, deleteJob }) {
   const { jobs_id } = useParams();
   const navigate = useNavigate();
   const [job, setJob] = useState(null);
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   const handleDelete = () => {
@@ -30,7 +30,7 @@ export default function JobDetail({ setCurrentJobId, deleteJob }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/jobs/${jobs_id}?job_id=${jobs_id}`
+          `${process.env.REACT_APP_API_HOST}/jobs/${jobs_id}?job_id=${jobs_id}`
         );
         const data = await response.json();
         setJob(data);

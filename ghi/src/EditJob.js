@@ -10,19 +10,20 @@ export default function EditJob({ currentJobId, getJobs }) {
   const [department, setDepartment] = useState("");
   const [level, setLevel] = useState("");
   const [link, setLink] = useState("");
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchJobDetails();
     getJobs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function fetchJobDetails() {
     try {
       const response = await fetch(
-        `http://localhost:8000/jobs/${currentJobId}?job_id=${currentJobId}`
+        `${process.env.REACT_APP_API_HOST}/jobs/${currentJobId}?job_id=${currentJobId}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -89,7 +90,7 @@ export default function EditJob({ currentJobId, getJobs }) {
       created_by: userData.username,
     };
 
-    const editUrl = `http://localhost:8000/jobs/${currentJobId}`;
+    const editUrl = `${process.env.REACT_APP_API_HOST}/jobs/${currentJobId}`;
     const fetchConfig = {
       method: "PUT",
       body: JSON.stringify(data),
