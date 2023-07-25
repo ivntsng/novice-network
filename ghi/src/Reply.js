@@ -2,18 +2,11 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import EditReply from "./EditReply";
 
-function Reply({
-  reply,
-  post_id,
-  comment_id,
-  deleteReply,
-  startEditingReply,
-  editingReplyId,
-}) {
+function Reply({ reply, post_id, comment_id, deleteReply, startEditingReply }) {
   const { userData } = useContext(UserContext);
   const username = userData.username;
-  const [replyDetails, setReplyDetails] = useState(null);
   const [editingReply, setEditingReply] = useState(null);
+  const [replyDetails, setReplyDetails] = useState(null);
 
   useEffect(() => {
     if (post_id && comment_id && reply && reply.reply_id) {
@@ -33,14 +26,6 @@ function Reply({
     }
   };
 
-  const startEditingThisReply = (reply_id) => {
-    if (editingReply === reply_id) {
-      setEditingReply(null);
-    } else {
-      setEditingReply(reply_id);
-    }
-  };
-
   return (
     <div className="reply">
       <div className="card w-100 mb-4">
@@ -49,7 +34,7 @@ function Reply({
             <h6>
               <strong>{userData.username} says:</strong>
             </h6>
-            {editingReply === reply.reply_id &&
+            {editingReply?.reply_id === reply.reply_id &&
             post_id &&
             comment_id &&
             reply.reply_id ? (
@@ -76,7 +61,7 @@ function Reply({
                   <button
                     className="btn btn-sm btn-outline-primary ml-2"
                     style={{ fontSize: "0.7rem", padding: "2px 5px" }}
-                    onClick={() => startEditingThisReply(reply.reply_id)}
+                    onClick={() => startEditingReply(reply.reply_id)}
                   >
                     Edit
                   </button>

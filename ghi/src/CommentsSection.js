@@ -8,7 +8,7 @@ import { UserContext } from "./UserContext";
 function CommentsSection({ post_id }) {
   const [comments, setComments] = useState([]);
   const [addingReplyTo, setAddingReplyTo] = useState(null);
-  const [editingReplyId, setEditingReplyId] = useState(null);
+  const [editingReply, setEditingReply] = useState(null);
   const { username } = useContext(UserContext);
   const { userData } = useContext(UserContext);
 
@@ -29,6 +29,7 @@ function CommentsSection({ post_id }) {
   }
 
   const deleteReply = async (comment_id, reply_id) => {
+  const deleteReply = async (comment_id, reply_id) => {
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
@@ -47,11 +48,11 @@ function CommentsSection({ post_id }) {
     }
   };
 
-  const startEditingReply = (replyId) => {
-    if (editingReplyId === replyId) {
-      setEditingReplyId(null);
+  const startEditingReply = (comment_id, reply_id) => {
+    if (editingReply && editingReply.reply_id === reply_id) {
+      setEditingReply(null);
     } else {
-      setEditingReplyId(replyId);
+      setEditingReply({ comment_id, reply_id });
     }
   };
 
@@ -59,6 +60,15 @@ function CommentsSection({ post_id }) {
     fetchComments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const startAddingReply = (comment_id) => {
+    setAddingReplyTo(comment_id);
+  };
+
+  const onReplyCreated = () => {
+    setAddingReplyTo(null);
+    fetchComments();
+  };
 
   const startAddingReply = (comment_id) => {
     setAddingReplyTo(comment_id);
@@ -80,39 +90,45 @@ function CommentsSection({ post_id }) {
           <div className="col-md-11 col-lg-9 col-xl-7">
             <div className="d-flex flex-column mb-4">
               <h4 className="mb-3">Comments</h4>
-              {comments
-                .sort((a, b) => new Date(b.created_on) - new Date(a.created_on))
-                .map((comment) => (
-                  <div key={comment.comment_id}>
-                    <Comment
-                      comment={comment}
-                      username={username}
-                      post_id={post_id}
-                      onCommentUpdated={fetchComments}
-                      startAddingReply={startAddingReply}
-                      deleteReply={deleteReply}
-                      startEditingReply={startEditingReply}
-                    />
-                    {addingReplyTo === comment.comment_id && (
-                      <CreateReply
+              {comments && comments.length > 0 ? (
+                comments
+                  .sort(
+                    (a, b) => new Date(b.created_on) - new Date(a.created_on)
+                  )
+                  .map((comment) => (
+                    <div key={comment.comment_id}>
+                      <Comment
+                        comment={comment}
+                        username={username}
                         post_id={post_id}
-                        comment_id={comment.comment_id}
-                        onReplyCreated={onReplyCreated}
+                        onCommentUpdated={fetchComments}
+                        startAddingReply={startAddingReply}
+                        deleteReply={deleteReply}
+                        startEditingReply={startEditingReply}
                       />
-                    )}
-                  </div>
-                ))}
+                      {addingReplyTo === comment.comment_id && (
+                        <CreateReply
+                          post_id={post_id}
+                          comment_id={comment.comment_id}
+                          onReplyCreated={onReplyCreated}
+                        />
+                      )}
+                    </div>
+                  ))
+              ) : (
+                <p>No comments yet. Be the first one!</p>
+              )}
               <h5 className="mt-4">Add a Comment</h5>
               <CreateComment
                 post_id={post_id}
                 onCommentCreated={fetchComments}
               />
-              {editingReplyId && (
+              {editingReply && (
                 <EditReply
                   post_id={post_id}
-                  reply_id={editingReplyId}
+                  reply_id={editingReply}
                   onReplyUpdated={() => {
-                    setEditingReplyId(null);
+                    setEditingReply(null);
                     fetchComments();
                   }}
                 />
