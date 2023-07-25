@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
+import Carousel from "./carousel";
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ export default function MainPage() {
           Join the community to expand your professional network and foster
           meaningful connections with fellow bootcamp graduates.
         </h2>
+        <Carousel />
         <div className="button-container">
           <button
             type="button"
