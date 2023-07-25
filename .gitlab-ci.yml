@@ -50,13 +50,14 @@ build-front-end-job:
     # CI/CD variables, that value will override the value here.
     # You need to substitute in your real values for
     # GROUP_NAME, PROJECT_NAME, & WEBSERVICE_NAME below.
-    PUBLIC_URL: https://double07.gitlab.io/NoviceNetwork/
+    PUBLIC_URL: https://double07.gitlab.io/novice-network/
     REACT_APP_API_HOST: https://mar-7-pt-novicenetworkapi.mod3projects.com
   script:
     - cd ghi
     - npm install
     - npm run build
     - cp build/index.html build/404.html
+    - cp src/index.css build/
   artifacts:
     paths:
       - ghi/build/

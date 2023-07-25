@@ -12,6 +12,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
+    "https://double07.gitlab.io",
     os.environ.get("CORS_HOST", None),
 ]
 
