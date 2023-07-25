@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Link } from "react-router-dom";
 
@@ -16,6 +16,7 @@ function UserProfile({ posts, userData }) {
             <img
               className="img-thumbnail img.fluid"
               src={userData.picture}
+              alt={`${userData.username}'s profile`}
             ></img>
           </div>
           <p>{userData.email}</p>

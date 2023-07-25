@@ -8,7 +8,7 @@ function EditReply({ post_id, comment_id, reply_id, onReplyUpdated }) {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
         {
           method: "PUT",
           headers: {
