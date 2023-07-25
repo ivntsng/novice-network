@@ -72,9 +72,10 @@ export default function Nav() {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="nav-link" to="/users/:username">
+                  <NavLink className="nav-link" to={`/users/${userData.username}/`}>
                     My Profile
                   </NavLink>
+
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/about-us">
