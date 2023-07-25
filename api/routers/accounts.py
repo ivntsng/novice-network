@@ -115,3 +115,11 @@ def update(
         response.status_code = 404
     else:
         return record
+
+
+@router.delete("/users/{account_id}", response_model=bool)
+def delete_job(
+    account_id: int,
+    repo: AccountRepo = Depends(),
+) -> bool:
+    return repo.delete(account_id)

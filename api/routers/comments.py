@@ -8,7 +8,6 @@ router = APIRouter()
 def create_comment(
     post_id: int,
     comment: CommentIn,
-    response: Response,
     repo: CommentRepository = Depends(),
 ):
     return repo.create(post_id, comment)

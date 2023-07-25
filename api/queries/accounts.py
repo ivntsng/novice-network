@@ -3,6 +3,7 @@ from psycopg_pool import ConnectionPool
 from pydantic import BaseModel
 from typing import Union, List, Optional
 from queries.pool import pool
+from fastapi import HTTPException
 
 
 class AccountIn(BaseModel):
@@ -78,7 +79,7 @@ class AccountRepo:
                             user.email,
                             user.role,
                             user.bootcamp,
-                            user.picture
+                            user.picture,
                         ],
                     )
                     print("User Created?")
@@ -93,7 +94,7 @@ class AccountRepo:
                         email=user.email,
                         role=user.role,
                         bootcamp=user.bootcamp,
-                        picture=user.picture
+                        picture=user.picture,
                     )
         except Exception as e:
             return {"error": e}
@@ -257,5 +258,29 @@ class AccountRepo:
             email=record[3],
             role=record[4],
             bootcamp=record[5],
-            picture=record[6]
+            picture=record[6],
         )
+
+    def delete(self, account_id: int) -> None:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        DELETE FROM accounts
+                        WHERE id = %s
+                        """,
+                        [account_id],
+                    )
+                    if db.rowcount == 0:
+                        raise HTTPException(
+                            status_code=404,
+                            detail=f"Account ID {account_id} does not exist.",
+                        )
+            conn.commit()
+            raise HTTPException(
+                status_code=200,
+                detail=f"Deleted account with ID: {account_id}.",
+            )
+        except HTTPException as error:
+            raise error

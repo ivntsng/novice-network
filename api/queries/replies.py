@@ -4,14 +4,14 @@ from datetime import datetime
 from queries.pool import pool
 
 class ReplyIn(BaseModel):
-    user_id: int
+    owner_username: str
     comment_id: int
     reply: str
     created_on: datetime = Field(default_factory=datetime.now)
 
 class ReplyOut(BaseModel):
     reply_id: int
-    user_id: int
+    owner_username: str
     comment_id: int
     reply: str
     created_on: datetime
@@ -27,7 +27,7 @@ class ReplyRepository:
                     result = db.execute(
                         """
                         SELECT reply_id
-                                , user_id
+                                , owner_username
                                 , comment_id
                                 , reply
                                 , created_on
@@ -69,13 +69,13 @@ class ReplyRepository:
                     db.execute(
                         """
                         UPDATE replies
-                        SET user_id = %s
+                        SET owner_username = %s
                            , reply = %s
                            , created_on = %s
                         WHERE reply_id = %s
                         """,
                         [
-                            reply.user_id,
+                            reply.owner_username,
                             reply.reply,
                             reply.created_on,
                             reply_id,
@@ -92,7 +92,7 @@ class ReplyRepository:
                 with conn.cursor() as db:
                     db.execute(
                         """
-                        SELECT reply_id, user_id, comment_id, reply, created_on
+                        SELECT reply_id, owner_username, comment_id, reply, created_on
                         FROM replies
                         WHERE comment_id = %s
                         ORDER BY created_on;
@@ -103,7 +103,7 @@ class ReplyRepository:
                     return [
                         ReplyOut(
                             reply_id=record[0],
-                            user_id=record[1],
+                            owner_username=record[1],
                             comment_id=record[2],
                             reply=record[3],
                             created_on=record[4],
@@ -121,13 +121,13 @@ class ReplyRepository:
                     result=db.execute(
                         """
                         INSERT INTO replies
-                        (user_id, comment_id, reply, created_on)
+                        (owner_username, comment_id, reply, created_on)
                         VALUES
                             (%s, %s, %s, CURRENT_TIMESTAMP)
                         RETURNING reply_id;
                         """,
                         [
-                            reply.user_id,
+                            reply.owner_username,
                             reply.comment_id,
                             reply.reply,
                         ],
@@ -145,7 +145,7 @@ class ReplyRepository:
     def record_to_reply_out(self, record):
         return ReplyOut(
             reply_id=record[0],
-            user_id=record[1],
+            owner_username=record[1],
             comment_id=record[2],
             reply=record[3],
             created_on=record[4],
