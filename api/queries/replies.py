@@ -4,14 +4,14 @@ from datetime import datetime
 from queries.pool import pool
 
 class ReplyIn(BaseModel):
-    owner_username: int
+    owner_username: str
     comment_id: int
     reply: str
     created_on: datetime = Field(default_factory=datetime.now)
 
 class ReplyOut(BaseModel):
     reply_id: int
-    owner_username: int
+    owner_username: str
     comment_id: int
     reply: str
     created_on: datetime
