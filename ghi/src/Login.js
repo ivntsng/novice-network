@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
 export default function LoginPage() {
@@ -60,28 +60,39 @@ export default function LoginPage() {
       <div className="shadow p-4 mt-4">
         <h1>Login</h1>
         <form onSubmit={(e) => handleSubmit(e)}>
-          <div className="form-floating mb-3">
-            <label className="form-label">Username</label>
+          <div className="form-floating">
+
             <input
-              name="username"
+
               type="text"
               className="form-control"
+              id="floatingUsername"
+              placeholder="username"
               onChange={(e) => setUsername(e.target.value)}
               required
             />
+            <label htmlFor ="floatingUsername">Username</label>
           </div>
 
           <div className="form-floating mb-3">
-            <label className="form-label">Password</label>
             <input
               name="password"
               type="password"
               className="form-control"
+              id = "floating input"
+              placeholder="password"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <label htmlFor = "floating input">Password</label>
           </div>
+
+
           <input type="submit" className="btn btn-primary" value="Login" />
+
+          <p className="text-center mt-2 mb-3 text-muted">Dont have an account? <NavLink style={{textDecoration: 'none'}} to="/signup" >Sign Up!</NavLink></p>
+          <p className="text-center mt-5 mb-3 text-muted">© 2023 Novice Network Inc.</p>
+
         </form>
       </div>
     </div>
