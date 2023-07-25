@@ -11,6 +11,11 @@ COPY main.py main.py
 # Modify these instructions to do that
 # COPY queries queries
 # COPY routers routers
+COPY queries queries
+COPY routers routers
+COPY test test
+COPY authenticator.py authenticator.py
+COPY models.py models.py
 
 RUN python -m pip install -r requirements.txt
 
