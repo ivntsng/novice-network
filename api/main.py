@@ -12,7 +12,14 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.environ.get("CORS_HOST", "http://localhost:3000")],
+    allow_origins=[
+        os.environ.get(
+            "CORS_HOST",
+            "http://localhost:3000",
+            "https://double07.gitlab.io",
+            "https://mar-7-pt-novicenetworkapi.mod3projects.com/",
+        )
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -24,3 +31,8 @@ app.include_router(jobs.router)
 app.include_router(comments.router)
 app.include_router(replies.router)
 app.include_router(posts.router)
+
+
+@app.get("/")
+def root():
+    return {"message": "You hit the root path!"}

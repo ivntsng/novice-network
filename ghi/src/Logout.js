@@ -1,14 +1,18 @@
-import { useEffect } from "react";
-import useToken from "@galvanize-inc/jwtdown-for-react";
+import { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import useToken from "@galvanize-inc/jwtdown-for-react";
+import { UserContext } from "./UserContext";
 
 export default function Logout() {
-  const { logout, token } = useToken();
+  const { logout } = useToken();
   const navigate = useNavigate();
+  const { setUserData } = useContext(UserContext);
+
   async function handleLogout() {
     try {
-      await logout();
-      window.location.reload();
+      logout();
+      localStorage.removeItem("token");
+      setUserData({});
     } catch (error) {
       console.error(error);
     }
@@ -17,5 +21,8 @@ export default function Logout() {
   useEffect(() => {
     handleLogout();
     navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  return <p>Logging out...</p>;
 }

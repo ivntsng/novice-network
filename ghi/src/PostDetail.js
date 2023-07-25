@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams, Link, useNavigate, Routes, Route } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import CommentsSection from "./CommentsSection";
 import { UserContext } from "./UserContext";
 
@@ -9,12 +9,12 @@ function PostDetail({ getPosts }) {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [replies, setReplies] = useState([]);
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   const getComments = async (post_id) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments`
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments`
       );
       if (response.ok) {
         const data = await response.json();
@@ -48,9 +48,12 @@ function PostDetail({ getPosts }) {
     );
     if (confirmed) {
       try {
-        const response = await fetch(`http://localhost:8000/posts/${post_id}`, {
-          method: "DELETE",
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_API_HOST}/posts/${post_id}`,
+          {
+            method: "DELETE",
+          }
+        );
 
         if (response.ok) {
           navigate("/posts"); // Redirect to the posts page
@@ -66,7 +69,9 @@ function PostDetail({ getPosts }) {
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/posts/${post_id}`);
+        const response = await fetch(
+          `${process.env.REACT_APP_API_HOST}/posts/${post_id}`
+        );
         if (response.ok) {
           const postDetails = await response.json();
           setPost(postDetails);
@@ -136,7 +141,7 @@ function PostDetail({ getPosts }) {
               <div className="d-flex flex-start mb-4">
                 <img
                   className="rounded-circle shadow-1-strong me-3"
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp"
+                  src={userData.picture}
                   alt="avatar"
                   width="65"
                   height="65"

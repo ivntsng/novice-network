@@ -21,7 +21,7 @@ function CreateReply({ post_id, comment_id, onReplyCreated }) {
     };
 
     const response = await fetch(
-      `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies`,
+      `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies`,
       {
         method: "POST",
         headers: {

@@ -15,7 +15,7 @@ function CommentsSection({ post_id }) {
   async function fetchComments() {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments`
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments`
       );
       if (response.ok) {
         const commentsData = await response.json();
@@ -31,7 +31,7 @@ function CommentsSection({ post_id }) {
   const deleteReply = async (comment_id, reply_id) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
         {
           method: "DELETE",
         }
@@ -57,6 +57,7 @@ function CommentsSection({ post_id }) {
 
   useEffect(() => {
     fetchComments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const startAddingReply = (comment_id) => {

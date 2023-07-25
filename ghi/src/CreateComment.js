@@ -19,7 +19,7 @@ const CreateComment = ({ post_id, onCommentCreated }) => {
     console.log("username:", username);
 
     const response = await fetch(
-      `http://localhost:8000/posts/${post_id}/comments`,
+      `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

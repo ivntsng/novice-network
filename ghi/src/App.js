@@ -1,6 +1,6 @@
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { AuthProvider, useAuthContext } from "@galvanize-inc/jwtdown-for-react";
+import { AuthProvider } from "@galvanize-inc/jwtdown-for-react";
 import "./App.css";
 import Nav from "./Nav";
 import MainPage from "./MainPage";
@@ -23,12 +23,13 @@ function App() {
   const [jobs, setJobs] = useState([]);
   const [posts, setPosts] = useState([]);
   const [currentJobId, setCurrentJobId] = useState(null);
-  const { isAuthenticated, user, token } = useAuthContext();
   const [userData, setUserData] = useState(UserContext);
+  const domain = /https:\/\/[^/]+/;
+  const basename = process.env.PUBLIC_URL.replace(domain, "");
 
   async function getJobs() {
     try {
-      const response = await fetch("http://localhost:8000/jobs/");
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/jobs/`);
       if (response.ok) {
         const data = await response.json();
         setJobs(data);
@@ -42,7 +43,7 @@ function App() {
 
   async function getPosts() {
     try {
-      const response = await fetch("http://localhost:8000/posts/");
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/posts/`);
       if (response.ok) {
         const data = await response.json();
         setPosts(data);
@@ -62,19 +63,20 @@ function App() {
       });
       if (response.ok) {
         const data = await response.json();
-        const { id, username, email, role } = data.account;
+        const { id, username, email, role, bootcamp, picture } = data.account;
         setUserData({
           id,
           username,
           email,
           role,
+          bootcamp,
+          picture,
         });
+        localStorage.setItem("token", data.token);
       } else {
-        // Handle error
         console.error("Failed to fetch user data");
       }
     } catch (error) {
-      // Handle error
       return;
     }
   };
@@ -83,15 +85,22 @@ function App() {
     getJobs();
     getPosts();
     setCurrentJobId(currentJobId);
-    if (token) {
-      handleUserData();
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setUserData({
+        ...userData,
+        token: storedToken,
+      });
     }
+
+    handleUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
       <UserContext.Provider value={{ userData, setUserData }}>
-        <BrowserRouter>
+        <BrowserRouter basename={basename}>
           <Nav setCurrentJobId={setCurrentJobId} />
           <div className="container">
             <Routes>
@@ -146,10 +155,16 @@ function App() {
               />
               <Route path="/signup" element={<CreateUser />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/logout" element={<Logout logOut={Logout} />} />
+              <Route path="/logout" element={<Logout />} />
               <Route
                 path="/users/:username"
-                element={<UserProfile posts={posts} />}
+                element={
+                  <UserProfile
+                    posts={posts}
+                    handleUserData={handleUserData}
+                    userData={userData}
+                  />
+                }
               />
             </Routes>
           </div>

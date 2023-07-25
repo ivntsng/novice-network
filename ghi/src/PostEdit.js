@@ -5,12 +5,12 @@ import { UserContext } from "./UserContext";
 function PostEdit({ getPosts }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [CreatedDateTime, setCreatedDateTime] = useState("");
-  const [OwnerId, setOwnerId] = useState("");
+  const [setCreatedDateTime] = useState("");
+  const [setOwnerId] = useState("");
   const navigate = useNavigate();
   const { post_id } = useParams();
-  const [post, setPost] = useState(null);
-  const { userData, setUserData } = useContext(UserContext);
+  const [setPost] = useState(null);
+  const { userData } = useContext(UserContext);
 
   const handleTitleChange = (event) => {
     const value = event.target.value;
@@ -23,26 +23,29 @@ function PostEdit({ getPosts }) {
   };
 
   useEffect(() => {
-        const fetchPostDetails = async () => {
-        try {
-            const response = await fetch(`http://localhost:8000/posts/${post_id}`);
-            if (response.ok) {
-            const data = await response.json();
-            setTitle(data.title);
-            setDescription(data.description);
-            setCreatedDateTime(data.created_datetime);
-            setOwnerId(data.owner_id);
-            setPost(data);
-            } else {
-            console.log('Error fetching post details');
-            }
-        } catch (error) {
-            console.log('Error fetching post details:', error);
+    const fetchPostDetails = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_HOST}/posts/${post_id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setTitle(data.title);
+          setDescription(data.description);
+          setCreatedDateTime(data.created_datetime);
+          setOwnerId(data.owner_id);
+          setPost(data);
+        } else {
+          console.log("Error fetching post details");
         }
-        };
+      } catch (error) {
+        console.log("Error fetching post details:", error);
+      }
+    };
 
-        fetchPostDetails();
-    }, [post_id]);
+    fetchPostDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post_id]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -53,25 +56,25 @@ function PostEdit({ getPosts }) {
     formdata.created_datetime = new Date().toISOString();
     formdata.owner_username = userData.username; // after auth is done will be Use the ownerId prop received from the backend
 
-        const postUrl = `http://localhost:8000/posts/${post_id}`;
-        const fetchConfig = {
-          method: "put",
-          body: JSON.stringify(formdata),
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
+    const postUrl = `${process.env.REACT_APP_API_HOST}/posts/${post_id}`;
+    const fetchConfig = {
+      method: "put",
+      body: JSON.stringify(formdata),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-        const response = await fetch(postUrl, fetchConfig);
-        if (response.ok) {
-          const newPosts = await response.json();
-          setTitle('');
-          setDescription('');
-          setCreatedDateTime('');
-          getPosts();
-          navigate(`/posts/${post_id}`);
-        }
+    const response = await fetch(postUrl, fetchConfig);
+    if (response.ok) {
+      await response.json();
+      setTitle("");
+      setDescription("");
+      setCreatedDateTime("");
+      getPosts();
+      navigate(`/posts/${post_id}`);
     }
+  };
 
   return (
     <form onSubmit={handleSubmit} id="add-posts-form">

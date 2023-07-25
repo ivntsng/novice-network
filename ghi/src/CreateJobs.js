@@ -1,5 +1,6 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 export default function CreateJob({ getJobs }) {
   const [companyName, setCompanyName] = useState("");
@@ -9,6 +10,7 @@ export default function CreateJob({ getJobs }) {
   const [department, setDepartment] = useState("");
   const [level, setLevel] = useState("");
   const [link, setLink] = useState("");
+  const { userData } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleCompanyNameChange = (e) => {
@@ -56,10 +58,11 @@ export default function CreateJob({ getJobs }) {
     data.department = department;
     data.level = level;
     data.job_link = link;
+    data.created_by = userData.username;
 
-    const createJobUrl = "http://localhost:8000/jobs";
+    const createJobUrl = `${process.env.REACT_APP_API_HOST}/jobs`;
     const fetchConfig = {
-      method: "post",
+      method: "POST",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",

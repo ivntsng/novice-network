@@ -161,6 +161,14 @@ code {
   color: black;
 }
 
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -299,4 +307,25 @@ h1.detail-job-title {
   display: content;
   justify-content: center;
   margin-right: 5rem;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Optional: Add some spacing between company name and buttons */
+}
+.detail-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-group {
+  display: flex;
+  gap: 3px;
+}
+
+.btn {
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
 }
