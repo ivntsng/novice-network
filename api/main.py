@@ -10,15 +10,16 @@ from authenticator import authenticator
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",
-    "https://double07.gitlab.io",
-    os.environ.get("CORS_HOST", None),
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.environ.get("CORS_HOST", "http://localhost:3000")],
+    allow_origins=[
+        os.environ.get(
+            "CORS_HOST",
+            "http://localhost:3000",
+            "https://double07.gitlab.io",
+            "https://mar-7-pt-novicenetworkapi.mod3projects.com/",
+        )
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
