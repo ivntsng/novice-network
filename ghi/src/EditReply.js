@@ -1,48 +1,100 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
-function EditReply({ post_id, comment_id, reply_id, onReplyUpdated }) {
+export default function EditReply({
+  post_id,
+  comment_id,
+  reply_id,
+  onReplyUpdated,
+}) {
   const [reply, setReply] = useState("");
+  const [createdDateTime, setCreatedDateTime] = useState("");
+  const { userData } = useContext(UserContext);
 
-  async function handleUpdateReply(event) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchReplyDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchReplyDetails = async () => {
+    if (post_id && comment_id && reply_id) {
+      const response = await fetch(
+        `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setReply(data.reply);
+        setCreatedDateTime(data.created_on);
+      } else {
+        console.error("Error fetching reply details");
+      }
+    } else {
+      console.error("'post_id', 'comment_id' or 'reply_id' is undefined");
+    }
+  };
+
+  const handleReplyChange = (event) => setReply(event.target.value);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ reply }),
-        }
-      );
+    const replyData = {
+      post_id,
+      comment_id,
+      owner_username: userData.username,
+      reply,
+      reply_id,
+      created_on: new Date().toISOString(),
+    };
 
-      if (response.ok) {
-        onReplyUpdated();
-      } else {
-        console.log("Error updating reply");
+    const response = await fetch(
+      `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(replyData),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    } catch (error) {
-      console.log("Error updating reply:", error);
+    );
+
+    if (response.ok) {
+      await response.json();
+      onReplyUpdated();
+      navigate(`/posts/${post_id}/`);
+    } else {
+      const errorMessage = await response.text();
+      console.error(
+        `Error status: ${response.status}, message: ${errorMessage}`
+      );
     }
-  }
+  };
 
   return (
-    <div className="card w-100 mb-4">
-      <div className="card-body p-4 d-flex justify-content-between align-items-start">
-        <div>
-          <form onSubmit={handleUpdateReply}>
-            <textarea
-              className="form-control"
-              value={reply}
-              onChange={(e) => setReply(e.target.value)}
-              required
-            />
-            <div className="mt-2 d-flex justify-content-end">
-              <button type="submit" className="btn btn-primary">
-                Update Reply
-              </button>
+    <div className="row">
+      <div className="offset-3 col-6">
+        <div className="shadow p-4 mt-4">
+          <h1>Edit Reply</h1>
+          <form onSubmit={handleSubmit} id="edit-reply-form">
+            <div className="form-floating mb-3">
+              <textarea
+                onChange={handleReplyChange}
+                value={reply}
+                placeholder="Reply"
+                type="text"
+                name="reply"
+                id="reply"
+                className="form-control"
+                rows="4"
+                required
+              />
+              <label htmlFor="reply">Reply</label>
+            </div>
+            <div className="text-center">
+              <button className="btn btn-primary">Submit</button>
             </div>
           </form>
         </div>
@@ -50,5 +102,3 @@ function EditReply({ post_id, comment_id, reply_id, onReplyUpdated }) {
     </div>
   );
 }
-
-export default EditReply;
