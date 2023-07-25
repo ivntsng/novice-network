@@ -44,6 +44,7 @@ function PostEdit({ getPosts }) {
     };
 
     fetchPostDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post_id]);
 
   const handleSubmit = async (event) => {

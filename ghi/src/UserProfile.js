@@ -16,6 +16,7 @@ function UserProfile({ posts, userData }) {
             <img
               className="img-thumbnail img.fluid"
               src={userData.picture}
+              alt="User Profile Picture"
             ></img>
           </div>
           <p>{userData.email}</p>

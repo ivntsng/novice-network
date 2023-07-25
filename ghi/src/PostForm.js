@@ -5,7 +5,6 @@ import { UserContext } from "./UserContext";
 function PostForm({ getPosts }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [CreatedDateTime, setCreatedDateTime] = useState("");
   const { userData } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -41,7 +40,6 @@ function PostForm({ getPosts }) {
       await response.json();
       setTitle("");
       setDescription("");
-      setCreatedDateTime("");
       getPosts();
       navigate("/posts");
     }

@@ -17,6 +17,7 @@ export default function EditJob({ currentJobId, getJobs }) {
   useEffect(() => {
     fetchJobDetails();
     getJobs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function fetchJobDetails() {

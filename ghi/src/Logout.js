@@ -21,6 +21,7 @@ export default function Logout() {
   useEffect(() => {
     handleLogout();
     navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <p>Logging out...</p>;

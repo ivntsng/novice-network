@@ -7,6 +7,7 @@ export default function EditComment({ post_id, comment_id, onCommentUpdated }) {
 
   useEffect(() => {
     fetchCommentDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function fetchCommentDetails() {

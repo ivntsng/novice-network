@@ -91,6 +91,7 @@ export default function CreateUser() {
     if (token) {
       handleUserData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (
