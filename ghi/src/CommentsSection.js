@@ -29,6 +29,7 @@ function CommentsSection({ post_id }) {
   }
 
   const deleteReply = async (comment_id, reply_id) => {
+  const deleteReply = async (comment_id, reply_id) => {
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
@@ -59,6 +60,15 @@ function CommentsSection({ post_id }) {
     fetchComments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const startAddingReply = (comment_id) => {
+    setAddingReplyTo(comment_id);
+  };
+
+  const onReplyCreated = () => {
+    setAddingReplyTo(null);
+    fetchComments();
+  };
 
   const startAddingReply = (comment_id) => {
     setAddingReplyTo(comment_id);
