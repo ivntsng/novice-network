@@ -11,7 +11,7 @@ export default function DeleteJob({ currentJobId, getJobs }) {
 
   const deleteJob = async () => {
     try {
-      const deleteUrl = `http://localhost:8000/jobs/${currentJobId}`;
+      const deleteUrl = `${process.env.REACT_APP_API_HOST}/jobs/${currentJobId}`;
       const response = await fetch(deleteUrl, { method: "DELETE" });
       if (response.ok) {
         getJobs();

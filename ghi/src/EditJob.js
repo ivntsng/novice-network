@@ -22,7 +22,7 @@ export default function EditJob({ currentJobId, getJobs }) {
   async function fetchJobDetails() {
     try {
       const response = await fetch(
-        `http://localhost:8000/jobs/${currentJobId}?job_id=${currentJobId}`
+        `${process.env.REACT_APP_API_HOST}/jobs/${currentJobId}?job_id=${currentJobId}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -89,7 +89,7 @@ export default function EditJob({ currentJobId, getJobs }) {
       created_by: userData.username,
     };
 
-    const editUrl = `http://localhost:8000/jobs/${currentJobId}`;
+    const editUrl = `${process.env.REACT_APP_API_HOST}/jobs/${currentJobId}`;
     const fetchConfig = {
       method: "PUT",
       body: JSON.stringify(data),

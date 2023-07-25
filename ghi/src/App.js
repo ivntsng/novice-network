@@ -29,7 +29,7 @@ function App() {
 
   async function getJobs() {
     try {
-      const response = await fetch("http://localhost:8000/jobs/");
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/jobs/`);
       if (response.ok) {
         const data = await response.json();
         setJobs(data);
@@ -43,7 +43,7 @@ function App() {
 
   async function getPosts() {
     try {
-      const response = await fetch("http://localhost:8000/posts/");
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/posts/`);
       if (response.ok) {
         const data = await response.json();
         setPosts(data);

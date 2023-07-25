@@ -14,13 +14,13 @@ function CommentsSection({ post_id }) {
   async function fetchComments() {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments`
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments`
       );
       if (response.ok) {
         const commentsData = await response.json();
         for (let comment of commentsData) {
           const repliesRes = await fetch(
-            `http://localhost:8000/posts/${post_id}/comments/${comment.comment_id}/replies`
+            `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment.comment_id}/replies`
           );
           if (repliesRes.ok) {
             const repliesData = await repliesRes.json();
@@ -39,7 +39,7 @@ function CommentsSection({ post_id }) {
   async function deleteComment(comment_id) {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments/${comment_id}`,
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}`,
         {
           method: "DELETE",
         }
@@ -58,7 +58,7 @@ function CommentsSection({ post_id }) {
   async function deleteReply(comment_id, reply_id) {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
         {
           method: "DELETE",
         }

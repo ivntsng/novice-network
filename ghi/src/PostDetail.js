@@ -13,7 +13,7 @@ function PostDetail({ getPosts }) {
   const getComments = async (post_id) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments`
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments`
       );
       if (response.ok) {
         const data = await response.json();
@@ -32,9 +32,12 @@ function PostDetail({ getPosts }) {
     );
     if (confirmed) {
       try {
-        const response = await fetch(`http://localhost:8000/posts/${post_id}`, {
-          method: "DELETE",
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_API_HOST}/posts/${post_id}`,
+          {
+            method: "DELETE",
+          }
+        );
 
         if (response.ok) {
           navigate("/posts"); // Redirect to the posts page
@@ -50,7 +53,9 @@ function PostDetail({ getPosts }) {
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/posts/${post_id}`);
+        const response = await fetch(
+          `${process.env.REACT_APP_API_HOST}/posts/${post_id}`
+        );
         if (response.ok) {
           const postDetails = await response.json();
           setPost(postDetails);

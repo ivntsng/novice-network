@@ -25,7 +25,9 @@ function PostEdit({ getPosts }) {
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/posts/${post_id}`);
+        const response = await fetch(
+          `${process.env.REACT_APP_API_HOST}/posts/${post_id}`
+        );
         if (response.ok) {
           const data = await response.json();
           setTitle(data.title);
@@ -53,7 +55,7 @@ function PostEdit({ getPosts }) {
     formdata.created_datetime = new Date().toISOString();
     formdata.owner_username = userData.username; // after auth is done will be Use the ownerId prop received from the backend
 
-    const postUrl = `http://localhost:8000/posts/${post_id}`;
+    const postUrl = `${process.env.REACT_APP_API_HOST}/posts/${post_id}`;
     const fetchConfig = {
       method: "put",
       body: JSON.stringify(formdata),

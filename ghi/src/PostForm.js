@@ -27,7 +27,7 @@ function PostForm({ getPosts }) {
     formdata.description = description;
     formdata.created_datetime = new Date().toISOString();
     formdata.owner_username = userData.username;
-    const postUrl = "http://localhost:8000/posts";
+    const postUrl = `${process.env.REACT_APP_API_HOST}/posts`;
     const fetchConfig = {
       method: "POST",
       body: JSON.stringify(formdata),
