@@ -7,7 +7,9 @@ steps = [
             username VARCHAR(1000) NOT NULL UNIQUE,
             hashed_password varchar(200) NOT NULL,
             email VARCHAR(1000) NOT NULL UNIQUE,
-            role VARCHAR(1000) NOT NULL
+            role VARCHAR(1000) NOT NULL,
+            bootcamp VARCHAR(1000),
+            picture VARCHAR(3000)
         );
         """,
         # "Down" SQL statement
