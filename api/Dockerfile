@@ -13,7 +13,7 @@ COPY main.py main.py
 # COPY routers routers
 COPY queries queries
 COPY routers routers
-COPY test test
+COPY tests tests
 COPY authenticator.py authenticator.py
 
 RUN python -m pip install -r requirements.txt
