@@ -25,7 +25,8 @@ function App() {
   const [currentJobId, setCurrentJobId] = useState(null);
   const { isAuthenticated, user, token } = useAuthContext();
   const [userData, setUserData] = useState(UserContext);
-  console.log(userData);
+  const domain = /https:\/\/[^/]+/;
+  const basename = process.env.PUBLIC_URL.replace(domain, "");
 
   async function getJobs() {
     try {
@@ -97,7 +98,7 @@ function App() {
   return (
     <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
       <UserContext.Provider value={{ userData, setUserData }}>
-        <BrowserRouter>
+        <BrowserRouter basename={basename}>
           <Nav setCurrentJobId={setCurrentJobId} />
           <div className="container">
             <Routes>
