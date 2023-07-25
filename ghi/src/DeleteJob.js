@@ -7,11 +7,12 @@ export default function DeleteJob({ currentJobId, getJobs }) {
   useEffect(() => {
     deleteJob();
     getJobs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const deleteJob = async () => {
     try {
-      const deleteUrl = `http://localhost:8000/jobs/${currentJobId}`;
+      const deleteUrl = `${process.env.REACT_APP_API_HOST}/jobs/${currentJobId}`;
       const response = await fetch(deleteUrl, { method: "DELETE" });
       if (response.ok) {
         getJobs();

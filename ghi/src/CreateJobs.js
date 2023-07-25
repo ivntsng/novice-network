@@ -10,7 +10,7 @@ export default function CreateJob({ getJobs }) {
   const [department, setDepartment] = useState("");
   const [level, setLevel] = useState("");
   const [link, setLink] = useState("");
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleCompanyNameChange = (e) => {
@@ -60,7 +60,7 @@ export default function CreateJob({ getJobs }) {
     data.job_link = link;
     data.created_by = userData.username;
 
-    const createJobUrl = "http://localhost:8000/jobs";
+    const createJobUrl = `${process.env.REACT_APP_API_HOST}/jobs`;
     const fetchConfig = {
       method: "POST",
       body: JSON.stringify(data),

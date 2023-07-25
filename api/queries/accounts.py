@@ -3,6 +3,7 @@ from psycopg_pool import ConnectionPool
 from pydantic import BaseModel
 from typing import Union, List, Optional
 from queries.pool import pool
+from fastapi import HTTPException
 
 
 class AccountIn(BaseModel):
@@ -10,6 +11,8 @@ class AccountIn(BaseModel):
     email: str
     password: str
     role: str
+    bootcamp: str
+    picture: str
 
 
 class AccountOut(BaseModel):
@@ -18,6 +21,8 @@ class AccountOut(BaseModel):
     hashed_password: str
     email: str
     role: str
+    bootcamp: str
+    picture: str
 
 
 class Error(BaseModel):
@@ -36,6 +41,8 @@ class AccountRepo:
             hashed_password=record[2],
             email=record[3],
             role=record[4],
+            bootcamp=record[5],
+            picture=record[6],
         )
 
     def record_to_all_user_out(self, records):
@@ -48,6 +55,8 @@ class AccountRepo:
                     hashed_password=record[2],
                     email=record[3],
                     role=record[4],
+                    bootcamp=record[5],
+                    picture=record[6],
                 )
             )
         print(accounts)
@@ -60,15 +69,17 @@ class AccountRepo:
                 with conn.cursor() as cur:
                     result = cur.execute(
                         """
-                            INSERT INTO accounts (username, hashed_password, email, role)
-                            VALUES (%s, %s, %s, %s)
-                            RETURNING id, username, hashed_password, email, role
+                            INSERT INTO accounts (username, hashed_password, email, role, bootcamp, picture)
+                            VALUES (%s, %s, %s, %s, %s, %s)
+                            RETURNING id, username, hashed_password, email, role, bootcamp, picture
                             """,
                         [
                             user.username,
                             hashed_password,
                             user.email,
                             user.role,
+                            user.bootcamp,
+                            user.picture,
                         ],
                     )
                     print("User Created?")
@@ -82,6 +93,8 @@ class AccountRepo:
                         hashed_password=hashed_password,
                         email=user.email,
                         role=user.role,
+                        bootcamp=user.bootcamp,
+                        picture=user.picture,
                     )
         except Exception as e:
             return {"error": e}
@@ -244,4 +257,30 @@ class AccountRepo:
             hashed_password=record[2],
             email=record[3],
             role=record[4],
+            bootcamp=record[5],
+            picture=record[6],
         )
+
+    def delete(self, account_id: int) -> None:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        DELETE FROM accounts
+                        WHERE id = %s
+                        """,
+                        [account_id],
+                    )
+                    if db.rowcount == 0:
+                        raise HTTPException(
+                            status_code=404,
+                            detail=f"Account ID {account_id} does not exist.",
+                        )
+            conn.commit()
+            raise HTTPException(
+                status_code=200,
+                detail=f"Deleted account with ID: {account_id}.",
+            )
+        except HTTPException as error:
+            raise error
