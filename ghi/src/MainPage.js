@@ -5,7 +5,7 @@ import Carousel from "./carousel";
 
 export default function MainPage() {
   const navigate = useNavigate();
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   const handleSignUpClick = () => {
     if (userData && userData.username) {

@@ -6,7 +6,7 @@ import { UserContext } from "./UserContext";
 export default function Logout() {
   const { logout } = useToken();
   const navigate = useNavigate();
-  const { userData, setUserData } = useContext(UserContext);
+  const { setUserData } = useContext(UserContext);
 
   async function handleLogout() {
     try {
@@ -21,6 +21,7 @@ export default function Logout() {
   useEffect(() => {
     handleLogout();
     navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <p>Logging out...</p>;

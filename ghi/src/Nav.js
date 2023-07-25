@@ -1,35 +1,12 @@
-import React, { useState, useContext } from "react";
-import { NavLink, useLocation, useParams, useNavigate } from "react-router-dom";
-import { useAuthContext, useToken } from "@galvanize-inc/jwtdown-for-react";
+import React, { useContext } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
-import Logout from "./Logout";
 
 export default function Nav() {
   const location = useLocation();
   const navigate = useNavigate();
   const jobsPage = location.pathname === "/jobs";
-  const jobsDetailPage = location.pathname.startsWith("/jobs/");
-  const createJobPage = location.pathname === "/jobs/create";
-  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const { jobs_id } = useParams();
-  const { userData, setUserData } = useContext(UserContext);
-
-  const handleDelete = () => {
-    setDeleteConfirmation(true);
-  };
-
-  const confirmDeleteJob = () => {
-    navigate(`/jobs/${jobs_id}/delete`);
-    setDeleteConfirmation(false);
-  };
-
-  const cancelDeleteJob = () => {
-    setDeleteConfirmation(false);
-  };
-
-  const handleEditJob = () => {
-    navigate(`/jobs/${jobs_id}/edit`);
-  };
+  const { userData } = useContext(UserContext);
 
   const handleLogoutClick = () => {
     navigate("/logout");
@@ -72,10 +49,12 @@ export default function Nav() {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="nav-link" to={`/users/${userData.username}/`}>
+                  <NavLink
+                    className="nav-link"
+                    to={`/users/${userData.username}/`}
+                  >
                     My Profile
                   </NavLink>
-
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/about-us">
