@@ -13,10 +13,10 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-            "CORS_HOST",
-            "http://localhost:3000",
-            "https://double07.gitlab.io",
-            "https://mar-7-pt-novicenetworkapi.mod3projects.com/",
+        "CORS_HOST",
+        "http://localhost:3000",
+        "https://double07.gitlab.io",
+        "https://mar-7-pt-novicenetworkapi.mod3projects.com/",
     ],
     allow_credentials=True,
     allow_methods=["*"],
