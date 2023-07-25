@@ -64,12 +64,14 @@ function App() {
       });
       if (response.ok) {
         const data = await response.json();
-        const { id, username, email, role } = data.account;
+        const { id, username, email, role, bootcamp, picture } = data.account;
         setUserData({
           id,
           username,
           email,
           role,
+          bootcamp,
+          picture,
         });
         localStorage.setItem("token", data.token);
       } else {
@@ -156,7 +158,13 @@ function App() {
               <Route path="/logout" element={<Logout />} />
               <Route
                 path="/users/:username"
-                element={<UserProfile posts={posts} />}
+                element={
+                  <UserProfile
+                    posts={posts}
+                    handleUserData={handleUserData}
+                    userData={userData}
+                  />
+                }
               />
             </Routes>
           </div>

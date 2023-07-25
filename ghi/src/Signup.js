@@ -11,6 +11,8 @@ export default function CreateUser() {
   const { register, token } = useToken();
   const navigate = useNavigate();
   const { userData, setUserData } = useContext(UserContext);
+  const [picture, setPicture] = useState("");
+  const [bootcamp, setBootcamp] = useState("");
 
   const handleRegistration = (e) => {
     e.preventDefault();
@@ -19,6 +21,8 @@ export default function CreateUser() {
       password: password,
       email: email,
       role: role,
+      bootcamp: bootcamp,
+      picture: picture,
     };
     register(accountData, `${process.env.REACT_APP_API_HOST}/users`);
     e.target.reset();
@@ -45,6 +49,16 @@ export default function CreateUser() {
     setRole(value);
   };
 
+  const handleBootcampChange = (event) => {
+    const value = event.target.value;
+    setBootcamp(value);
+  };
+
+  const handlePictureChange = (event) => {
+    const value = event.target.value;
+    setPicture(value);
+  };
+
   const handleUserData = async () => {
     try {
       const url = `${process.env.REACT_APP_API_HOST}/token`;
@@ -53,12 +67,14 @@ export default function CreateUser() {
       });
       if (response.ok) {
         const data = await response.json();
-        const { id, username, email, role } = data.account;
+        const { id, username, email, role, bootcamp, picture } = data.account;
         setUserData({
           id,
           username,
           email,
           role,
+          bootcamp,
+          picture,
         });
         navigate("/");
       } else {
@@ -131,6 +147,30 @@ export default function CreateUser() {
                 <option value="recruiter">Recruiter</option>
               </select>
               <label htmlFor="role">Choose your role</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                onChange={handleBootcampChange}
+                value={bootcamp}
+                required
+                type="text"
+                placeholder="bootcamp"
+                id="bootcamp"
+                className="form-control"
+              />
+              <label htmlFor="bootcamp">Bootcamp</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                onChange={handlePictureChange}
+                value={picture}
+                required
+                type="text"
+                placeholder="Picture Url"
+                id="picture"
+                className="form-control"
+              />
+              <label htmlFor="picture">Profile Picture Url</label>
             </div>
             <button className="btn btn-primary" type="submit">
               Create User
