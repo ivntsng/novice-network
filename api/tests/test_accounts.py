@@ -51,13 +51,13 @@ def test_get_one():
     }
 
 
-
 def test_delete_account():
     app.dependency_overrides[AccountRepo] = DeleteAccount
     response = client.delete("/users/1")
     app.dependency_overrides = {}
     assert response.status_code == 200
     assert response.json()
+
 
 def test_get_all_posts():
     app.dependency_overrides[AccountRepo] = EmptyAccountRepo

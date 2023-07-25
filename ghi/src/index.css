@@ -329,3 +329,9 @@ h1.detail-job-title {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.profile-div {
+  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
