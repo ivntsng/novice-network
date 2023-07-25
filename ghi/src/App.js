@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AuthProvider, useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import "./App.css";
@@ -23,7 +23,6 @@ function App() {
   const [jobs, setJobs] = useState([]);
   const [posts, setPosts] = useState([]);
   const [currentJobId, setCurrentJobId] = useState(null);
-  const { isAuthenticated, user, token } = useAuthContext();
   const [userData, setUserData] = useState(UserContext);
   const domain = /https:\/\/[^/]+/;
   const basename = process.env.PUBLIC_URL.replace(domain, "");

@@ -10,7 +10,7 @@ export default function CreateJob({ getJobs }) {
   const [department, setDepartment] = useState("");
   const [level, setLevel] = useState("");
   const [link, setLink] = useState("");
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleCompanyNameChange = (e) => {

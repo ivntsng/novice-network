@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams, Link, useNavigate, Routes, Route } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import CommentsSection from "./CommentsSection";
 import { UserContext } from "./UserContext";
 
@@ -8,7 +8,7 @@ function PostDetail({ getPosts }) {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   const getComments = async (post_id) => {
     try {

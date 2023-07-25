@@ -6,7 +6,7 @@ export default function JobDetail({ setCurrentJobId, deleteJob }) {
   const { jobs_id } = useParams();
   const navigate = useNavigate();
   const [job, setJob] = useState(null);
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   const handleDelete = () => {

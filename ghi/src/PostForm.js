@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
@@ -6,7 +6,7 @@ function PostForm({ getPosts }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [CreatedDateTime, setCreatedDateTime] = useState("");
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleTitleChange = (event) => {
@@ -38,7 +38,7 @@ function PostForm({ getPosts }) {
 
     const response = await fetch(postUrl, fetchConfig);
     if (response.ok) {
-      const newPosts = await response.json();
+      await response.json();
       setTitle("");
       setDescription("");
       setCreatedDateTime("");

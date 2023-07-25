@@ -35,7 +35,6 @@ function CreateComment({ post_id, onCommentCreated }) {
     );
 
     if (response.ok) {
-      const commentDataResponse = await response.json();
       setNewComment("");
       setUserId("");
       if (onCommentCreated) {
