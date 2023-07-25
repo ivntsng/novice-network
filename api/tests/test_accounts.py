@@ -23,6 +23,9 @@ class EmptyAccountRepo:
             "role": "test",
         }
 
+    def get_all(self):
+        return []
+
 
 def test_get_one():
     app.dependency_overrides[AccountRepo] = EmptyAccountRepo
@@ -36,3 +39,14 @@ def test_get_one():
         "email": "Test@test.com",
         "role": "test",
     }
+
+
+def test_get_all_posts():
+    app.dependency_overrides[AccountRepo] = EmptyAccountRepo
+
+    response = client.get("/users")
+
+    app.dependency_overrides = {}
+
+    assert response.status_code == 200
+    assert response.json() == []
