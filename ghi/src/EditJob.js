@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 export default function EditJob({ currentJobId, getJobs }) {
   const [companyName, setCompanyName] = useState("");
@@ -9,6 +10,8 @@ export default function EditJob({ currentJobId, getJobs }) {
   const [department, setDepartment] = useState("");
   const [level, setLevel] = useState("");
   const [link, setLink] = useState("");
+  const { userData, setUserData } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -83,6 +86,7 @@ export default function EditJob({ currentJobId, getJobs }) {
       department: department,
       level: level,
       job_link: link,
+      created_by: userData.username,
     };
 
     const editUrl = `http://localhost:8000/jobs/${currentJobId}`;
