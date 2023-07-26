@@ -12,6 +12,10 @@ export default function Nav() {
     navigate("/logout");
   };
 
+  const handleLogoutClick = () => {
+    navigate("/logout");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container">
