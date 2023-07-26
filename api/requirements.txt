@@ -2,4 +2,5 @@ fastapi[all]
 uvicorn[standard]==0.17.6
 pytest
 psycopg-binary
+psycopg_pool
 jwtdown-fastapi
