@@ -8,6 +8,8 @@ export default function Nav() {
   const jobsPage = location.pathname === "/jobs";
   const { userData } = useContext(UserContext);
 
+  console.log(userData);
+
   const handleLogoutClick = () => {
     navigate("/logout");
   };
@@ -64,15 +66,17 @@ export default function Nav() {
               </>
             )}
           </ul>
-          {jobsPage && (
-            <ul className="navbar-nav ml-auto jobs-page">
-              <li className="nav-create-job">
-                <NavLink className="nav-link" to="/jobs/create">
-                  Create Job
-                </NavLink>
-              </li>
-            </ul>
-          )}
+          {jobsPage &&
+            userData.username &&
+            (userData.role === "mentor" || userData.role === "recruiter") && (
+              <ul className="navbar-nav ml-auto jobs-page">
+                <li className="nav-create-job">
+                  <NavLink className="nav-link" to="/jobs/create">
+                    Create Job
+                  </NavLink>
+                </li>
+              </ul>
+            )}
         </div>
       </div>
       {userData.username && (
