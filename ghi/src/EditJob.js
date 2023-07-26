@@ -11,7 +11,6 @@ export default function EditJob({ currentJobId, getJobs }) {
   const [level, setLevel] = useState("");
   const [link, setLink] = useState("");
   const { userData } = useContext(UserContext);
-
   const navigate = useNavigate();
 
   useEffect(() => {

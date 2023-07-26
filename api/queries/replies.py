@@ -3,11 +3,13 @@ from typing import Optional, Union, List
 from datetime import datetime
 from queries.pool import pool
 
+
 class ReplyIn(BaseModel):
     owner_username: str
     comment_id: int
     reply: str
     created_on: datetime = Field(default_factory=datetime.now)
+
 
 class ReplyOut(BaseModel):
     reply_id: int
@@ -16,8 +18,10 @@ class ReplyOut(BaseModel):
     reply: str
     created_on: datetime
 
+
 class Error(BaseModel):
     message: str
+
 
 class ReplyRepository:
     def get_one(self, reply_id: int) -> Optional[ReplyOut]:
@@ -36,7 +40,7 @@ class ReplyRepository:
                         """,
                         [
                             reply_id,
-                        ]
+                        ],
                     )
                     record = result.fetchone()
                     if record is None:
@@ -55,7 +59,7 @@ class ReplyRepository:
                         DELETE FROM replies
                         WHERE reply_id = %s
                         """,
-                        [reply_id]
+                        [reply_id],
                     )
                     return True
         except Exception as e:
@@ -79,7 +83,7 @@ class ReplyRepository:
                             reply.reply,
                             reply.created_on,
                             reply_id,
-                        ]
+                        ],
                     )
                     return self.reply_in_to_out(reply_id, reply)
         except Exception as e:
@@ -97,7 +101,7 @@ class ReplyRepository:
                         WHERE comment_id = %s
                         ORDER BY created_on;
                         """,
-                        [comment_id]
+                        [comment_id],
                     )
                     result = db.fetchall()
                     return [
@@ -114,11 +118,11 @@ class ReplyRepository:
             print(e)
             return {"message": "Could not get all replies"}
 
-    def create(self, reply: ReplyIn) -> Union [ReplyOut, Error]:
+    def create(self, reply: ReplyIn) -> Union[ReplyOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    result=db.execute(
+                    result = db.execute(
                         """
                         INSERT INTO replies
                         (owner_username, comment_id, reply, created_on)

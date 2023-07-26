@@ -1,11 +1,12 @@
 from datetime import datetime
 from pydantic import BaseModel
 from typing import List, Union, Optional
-import psycopg
 from queries.pool import pool
+
 
 class Error(BaseModel):
     message: str
+
 
 class PostIn(BaseModel):
     title: str
@@ -13,12 +14,14 @@ class PostIn(BaseModel):
     description: str
     owner_username: str
 
+
 class PostOut(BaseModel):
     id: int
     title: str
     created_datetime: datetime
     description: str
     owner_username: str
+
 
 class PostRepository:
     def delete(self, post_id: int) -> bool:
@@ -30,7 +33,7 @@ class PostRepository:
                         DELETE FROM posts
                         WHERE id = %s
                         """,
-                        [post_id]
+                        [post_id],
                     )
                     return True
         except Exception as e:
@@ -55,8 +58,8 @@ class PostRepository:
                             post.created_datetime,
                             post.description,
                             post.owner_username,
-                            post_id
-                        ]
+                            post_id,
+                        ],
                     )
                     return self.post_in_to_out(post_id, post)
         except Exception as e:
@@ -69,12 +72,12 @@ class PostRepository:
 
     def record_to_post_out(self, record):
         return PostOut(
-                            id=record[0],
-                            title=record[1],
-                            created_datetime=record[2],
-                            description=record[3],
-                            owner_username=record[4],
-                        )
+            id=record[0],
+            title=record[1],
+            created_datetime=record[2],
+            description=record[3],
+            owner_username=record[4],
+        )
 
     def get_all(self) -> Union[Error, List[PostOut]]:
         try:
@@ -88,8 +91,7 @@ class PostRepository:
                         """
                     )
                     return [
-                        self.record_to_post_out(record)
-                        for record in result
+                        self.record_to_post_out(record) for record in result
                     ]
 
         except Exception as e:
@@ -110,7 +112,7 @@ class PostRepository:
                         FROM posts
                         WHERE id = %s
                         """,
-                        [post_id]
+                        [post_id],
                     )
                     record = result.fetchone()
                     if record is None:
@@ -138,8 +140,8 @@ class PostRepository:
                         post.title,
                         post.created_datetime,
                         post.description,
-                        post.owner_username
-                    ]
+                        post.owner_username,
+                    ],
                 )
                 # Return new data
                 id = result.fetchone()[0]

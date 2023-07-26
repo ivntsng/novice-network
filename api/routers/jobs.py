@@ -48,11 +48,3 @@ def get_job(
     if job is None:
         response.status_code = 404
     return job
-
-
-@router.delete("/jobs/{job_id}", response_model=bool)
-def delete_job(
-    job_id: int,
-    repo: JobRepository = Depends(),
-) -> bool:
-    return repo.delete(job_id)

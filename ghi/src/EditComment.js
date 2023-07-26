@@ -13,7 +13,7 @@ function EditComment({ post_id, comment_id, onCommentUpdated }) {
     const fetchCommentDetails = async () => {
       if (post_id && comment_id) {
         const response = await fetch(
-          `http://localhost:8000/posts/${post_id}/comments/${comment_id}`
+          `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -50,7 +50,7 @@ function EditComment({ post_id, comment_id, onCommentUpdated }) {
     }
 
     const response = await fetch(
-      `http://localhost:8000/posts/${post_id}/comments/${commentIdAsInteger}`,
+      `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${commentIdAsInteger}`,
       {
         method: "PUT",
         body: JSON.stringify(commentData),
