@@ -1,6 +1,6 @@
 from main import app
 from fastapi.testclient import TestClient
-from routers.comments import CommentRepository, CommentOut, CommentIn
+from queries.comments import CommentRepository, CommentOut, CommentIn
 
 client = TestClient(app)
 

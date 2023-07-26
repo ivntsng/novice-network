@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 from main import app
-from routers.jobs import JobRepository, JobOut, JobsIn
+from queries.jobs import JobRepository, JobOut, JobsIn
 
 client = TestClient(app)
 originalJobId = {
