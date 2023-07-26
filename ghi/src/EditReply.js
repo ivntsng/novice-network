@@ -15,6 +15,7 @@ export default function EditReply({
 
   useEffect(() => {
     fetchReplyDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post_id, comment_id, reply_id]);
 
   const fetchReplyDetails = async () => {

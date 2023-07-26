@@ -12,7 +12,6 @@ function Reply({
 }) {
   const { userData } = useContext(UserContext);
   const username = userData.username;
-  const [replyDetails, setReplyDetails] = useState(null);
 
   const { reply_id } = reply;
 
