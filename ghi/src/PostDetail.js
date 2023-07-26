@@ -29,7 +29,7 @@ function PostDetail({ getPosts }) {
   const getReplies = async (comment_id) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/comments/${comment_id}/replies`
+        `${process.env.REACT_APP_API_HOST}/comments/${comment_id}/replies`
       );
       if (response.ok) {
         const data = await response.json();

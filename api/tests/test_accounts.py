@@ -8,8 +8,7 @@ sys.path.append(project_root)
 
 from fastapi.testclient import TestClient
 from main import app
-from queries.accounts import AccountRepo, AccountIn, AccountOut
-from authenticator import authenticator
+from queries.accounts import AccountRepo
 
 client = TestClient(app)
 
