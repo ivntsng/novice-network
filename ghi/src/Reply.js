@@ -16,11 +16,11 @@ function Reply({
   const { reply_id } = reply;
 
   useEffect(() => {
-    if (post_id && comment_id && reply && reply_id) {
+    if (post_id && comment_id && reply && reply.reply_id) {
       fetchReplyDetails();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [post_id, comment_id, reply]);
+  }, [post_id, comment_id, reply, reply.reply_id]);
 
   const fetchReplyDetails = async () => {
     const response = await fetch(

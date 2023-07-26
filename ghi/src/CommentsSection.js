@@ -5,7 +5,7 @@ import CreateReply from "./CreateReply";
 import EditReply from "./EditReply";
 import { UserContext } from "./UserContext";
 
-function CommentsSection({ post_id }) {
+function CommentsSection({ comment_id, post_id }) {
   const [comments, setComments] = useState([]);
   const [addingReplyTo, setAddingReplyTo] = useState(null);
   const [editingReply, setEditingReply] = useState(null);
@@ -115,6 +115,7 @@ function CommentsSection({ post_id }) {
               {editingReply && (
                 <EditReply
                   post_id={post_id}
+                  comment_id={comment_id}
                   reply_id={editingReply.reply_id}
                   reply={editingReply.reply}
                   onReplyUpdated={() => {

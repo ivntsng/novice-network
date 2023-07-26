@@ -6,6 +6,7 @@ function Comment({
   comment,
   username,
   post_id,
+  reply_id,
   onCommentUpdated,
   startAddingReply,
   deleteReply,
@@ -113,7 +114,7 @@ function Comment({
       {replies.map((reply) => (
         <Reply
           reply={reply}
-          key={reply.reply_id}
+          reply_id={reply_id}
           post_id={post_id}
           comment_id={comment.comment_id}
           deleteReply={deleteReply}

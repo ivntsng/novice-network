@@ -13,11 +13,6 @@ export default function EditReply({
   const { userData } = useContext(UserContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchReplyDetails();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [post_id, comment_id, reply_id]);
-
   const fetchReplyDetails = async () => {
     const response = await fetch(
       `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`
@@ -26,10 +21,16 @@ export default function EditReply({
       const data = await response.json();
       setReplyDetails(data);
       setReply(data.reply);
+      console.log("comment_id", comment_id);
     } else {
       console.error("Error fetching reply details");
     }
   };
+
+  useEffect(() => {
+    fetchReplyDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post_id, comment_id, reply_id]);
 
   const handleReplyChange = (event) => setReply(event.target.value);
 
