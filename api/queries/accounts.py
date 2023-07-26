@@ -1,7 +1,4 @@
-import os
-from psycopg_pool import ConnectionPool
 from pydantic import BaseModel
-from typing import Union, List, Optional
 from queries.pool import pool
 from fastapi import HTTPException
 

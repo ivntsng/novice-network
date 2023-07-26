@@ -19,7 +19,7 @@ function Comment({
     const fetchReplies = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/posts/${post_id}/comments/${comment.comment_id}/replies`
+          `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment.comment_id}/replies`
         );
         if (response.ok) {
           const data = await response.json();
@@ -38,7 +38,7 @@ function Comment({
   async function deleteComment(comment_id) {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments/${comment_id}`,
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}`,
         {
           method: "DELETE",
         }

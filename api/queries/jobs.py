@@ -1,8 +1,8 @@
 from pydantic import BaseModel
-from typing import Optional, List, Union
+from typing import List, Union
 from datetime import date
 from queries.pool import pool
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException
 import datetime
 
 
@@ -174,7 +174,7 @@ class JobRepository:
                         ],
                     )
                     record = db.fetchone()
-                    id = record[0]
+                    record[0]
                     return self.record_to_job_out(record)
         except Exception as e:
             print(f"Console Error: {str(e)}")

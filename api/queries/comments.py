@@ -3,11 +3,13 @@ from typing import Optional, Union, List
 from datetime import datetime
 from queries.pool import pool
 
+
 class CommentIn(BaseModel):
     post_id: int
     owner_username: str
     comment: str
     created_on: datetime = Field(default_factory=datetime.now)
+
 
 class CommentOut(BaseModel):
     comment_id: int
@@ -16,8 +18,10 @@ class CommentOut(BaseModel):
     comment: str
     created_on: datetime
 
+
 class Error(BaseModel):
     message: str
+
 
 class CommentRepository:
     def get_one(self, post_id: int, comment_id: int) -> Optional[CommentOut]:
@@ -37,7 +41,7 @@ class CommentRepository:
                         [
                             post_id,
                             comment_id,
-                        ]
+                        ],
                     )
                     record = result.fetchone()
                     print(record)
@@ -57,14 +61,16 @@ class CommentRepository:
                         DELETE FROM comments
                         WHERE post_id = %s AND comment_id = %s
                         """,
-                        [post_id, comment_id]
+                        [post_id, comment_id],
                     )
                     return True
         except Exception as e:
             print(e)
             return False
 
-    def update(self, post_id: int, comment_id: int, comment: CommentIn) -> Union[CommentOut, Error]:
+    def update(
+        self, post_id: int, comment_id: int, comment: CommentIn
+    ) -> Union[CommentOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -82,13 +88,12 @@ class CommentRepository:
                             comment.created_on,
                             post_id,
                             comment_id,
-                        ]
+                        ],
                     )
                     return self.comment_in_to_out(comment_id, comment)
         except Exception as e:
             print(e)
             return {"message": "Could not update that comment"}
-
 
     def get_all(self, post_id: int) -> Union[Error, List[CommentOut]]:
         try:
@@ -101,7 +106,7 @@ class CommentRepository:
                         WHERE post_id = %s
                         ORDER BY created_on;
                         """,
-                        [post_id]
+                        [post_id],
                     )
                     result = db.fetchall()
                     print(result)
@@ -119,7 +124,9 @@ class CommentRepository:
             print(e)
             return {"message": "Could not get all comments"}
 
-    def create(self, post_id: int, comment: CommentIn) -> Union[CommentOut, Error]:
+    def create(
+        self, post_id: int, comment: CommentIn
+    ) -> Union[CommentOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
