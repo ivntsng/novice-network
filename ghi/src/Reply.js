@@ -19,7 +19,7 @@ function Reply({ reply, post_id, comment_id, deleteReply, startEditingReply }) {
       `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply.reply_id}`
     );
     if (response.ok) {
-      const replyDetails = await response.json();
+      await response.json();
     } else {
       console.error("Failed to fetch reply details");
     }
