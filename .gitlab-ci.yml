@@ -24,6 +24,9 @@ api-unit-tests-job:
     - cd api
     - pip install -r requirements.txt
     - python -m pytest
+  variables:
+    DATABASE_URL: "postgresql://admin:secret@postgres/novicenetwork_db"
+    SIGNING_KEY: "b34215b81c522cf7509ada3e12e4c38aece6de45fe7130eb71f97867d8c7b64d"
 
 # Build API Image:
 build-api-image:
