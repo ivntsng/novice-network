@@ -4,7 +4,6 @@ import { UserContext } from "./UserContext";
 
 function EditComment({ post_id, comment_id, onCommentUpdated }) {
   const [comment, setComment] = useState("");
-  const [createdDateTime, setCreatedDateTime] = useState("");
   const navigate = useNavigate();
   const { userData } = useContext(UserContext);
 
@@ -19,7 +18,6 @@ function EditComment({ post_id, comment_id, onCommentUpdated }) {
         if (response.ok) {
           const data = await response.json();
           setComment(data.comment);
-          setCreatedDateTime(data.created_on);
         } else {
           console.error("Error fetching comment details");
         }
@@ -65,7 +63,6 @@ function EditComment({ post_id, comment_id, onCommentUpdated }) {
     if (response.ok) {
       await response.json();
       setComment("");
-      setCreatedDateTime("");
       onCommentUpdated();
       navigate(`/posts/${post_id}`);
     } else {

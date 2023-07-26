@@ -6,12 +6,12 @@ function Reply({ reply, post_id, comment_id, deleteReply, startEditingReply }) {
   const { userData } = useContext(UserContext);
   const username = userData.username;
   const [editingReply, setEditingReply] = useState(null);
-  const [replyDetails, setReplyDetails] = useState(null);
 
   useEffect(() => {
     if (post_id && comment_id && reply && reply.reply_id) {
       fetchReplyDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post_id, comment_id, reply]);
 
   const fetchReplyDetails = async () => {
@@ -20,7 +20,6 @@ function Reply({ reply, post_id, comment_id, deleteReply, startEditingReply }) {
     );
     if (response.ok) {
       const replyDetails = await response.json();
-      setReplyDetails(replyDetails);
     } else {
       console.error("Failed to fetch reply details");
     }
