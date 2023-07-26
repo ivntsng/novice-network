@@ -20,11 +20,11 @@ steps = [
         """
         CREATE TABLE replies (
             reply_id SERIAL PRIMARY KEY NOT NULL,
+            post_id INTEGER,
             comment_id INTEGER NOT NULL,
             owner_username VARCHAR(1000) NOT NULL,
             reply TEXT NOT NULL,
-            created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (comment_id) REFERENCES comments (comment_id)
+            created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         """,
         # Drop replies table
