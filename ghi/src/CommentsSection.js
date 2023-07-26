@@ -46,11 +46,11 @@ function CommentsSection({ post_id }) {
     }
   };
 
-  const startEditingReply = (comment_id, reply_id) => {
+  const startEditingReply = (comment_id, reply_id, reply) => {
     if (editingReply && editingReply.reply_id === reply_id) {
       setEditingReply(null);
     } else {
-      setEditingReply({ comment_id, reply_id });
+      setEditingReply({ comment_id, reply_id, reply });
     }
   };
 
@@ -115,7 +115,8 @@ function CommentsSection({ post_id }) {
               {editingReply && (
                 <EditReply
                   post_id={post_id}
-                  reply_id={editingReply}
+                  reply_id={editingReply.reply_id}
+                  reply={editingReply.reply}
                   onReplyUpdated={() => {
                     setEditingReply(null);
                     fetchComments();
