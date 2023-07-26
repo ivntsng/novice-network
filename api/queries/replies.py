@@ -151,3 +151,12 @@ class ReplyRepository:
             reply=reply.reply,
             created_on=reply.created_on,
         )
+
+    def record_to_reply_out(self, record):
+        return ReplyOut(
+            reply_id=record[0],
+            owner_username=record[1],
+            comment_id=record[2],
+            reply=record[3],
+            created_on=record[4],
+        )
