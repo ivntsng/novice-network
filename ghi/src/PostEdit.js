@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
-function PostEdit({ getPosts }) {
+function PostEdit({ getPosts, posts }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [setCreatedDateTime] = useState("");
@@ -54,7 +54,7 @@ function PostEdit({ getPosts }) {
     formdata.title = title;
     formdata.description = description;
     formdata.created_datetime = new Date().toISOString();
-    formdata.owner_username = userData.username; // after auth is done will be Use the ownerId prop received from the backend
+    formdata.owner_username = userData.username;
 
     const postUrl = `${process.env.REACT_APP_API_HOST}/posts/${post_id}`;
     const fetchConfig = {
@@ -70,7 +70,6 @@ function PostEdit({ getPosts }) {
       await response.json();
       setTitle("");
       setDescription("");
-      setCreatedDateTime("");
       getPosts();
       navigate(`/posts/${post_id}`);
     }
