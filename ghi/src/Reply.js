@@ -24,7 +24,7 @@ function Reply({
 
   const fetchReplyDetails = async () => {
     const response = await fetch(
-      `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`
+      `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`
     );
     if (response.ok) {
       await response.json();
