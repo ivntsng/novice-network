@@ -33,7 +33,6 @@ export default function MainPage() {
           Join the community to expand your professional network and foster
           meaningful connections with fellow bootcamp graduates.
         </h2>
-        <MyCarousel />
         <div className="button-container">
           <button
             type="button"
@@ -50,6 +49,7 @@ export default function MainPage() {
             Log in!
           </button>
         </div>
+        <MyCarousel />
       </div>
     </div>
   );
