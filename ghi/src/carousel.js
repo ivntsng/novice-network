@@ -1,8 +1,9 @@
-import React from 'react';
-import { Carousel } from 'react-bootstrap';
-import carousel1 from './image/carousel1.jpeg';
-import carousel2 from './image/carousel2.jpeg';
-import carousel3 from './image/carousel3.jpeg';
+import React from "react";
+import { Carousel } from "react-bootstrap";
+import carousel1 from "./image/carousel1.jpeg";
+import carousel2 from "./image/carousel2.jpeg";
+import carousel3 from "./image/carousel3.jpeg";
+// testing
 
 export default function MyCarousel() {
   return (

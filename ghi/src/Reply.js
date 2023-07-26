@@ -20,6 +20,7 @@ function Reply({
     if (post_id && comment_id && reply && reply_id) {
       fetchReplyDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post_id, comment_id, reply]);
 
   const fetchReplyDetails = async () => {
@@ -27,8 +28,7 @@ function Reply({
       `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`
     );
     if (response.ok) {
-      const replyDetails = await response.json();
-      setReplyDetails(replyDetails);
+      await response.json();
     } else {
       console.error("Failed to fetch reply details");
     }

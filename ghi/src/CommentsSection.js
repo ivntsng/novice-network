@@ -10,7 +10,6 @@ function CommentsSection({ post_id }) {
   const [addingReplyTo, setAddingReplyTo] = useState(null);
   const [editingReply, setEditingReply] = useState(null);
   const { username } = useContext(UserContext);
-  const { userData } = useContext(UserContext);
 
   async function fetchComments() {
     try {
