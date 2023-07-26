@@ -9,7 +9,6 @@ export default function EditReply({
   onReplyUpdated,
 }) {
   const [reply, setReply] = useState("");
-  const [createdDateTime, setCreatedDateTime] = useState("");
   const { userData } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -27,7 +26,6 @@ export default function EditReply({
       if (response.ok) {
         const data = await response.json();
         setReply(data.reply);
-        setCreatedDateTime(data.created_on);
       } else {
         console.error("Error fetching reply details");
       }
