@@ -135,3 +135,33 @@ Output:
   "owner_username": "string"
 }
 ```
+
+## Replies
+
+- **Method**: `POST`, `GET`, `PUT`, `DELETE`
+- **Path**: `/posts/{post_id}/comments/{comment_id}/replies`,
+    `/posts/{post_id}/comments/{comment_id}/replies/{reply_id}`
+
+Input:
+
+```json
+{
+  "owner_username": "string",
+  "comment_id": 0,
+  "reply": "string",
+  "created_on": "2023-07-26T01:56:29.240Z"
+}
+```
+
+Output:
+
+```json
+
+{
+  "reply_id": 0,
+  "owner_username": "string",
+  "comment_id": 0,
+  "reply": "string",
+  "created_on": "2023-07-26T01:59:22.708Z"
+}
+```
