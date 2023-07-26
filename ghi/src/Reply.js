@@ -2,21 +2,29 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import EditReply from "./EditReply";
 
-function Reply({ reply, post_id, comment_id, deleteReply, startEditingReply }) {
+function Reply({
+  reply,
+  post_id,
+  comment_id,
+  deleteReply,
+  startEditingReply,
+  editingReplyId,
+}) {
   const { userData } = useContext(UserContext);
   const username = userData.username;
-  const [editingReply, setEditingReply] = useState(null);
   const [replyDetails, setReplyDetails] = useState(null);
 
+  const { reply_id } = reply;
+
   useEffect(() => {
-    if (post_id && comment_id && reply && reply.reply_id) {
+    if (post_id && comment_id && reply && reply_id) {
       fetchReplyDetails();
     }
   }, [post_id, comment_id, reply]);
 
   const fetchReplyDetails = async () => {
     const response = await fetch(
-      `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply.reply_id}`
+      `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`
     );
     if (response.ok) {
       const replyDetails = await response.json();
@@ -34,17 +42,16 @@ function Reply({ reply, post_id, comment_id, deleteReply, startEditingReply }) {
             <h6>
               <strong>{userData.username} says:</strong>
             </h6>
-            {editingReply?.reply_id === reply.reply_id &&
+            {editingReplyId === reply.reply_id &&
             post_id &&
             comment_id &&
-            reply.reply_id ? (
+            reply_id ? (
               <EditReply
                 post_id={post_id}
                 comment_id={comment_id}
                 reply_id={reply.reply_id}
                 onReplyUpdated={() => {
-                  setEditingReply(null);
-                  startEditingReply(reply.reply_id);
+                  startEditingReply(null);
                 }}
               />
             ) : (
@@ -68,7 +75,7 @@ function Reply({ reply, post_id, comment_id, deleteReply, startEditingReply }) {
                   <button
                     className="btn btn-sm btn-outline-danger"
                     style={{ fontSize: "0.7rem", padding: "2px 5px" }}
-                    onClick={() => deleteReply(comment_id, reply.reply_id)}
+                    onClick={() => deleteReply(comment_id, reply_id)}
                   >
                     Delete
                   </button>
