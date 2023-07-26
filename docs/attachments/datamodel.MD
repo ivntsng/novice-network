@@ -37,3 +37,23 @@
 | created_datetime | datetime | no     | no       |
 | description      | string | no     | no       |
 | owner_username   | string | no     | no       |
+
+### Comments
+
+| name             | type   | unique | optional |
+| ---------------- | ------ | ------ | -------- |
+| comment_id       | int    | yes    | no       |
+| post_id          | int    | no     | no       |
+| comment          | string | no     | no       |
+| created_on     | datetime | no     | no       |
+| owner_username   | string | no     | no       |
+
+### Replies
+
+| name             | type   | unique | optional |
+| ---------------- | ------ | ------ | -------- |
+| reply_id         | int    | yes    | no       |
+| comment_id       | int    | no     | no       |
+| owner_username   | string | no     | no       |
+| created_on     | datetime | no     | no       |
+| reply            | string | no     | no       |
