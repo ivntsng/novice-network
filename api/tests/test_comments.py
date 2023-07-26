@@ -1,6 +1,12 @@
 from main import app
 from fastapi.testclient import TestClient
 from routers.comments import CommentRepository, CommentOut, CommentIn
+import sys
+import os
+
+current_directory = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(current_directory, ".."))
+sys.path.append(project_root)
 
 client = TestClient(app)
 

@@ -9,28 +9,25 @@ export default function EditReply({
   onReplyUpdated,
 }) {
   const [reply, setReply] = useState("");
+  const [replyDetails, setReplyDetails] = useState(null);
   const { userData } = useContext(UserContext);
-
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchReplyDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [post_id, comment_id, reply_id]);
 
   const fetchReplyDetails = async () => {
-    if (post_id && comment_id && reply_id) {
-      const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setReply(data.reply);
-      } else {
-        console.error("Error fetching reply details");
-      }
+    const response = await fetch(
+      `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`
+    );
+    if (response.ok) {
+      const data = await response.json();
+      setReplyDetails(data);
+      setReply(data.reply);
     } else {
-      console.error("'post_id', 'comment_id' or 'reply_id' is undefined");
+      console.error("Error fetching reply details");
     }
   };
 
@@ -38,6 +35,13 @@ export default function EditReply({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!replyDetails) {
+      console.error("No reply details available");
+      return;
+    }
+
+    const { post_id, comment_id } = replyDetails;
 
     const replyData = {
       post_id,
