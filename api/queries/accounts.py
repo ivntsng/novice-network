@@ -128,93 +128,7 @@ class AccountRepo:
                 print("account row:", record)
                 return self.record_to_all_user_out(record)
 
-    # def get_all(self) -> Union[Error, List[AccountOut]]:
-    #     try:
-    #         with pool.connection() as conn:
-    #             with conn.cursor() as db:
-    #                 result = db.execute(
-    #                     """
-    #                         SELECT id
-    #                         , username
-    #                         , hashed_password
-    #                         , email
-    #                         , role
-    #                         FROM users
-    #                         ORDER BY id;
-    #                         """
-    #                 )
-    #                 result = []
-    #                 for record in db:
-    #                     print(record)
-    #                     user = AccountOut(
-    #                         id=record[0],
-    #                         username=record[1],
-    #                         hashed_password=record[2],
-    #                         email=record[3],
-    #                         role=record[4],
-    #                     )
-    #                     result.append(user)
-    #                 return result
-
-    #     except Exception:
-    #         return {"message": "Could not get accounts"}
-
-    # def get_one(self, username: str) -> AccountOut:
-    #     try:
-    #         with pool.connection() as conn:
-    #             with conn.cursor() as db:
-    #                 result = db.execute(
-    #                     """
-    #                         SELECT id
-    #                         , username
-    #                         , hashed_password
-    #                         , email
-    #                         , role
-    #                         FROM users
-    #                         WHERE username = %s;
-    #                         """,
-    #                     [username],
-    #                 )
-    #                 record = result.fetchone()
-    #                 return self.record_to_user_out(record)
-
-    #     except Exception as e:
-    #         print(e)
-    #         return {"message": "Could not get users"}
-
-    # def update_user(self, user_id, data, hashed_password):
-    #     with pool.connection() as conn:
-    #         with conn.cursor() as cur:
-    #             params = [
-    #                 data.username,
-    #                 hashed_password,
-    #                 data.email,
-    #                 data.role,
-    #                 user_id,
-    #             ]
-    #             cur.execute(
-    #                 """
-    #                 UPDATE users
-    #                 SET username = %s
-    #                   , hashed_password = %s
-    #                   , email = %s
-    #                   , role = %s
-    #                 WHERE user_id = %s
-    #                 RETURNING user_id, username, password, email, type
-    #                 """,
-    #                 params,
-    #             )
-
-    #             record = None
-    #             row = cur.fetchone()
-    #             if row is not None:
-    #                 record = {}
-    #                 for i, column in enumerate(cur.description):
-    #                     record[column.name] = row[i]
-
-    #             return record
-
-    def update_account(self, username, account_update):
+    def update_account(self, account_id, account_update):
         with pool.connection() as conn:
             with conn.cursor() as db:
                 returned_values = None
@@ -225,11 +139,23 @@ class AccountRepo:
                         """
                             UPDATE accounts
                             SET username = %s
-                            WHERE username = %s
+                            WHERE id = %s
                             RETURNING *
                         """,
-                        [account_update.username, username],
+                        [account_update.username, account_id],
                     )
+
+                # if account_update.hashed_password:
+                #     print("printing password")
+                #     result = db.execute(
+                #         """
+                #             UPDATE accounts
+                #             SET hashed_password = %s
+                #             WHERE id = %s
+                #             RETURNING *
+                #         """,
+                #         [account_update.hashed_password, account_id],
+                #     )
 
                 if account_update.email:
                     print("printing email")
@@ -237,10 +163,46 @@ class AccountRepo:
                         """
                             UPDATE accounts
                             SET email = %s
-                            WHERE username = %s
+                            WHERE id = %s
                             RETURNING *
                         """,
-                        [account_update.email, username],
+                        [account_update.email, account_id],
+                    )
+
+                if account_update.role:
+                    print("printing role")
+                    result = db.execute(
+                        """
+                            UPDATE accounts
+                            SET role = %s
+                            WHERE id = %s
+                            RETURNING *
+                        """,
+                        [account_update.role, account_id],
+                    )
+
+                if account_update.bootcamp:
+                    print("printing bootcamp")
+                    result = db.execute(
+                        """
+                            UPDATE accounts
+                            SET bootcamp = %s
+                            WHERE id = %s
+                            RETURNING *
+                        """,
+                        [account_update.bootcamp, account_id],
+                    )
+
+                if account_update.picture:
+                    print("printing picture")
+                    result = db.execute(
+                        """
+                            UPDATE accounts
+                            SET picture = %s
+                            WHERE id = %s
+                            RETURNING *
+                        """,
+                        [account_update.picture, account_id],
                     )
 
                 returned_values = result.fetchone()

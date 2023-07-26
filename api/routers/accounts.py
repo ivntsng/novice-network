@@ -103,14 +103,14 @@ def get_one(
     return user
 
 
-@router.put("/users/{username}", response_model=AccountOut)
+@router.put("/users/{account_id}", response_model=AccountOut)
 def update(
-    username: str,
+    account_id: int,
     info: AccountIn,
     response: Response,
     queries: AccountRepo = Depends(),
 ):
-    record = queries.update_account(username, info)
+    record = queries.update_account(account_id, info)
     if record is None:
         response.status_code = 404
     else:

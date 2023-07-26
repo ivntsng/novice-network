@@ -68,4 +68,3 @@ def test_get_all_posts():
 
     assert response.status_code == 200
     assert response.json() == []
->>>>>>> api/tests/test_accounts.py
