@@ -1,13 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "./UserContext";
-import CreateReply from "./CreateReply";
 import "./Reply.css";
 import "./Comment.css";
 
 function Reply({ reply, post_id, comment_id, fetchComments }) {
   const { userData } = useContext(UserContext);
-
-  const [addingReplyTo, setAddingReplyTo] = useState(null);
 
   async function deleteReply() {
     try {
@@ -27,17 +24,6 @@ function Reply({ reply, post_id, comment_id, fetchComments }) {
       console.log("Error deleting reply:", error);
     }
   }
-
-  const toggleReply = () => {
-    if (addingReplyTo === reply.reply_id) {
-      setAddingReplyTo(null);
-    } else {
-      setAddingReplyTo(reply.reply_id);
-    }
-  };
-  console.log("reply.username", reply.username);
-  console.log("userData", userData);
-  console.log("reply", reply);
 
   return (
     <div className="reply">
@@ -66,13 +52,6 @@ function Reply({ reply, post_id, comment_id, fetchComments }) {
             </div>
           </div>
         </div>
-        {addingReplyTo === reply.reply_id && (
-          <CreateReply
-            post_id={post_id}
-            comment_id={comment_id}
-            onReplyCreated={fetchComments}
-          />
-        )}
       </div>
     </div>
   );
