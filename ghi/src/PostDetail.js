@@ -40,7 +40,7 @@ function PostDetail({ getPosts }) {
         );
 
         if (response.ok) {
-          navigate("/posts"); // Redirect to the posts page
+          navigate("/posts");
           getPosts();
         } else {
           console.log("Error deleting post");
@@ -70,6 +70,10 @@ function PostDetail({ getPosts }) {
     fetchPostDetails();
     getComments(post_id);
   }, [post_id]);
+
+  if (!post) {
+    return <div>Loading...</div>;
+  }
 
   // Format date
   const formattedDate = new Date(post.created_datetime).toLocaleDateString(
@@ -136,11 +140,7 @@ function PostDetail({ getPosts }) {
             </div>
           </div>
         </div>
-        <CommentsSection
-          post_id={post_id}
-          comments={comments}
-          replies={replies}
-        />
+        <CommentsSection post_id={post_id} comments={comments} />
       </section>
     </>
   );
