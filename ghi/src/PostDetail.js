@@ -8,7 +8,6 @@ function PostDetail({ getPosts }) {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
-  const [replies, setReplies] = useState([]);
   const { userData } = useContext(UserContext);
 
   const getComments = async (post_id) => {
@@ -24,21 +23,6 @@ function PostDetail({ getPosts }) {
       }
     } catch (error) {
       console.error("Error occurred during comment fetching: ", error);
-    }
-  };
-  const getReplies = async (post_id, comment_id) => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_HOST}/comments/${comment_id}/replies`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
-        console.error("Failed to fetch replies");
-      }
-    } catch (error) {
-      console.error("Error occurred during replies fetching: ", error);
     }
   };
 
@@ -86,31 +70,6 @@ function PostDetail({ getPosts }) {
     fetchPostDetails();
     getComments(post_id);
   }, [post_id]);
-
-  useEffect(() => {
-    const fetchReplies = async () => {
-      try {
-        const allReplies = [];
-        for (let comment of comments) {
-          if (comment.comment_id) {
-            const repliesForComment = await getReplies(comment.comment_id);
-            allReplies.push(repliesForComment);
-          } else {
-            console.error("Comment has no id property:", comment);
-          }
-        }
-        setReplies(allReplies);
-      } catch (error) {
-        console.log("Error fetching replies:", error);
-      }
-    };
-
-    fetchReplies();
-  }, [comments]);
-
-  if (!post) {
-    return <div>Loading...</div>;
-  }
 
   // Format date
   const formattedDate = new Date(post.created_datetime).toLocaleDateString(
