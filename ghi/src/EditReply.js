@@ -15,7 +15,7 @@ export default function EditReply({
 
   const fetchReplyDetails = async () => {
     const response = await fetch(
-      `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`
+      `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`
     );
     if (response.ok) {
       const data = await response.json();
@@ -54,7 +54,7 @@ export default function EditReply({
     };
 
     const response = await fetch(
-      `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
+      `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
       {
         method: "PUT",
         body: JSON.stringify(replyData),

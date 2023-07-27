@@ -122,7 +122,7 @@ class ReplyRepository:
             print(e)
             return {"message": "Could not get all replies"}
 
-    def create(self, post_id: int, comment_id: int, reply: ReplyIn) -> Union [ReplyOut, Error]:
+    def create(self, post_id: int, comment_id: int, reply: ReplyIn) -> Union[ReplyOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
