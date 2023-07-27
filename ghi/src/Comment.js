@@ -1,39 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Reply from "./Reply";
+import React, { useState, useContext } from "react";
 import EditComment from "./EditComment";
+import CreateReply from "./CreateReply";
+import Reply from "./Reply";
+import { UserContext } from "./UserContext";
+import "./Comment.css";
 
-function Comment({
-  comment,
-  username,
-  post_id,
-  onCommentUpdated,
-  startAddingReply,
-  deleteReply,
-  startEditingReply,
-  editingReplyId,
-}) {
-  const [replies, setReplies] = useState([]);
+function Comment({ comment, username, post_id, onCommentUpdated, replies }) {
   const [editingComment, setEditingComment] = useState(null);
-
-  useEffect(() => {
-    const fetchReplies = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment.comment_id}/replies`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setReplies(data);
-        } else {
-          console.error("Failed to fetch replies");
-        }
-      } catch (error) {
-        console.error("Error occurred during replies fetching: ", error);
-      }
-    };
-
-    fetchReplies();
-  }, [comment, post_id]);
+  const [isAddingReply, setIsAddingReply] = useState(false);
+  const { userData } = useContext(UserContext);
 
   async function deleteComment(comment_id) {
     try {
@@ -62,12 +37,16 @@ function Comment({
     }
   };
 
+  const startAddingReply = () => {
+    setIsAddingReply(!isAddingReply);
+  };
+
   return (
     <div key={comment.comment_id} className="card w-100 mb-4">
-      <div className="card-body p-4 d-flex justify-content-between align-items-start">
+      <div className="comment-card-body p-4 d-flex justify-content-between align-items-start">
         <div>
           <h5>
-            <strong>{username} says:</strong>
+            <strong>{userData.username} says:</strong>
           </h5>
           <p className="h5">{comment.comment}</p>
         </div>
@@ -75,11 +54,11 @@ function Comment({
           <small className="text-muted">
             Posted on: {new Date(comment.created_on).toLocaleString()}
           </small>
-          <div className="mt-2">
+          <div className="mt-2" style={{ marginLeft: "auto" }}>
             {comment.username === username && (
               <>
                 <button
-                  className="btn btn-sm btn-outline-primary ml-2"
+                  className="btn btn-sm comment-btn-outline-primary ml-2"
                   style={{
                     fontSize: "0.7rem",
                     padding: "2px 5px",
@@ -89,7 +68,7 @@ function Comment({
                   Edit
                 </button>
                 <button
-                  className="btn btn-sm btn-outline-danger"
+                  className="btn btn-sm comment-btn-outline-danger"
                   style={{
                     fontSize: "0.7rem",
                     padding: "2px 5px",
@@ -101,26 +80,25 @@ function Comment({
               </>
             )}
             <button
-              className="btn btn-sm btn-outline-info ml-2"
+              className="btn btn-sm comment-btn-outline-info ml-2"
               style={{ fontSize: "0.7rem", padding: "2px 5px" }}
-              onClick={() => startAddingReply(comment.comment_id)}
+              onClick={startAddingReply}
             >
               Reply
             </button>
           </div>
         </div>
       </div>
-      {replies.map((reply) => (
-        <Reply
-          reply={reply}
-          key={reply.reply_id}
+      {isAddingReply && (
+        <CreateReply
           post_id={post_id}
           comment_id={comment.comment_id}
-          deleteReply={deleteReply}
-          startEditingReply={startEditingReply}
-          editingReplyId={editingReplyId}
+          onReplyCreated={() => {
+            setIsAddingReply(false);
+            onCommentUpdated();
+          }}
         />
-      ))}
+      )}
       {editingComment === comment.comment_id && (
         <EditComment
           post_id={post_id}
@@ -131,8 +109,22 @@ function Comment({
           }}
         />
       )}
+      {Array.isArray(replies) &&
+        replies.map((reply) => (
+          <Reply
+            key={reply.reply_id}
+            reply={reply}
+            post_id={post_id}
+            comment_id={comment.comment_id}
+            fetchComments={onCommentUpdated}
+            reply_id={null}
+          />
+        ))}
     </div>
   );
 }
+Comment.defaultProps = {
+  replies: [],
+};
 
 export default Comment;

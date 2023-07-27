@@ -8,7 +8,6 @@ function PostDetail({ getPosts }) {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
-  const [replies, setReplies] = useState([]);
   const { userData } = useContext(UserContext);
 
   const getComments = async (post_id) => {
@@ -26,21 +25,6 @@ function PostDetail({ getPosts }) {
       console.error("Error occurred during comment fetching: ", error);
     }
   };
-  const getReplies = async (comment_id) => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_HOST}/comments/${comment_id}/replies`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
-        console.error("Failed to fetch replies");
-      }
-    } catch (error) {
-      console.error("Error occurred during replies fetching: ", error);
-    }
-  };
 
   const onDelete = async () => {
     const confirmed = window.confirm(
@@ -56,7 +40,7 @@ function PostDetail({ getPosts }) {
         );
 
         if (response.ok) {
-          navigate("/posts"); // Redirect to the posts page
+          navigate("/posts");
           getPosts();
         } else {
           console.log("Error deleting post");
@@ -86,27 +70,6 @@ function PostDetail({ getPosts }) {
     fetchPostDetails();
     getComments(post_id);
   }, [post_id]);
-
-  useEffect(() => {
-    const fetchReplies = async () => {
-      try {
-        const allReplies = [];
-        for (let comment of comments) {
-          if (comment.comment_id) {
-            const repliesForComment = await getReplies(comment.comment_id);
-            allReplies.push(repliesForComment);
-          } else {
-            console.error("Comment has no id property:", comment);
-          }
-        }
-        setReplies(allReplies);
-      } catch (error) {
-        console.log("Error fetching replies:", error);
-      }
-    };
-
-    fetchReplies();
-  }, [comments]);
 
   if (!post) {
     return <div>Loading...</div>;
@@ -177,11 +140,7 @@ function PostDetail({ getPosts }) {
             </div>
           </div>
         </div>
-        <CommentsSection
-          post_id={post_id}
-          comments={comments}
-          replies={replies}
-        />
+        <CommentsSection post_id={post_id} comments={comments} />
       </section>
     </>
   );
