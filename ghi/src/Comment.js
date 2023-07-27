@@ -13,7 +13,7 @@ function Comment({ comment, username, post_id, onCommentUpdated, replies }) {
   async function deleteComment(comment_id) {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments/${comment_id}`,
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}`,
         {
           method: "DELETE",
         }

@@ -1,11 +1,30 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function UserProfile({ posts, userData }) {
   const userPosts = posts.filter(
     (post) => userData.username === post.owner_username
   );
+
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    const url = `${process.env.REACT_APP_API_HOST}/users/${userData.id}`;
+    const fetchConfig = {
+      method: "DELETE",
+    };
+    const response = await fetch(url, fetchConfig);
+    if (response.ok) {
+      navigate("/logout");
+    } else {
+      alert("Unable to delete account!");
+    }
+  };
+
+  const handleEditUser = () => {
+    navigate("/users/edit");
+  };
 
   return (
     <>
@@ -35,6 +54,14 @@ function UserProfile({ posts, userData }) {
             </div>
             <div className="row my-3 py-3">
               <p>Bootcamp: {userData.bootcamp}</p>
+            </div>
+            <div className="row my-3 py-3">
+              <button className="btn btn-primary" onClick={handleEditUser}>
+                Edit Account Info
+              </button>
+              <button className="btn btn-danger" onClick={handleDelete}>
+                Delete Account
+              </button>
             </div>
           </div>
 

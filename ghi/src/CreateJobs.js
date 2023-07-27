@@ -175,18 +175,6 @@ export default function CreateJob({ getJobs }) {
               />
               <label htmlFor="job-link">Job Link</label>
             </div>
-            {/* <div className="form-floating mb-3">
-              <input
-                onChange={handleCreatedOnChange}
-                value={createdOn}
-                placeholder="created-on"
-                required
-                type="date"
-                id="date"
-                className="form-control"
-              />
-              <label htmlFor="date">Today's Date</label>
-            </div> */}
             <button className="btn btn-primary" type="submit">
               Create job
             </button>

@@ -1,12 +1,6 @@
-import sys
-import os
-
-current_directory = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.abspath(os.path.join(current_directory, ".."))
-sys.path.append(project_root)
 from fastapi.testclient import TestClient
 from main import app
-from routers.jobs import JobRepository, JobOut, JobsIn
+from queries.jobs import JobRepository, JobOut, JobsIn
 
 client = TestClient(app)
 originalJobId = {

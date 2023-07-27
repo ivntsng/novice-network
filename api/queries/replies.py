@@ -3,11 +3,13 @@ from typing import Optional, Union, List
 from datetime import datetime
 from queries.pool import pool
 
+
 class ReplyIn(BaseModel):
     owner_username: str
     comment_id: int
     reply: str
     created_on: datetime = Field(default_factory=datetime.now)
+
 
 class ReplyOut(BaseModel):
     reply_id: int
@@ -16,8 +18,10 @@ class ReplyOut(BaseModel):
     reply: str
     created_on: datetime
 
+
 class Error(BaseModel):
     message: str
+
 
 class ReplyRepository:
     def get_one(self, post_id: int, comment_id: int, reply_id: int) -> Optional[ReplyOut]:
@@ -38,7 +42,7 @@ class ReplyRepository:
                             post_id,
                             comment_id,
                             reply_id,
-                        ]
+                        ],
                     )
                     record = result.fetchone()
                     if record is None:
@@ -83,7 +87,7 @@ class ReplyRepository:
                             post_id,
                             comment_id,
                             reply_id,
-                        ]
+                        ],
                     )
                     return self.reply_in_to_out(reply_id, reply)
         except Exception as e:
@@ -122,7 +126,7 @@ class ReplyRepository:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    result=db.execute(
+                    result = db.execute(
                         """
                         INSERT INTO replies
                         (post_id, owner_username, comment_id, reply, created_on)

@@ -34,20 +34,26 @@ export default function MainPage() {
           meaningful connections with fellow bootcamp graduates.
         </h2>
         <div className="button-container">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleSignUpClick}
-          >
-            Sign Up!
-          </button>
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={handleLoginClick}
-          >
-            Log in!
-          </button>
+          {userData && userData.username ? (
+            <p></p>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSignUpClick}
+              >
+                Sign Up!
+              </button>
+              <button
+                type="button"
+                className="btn btn-success"
+                onClick={handleLoginClick}
+              >
+                Log in!
+              </button>
+            </>
+          )}
         </div>
         <MyCarousel />
       </div>
