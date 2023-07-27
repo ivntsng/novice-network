@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import Comment from "./Comment";
 import CreateComment from "./CreateComment";
-import CreateReply from "./CreateReply";
-import EditReply from "./EditReply";
+import Reply from "./Reply";
 import { UserContext } from "./UserContext";
+import "./CommentsSection.css";
 
-function CommentsSection({ comment_id, post_id }) {
+function CommentsSection({ post_id }) {
   const [comments, setComments] = useState([]);
-  const [addingReplyTo, setAddingReplyTo] = useState(null);
-  const [editingReply, setEditingReply] = useState(null);
   const { username } = useContext(UserContext);
 
   async function fetchComments() {
@@ -18,55 +16,39 @@ function CommentsSection({ comment_id, post_id }) {
       );
       if (response.ok) {
         const commentsData = await response.json();
-        setComments(commentsData);
+
+        // Fetch replies for each comment
+        const updatedCommentsData = await Promise.all(
+          commentsData.map(async (comment) => {
+            const replyResponse = await fetch(
+              `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment.comment_id}/replies`
+            );
+            if (replyResponse.ok) {
+              const repliesData = await replyResponse.json();
+              return { ...comment, replies: repliesData };
+            }
+            return comment;
+          })
+        );
+
+        // Only update comments if they have changed
+        if (JSON.stringify(comments) !== JSON.stringify(updatedCommentsData)) {
+          setComments(updatedCommentsData);
+        }
       } else {
         console.log("Error fetching comments");
+        setComments([]);
       }
     } catch (error) {
       console.log("Error fetching comments:", error);
+      setComments([]);
     }
   }
-
-  const deleteReply = async (comment_id, reply_id) => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies/${reply_id}`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (response.ok) {
-        console.log("Reply deleted");
-        fetchComments();
-      } else {
-        console.log("Error deleting reply");
-      }
-    } catch (error) {
-      console.log("Error deleting reply:", error);
-    }
-  };
-
-  const startEditingReply = (comment_id, reply_id, reply) => {
-    if (editingReply && editingReply.reply_id === reply_id) {
-      setEditingReply(null);
-    } else {
-      setEditingReply({ comment_id, reply_id, reply });
-    }
-  };
 
   useEffect(() => {
     fetchComments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const startAddingReply = (comment_id) => {
-    setAddingReplyTo(comment_id);
-  };
-
-  const onReplyCreated = () => {
-    setAddingReplyTo(null);
-    fetchComments();
-  };
 
   if (!comments) {
     return <div>Loading...</div>;
@@ -74,11 +56,11 @@ function CommentsSection({ comment_id, post_id }) {
 
   return (
     <section>
-      <div className="container my-5 py-5 text-dark">
+      <div className="comments-section-container my-5 py-5 text-dark">
         <div className="row d-flex justify-content-center">
           <div className="col-md-11 col-lg-9 col-xl-7">
             <div className="d-flex flex-column mb-4">
-              <h4 className="mb-3">Comments</h4>
+              <h3 className="mb-3">Comments</h3>
               {comments && comments.length > 0 ? (
                 comments
                   .sort(
@@ -91,17 +73,17 @@ function CommentsSection({ comment_id, post_id }) {
                         username={username}
                         post_id={post_id}
                         onCommentUpdated={fetchComments}
-                        startAddingReply={startAddingReply}
-                        deleteReply={deleteReply}
-                        startEditingReply={startEditingReply}
                       />
-                      {addingReplyTo === comment.comment_id && (
-                        <CreateReply
-                          post_id={post_id}
-                          comment_id={comment.comment_id}
-                          onReplyCreated={onReplyCreated}
-                        />
-                      )}
+                      {comment.replies &&
+                        comment.replies.map((reply) => (
+                          <Reply
+                            key={reply.reply_id}
+                            reply={reply}
+                            post_id={post_id}
+                            comment_id={comment.comment_id}
+                            fetchComments={fetchComments}
+                          />
+                        ))}
                     </div>
                   ))
               ) : (
@@ -112,18 +94,6 @@ function CommentsSection({ comment_id, post_id }) {
                 post_id={post_id}
                 onCommentCreated={fetchComments}
               />
-              {editingReply && (
-                <EditReply
-                  post_id={post_id}
-                  comment_id={comment_id}
-                  reply_id={editingReply.reply_id}
-                  reply={editingReply.reply}
-                  onReplyUpdated={() => {
-                    setEditingReply(null);
-                    fetchComments();
-                  }}
-                />
-              )}
             </div>
           </div>
         </div>

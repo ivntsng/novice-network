@@ -26,10 +26,10 @@ function PostDetail({ getPosts }) {
       console.error("Error occurred during comment fetching: ", error);
     }
   };
-  const getReplies = async (comment_id) => {
+  const getReplies = async (post_id, comment_id) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/comments/${comment_id}/replies`
+        `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies`
       );
       if (response.ok) {
         const data = await response.json();
