@@ -28,6 +28,17 @@ function Reply({ reply, post_id, comment_id, fetchComments }) {
     }
   }
 
+  const toggleReply = () => {
+    if (addingReplyTo === reply.reply_id) {
+      setAddingReplyTo(null);
+    } else {
+      setAddingReplyTo(reply.reply_id);
+    }
+  };
+  console.log("reply.username", reply.username);
+  console.log("userData", userData);
+  console.log("reply", reply);
+
   return (
     <div className="reply">
       <div className="reply-card w-100 mb-4">
@@ -41,7 +52,7 @@ function Reply({ reply, post_id, comment_id, fetchComments }) {
               Replied on: {new Date(reply.created_on).toLocaleString()}
             </small>
             <div className="mt-2" style={{ marginLeft: "auto" }}>
-              {userData.username === reply.username && (
+              {userData.username === reply.owner_username && (
                 <>
                   <button
                     className="btn btn-sm comment-btn-outline-danger"
@@ -66,4 +77,5 @@ function Reply({ reply, post_id, comment_id, fetchComments }) {
     </div>
   );
 }
+
 export default Reply;
