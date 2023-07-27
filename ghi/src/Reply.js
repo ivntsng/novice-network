@@ -9,10 +9,6 @@ function Reply({ reply, post_id, comment_id, fetchComments }) {
 
   const [addingReplyTo, setAddingReplyTo] = useState(null);
 
-  const startAddingReply = () => {
-    setAddingReplyTo(reply.reply_id);
-  };
-
   async function deleteReply() {
     try {
       const response = await fetch(
@@ -45,7 +41,7 @@ function Reply({ reply, post_id, comment_id, fetchComments }) {
               Replied on: {new Date(reply.created_on).toLocaleString()}
             </small>
             <div className="mt-2" style={{ marginLeft: "auto" }}>
-              {userData.username === userData.username && (
+              {userData.username === reply.username && (
                 <>
                   <button
                     className="btn btn-sm comment-btn-outline-danger"
