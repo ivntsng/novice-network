@@ -32,9 +32,9 @@ function CreateReply({ post_id, comment_id, reply_id, onReplyCreated }) {
     );
 
     if (response.ok) {
-      const newReply = await response.json(); // Get the new reply object from the response
+      const newReply = await response.json();
       setNewReply("");
-      onReplyCreated && onReplyCreated(newReply); // Pass the new reply object as an argument
+      onReplyCreated && onReplyCreated(newReply);
     } else {
       console.log("Error adding reply");
     }

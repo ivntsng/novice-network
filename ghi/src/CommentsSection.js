@@ -17,7 +17,6 @@ function CommentsSection({ post_id }) {
       if (response.ok) {
         const commentsData = await response.json();
 
-        // Fetch replies for each comment
         const updatedCommentsData = await Promise.all(
           commentsData.map(async (comment) => {
             const replyResponse = await fetch(
@@ -31,7 +30,6 @@ function CommentsSection({ post_id }) {
           })
         );
 
-        // Only update comments if they have changed
         if (JSON.stringify(comments) !== JSON.stringify(updatedCommentsData)) {
           setComments(updatedCommentsData);
         }
