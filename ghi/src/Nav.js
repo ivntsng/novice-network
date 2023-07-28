@@ -16,6 +16,10 @@ export default function Nav() {
     setIsNavCollapsed(!isNavCollapsed);
   };
 
+  const handleLogoutClick = () => {
+    navigate("/logout");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container">
