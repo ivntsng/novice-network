@@ -59,6 +59,11 @@ export default function Nav() {
                   </NavLink>
                 </li>
                 <li className="nav-item">
+                  <NavLink className="nav-link" to="/mentors">
+                    Mentors
+                  </NavLink>
+                </li>
+                <li className="nav-item">
                   <NavLink className="nav-link" to="/about-us">
                     About Us
                   </NavLink>
