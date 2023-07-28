@@ -37,3 +37,8 @@ I also helped edit the backend endpoint for comments which connect to the posts.
 ## July 20, 2023
 
 After helped the team figure out the frontend auth and handleUserData using useContext, I edited by code to be able to bring in username instead of user_id from UserData from token. I also finished coding unit test for get post and create post
+
+## July 28, 2023
+
+Got my frontend all working for posts. Added feature for avatar that taking in user picture url from the frontend.
+Throughout the week I helped my teammate troubleshoot comment/reply.

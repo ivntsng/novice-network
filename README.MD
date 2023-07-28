@@ -9,10 +9,10 @@ A  social media platform designed exclusively for coding bootcamp graduates to c
 * **Paarth Joshi**
 
 ## Design
-- [API Design](attachments/apidesign.MD)
-- [Data Models](attachments/datamodel.MD)
+- [API Design](docs/attachments/apidesign.MD)
+- [Data Models](docs/attachments/datamodel.MD)
 - GHI
-![Ghi](attachments/GHI03.png)
+![Ghi](docs/attachments/GHI03.png)
 
 ## Functionality
 1. As a new user, I can sign up as a bootcamper/grad, recruiter, mentor
