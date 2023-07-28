@@ -8,7 +8,7 @@ function MentorListView() {
   useEffect(() => {
     async function fetchMentors() {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_HOST}/users/`);
+        const response = await fetch(`${process.env.REACT_APP_API_HOST}/users`);
         if (response.ok) {
           const data = await response.json();
           const mentorUsers = data.filter((user) => user.role === 'mentor');
