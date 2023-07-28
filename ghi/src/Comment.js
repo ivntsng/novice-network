@@ -46,7 +46,7 @@ function Comment({ comment, username, post_id, onCommentUpdated, replies }) {
       <div className="comment-card-body p-4 d-flex justify-content-between align-items-start">
         <div>
           <h5>
-            <strong>{userData.username} says:</strong>
+            <strong>{comment.owner_username} says:</strong>
           </h5>
           <p className="h5">{comment.comment}</p>
         </div>
@@ -55,7 +55,7 @@ function Comment({ comment, username, post_id, onCommentUpdated, replies }) {
             Posted on: {new Date(comment.created_on).toLocaleString()}
           </small>
           <div className="mt-2" style={{ marginLeft: "auto" }}>
-            {comment.username === username && (
+            {comment.owner_username === userData.username && (
               <>
                 <button
                   className="btn btn-sm comment-btn-outline-primary ml-2"
