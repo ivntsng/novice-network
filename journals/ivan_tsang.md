@@ -59,3 +59,21 @@ During July 8 and July 9, I focused on the create job listing page and successfu
 * Reworked the navigation bar to display edit and delete buttons only when inside the job details page.
 * Implemented conditional rendering of the edit and delete buttons based on the current page.
 * Modified the format of the date display for better readability.
+
+## July 14 - July 28:
+* Implemented the endpoint for deleting a single job posting.
+* Added proper HTTPException handling for getting a single job and deleting a job.
+* Revamped job listings, introducing individual job detail pages with clickable listings.
+* Added additional UI for job details, updated the background to an off-white color, and added buttons to edit and delete a job.
+* Fixed UI bugs regarding deleting a job and the list of jobs not refreshing afterward.
+* Implemented the redirection to the list of jobs after creating a job.
+* Reworked the navigation bar so that edit job and delete job buttons only appear when inside the job detail page.
+* Updated the format of the date display.
+* Started front-end authentication for jobs, ensuring that the nav bar shows only when logged in and hides the Signup and Login buttons.
+* Implemented CRUD for the jobs section of the application.
+* Worked on the UI and added the job_link entry in the backend and apply now function in the front end.
+* Created all four unit tests for jobs, including fetching all jobs, creating a job, updating a job, and deleting a job.
+* Updated the table schema to support longer job links, increasing the limit to 1000 characters.
+* Worked on the responsive nav bar, fixing the hamburger button, and removed the "about-us" page as it's not being used.
+* Removed unnecessary console.log statements from the codebase.
+* Fixed a bug related to the login feature in the navbar, ensuring that the user remains logged in after refreshing the page.
