@@ -17,7 +17,9 @@ import LoginPage from "./Login";
 import PostEdit from "./PostEdit";
 import UserProfile from "./UserProfile";
 import Logout from "./Logout";
+import EditUser from "./EditUser";
 import { UserContext } from "./UserContext";
+import MentorListView from "./MentorsList";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -155,7 +157,7 @@ function App() {
               />
               <Route path="/signup" element={<CreateUser />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/logout" element={<Logout />} />
+              <Route path="/logout" element={<Logout logOut={Logout} />} />
               <Route
                 path="/users/:username"
                 element={
@@ -166,6 +168,8 @@ function App() {
                   />
                 }
               />
+              <Route path="/users/edit" element={<EditUser />} />
+              <Route path="/mentors" element={<MentorListView />} />
             </Routes>
           </div>
         </BrowserRouter>

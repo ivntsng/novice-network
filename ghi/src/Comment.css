@@ -1,0 +1,60 @@
+.comment-card {
+  margin-bottom: 20px;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.comment-card-body {
+  position: relative;
+}
+
+.comment-card-body h5 {
+  margin-bottom: 15px;
+}
+
+.comment-card-body h5 strong {
+  color: #007bff;
+}
+
+.comment-card-body p.h5 {
+  color: #333;
+}
+
+.comment-btn {
+  border-radius: 15px;
+}
+
+.comment-btn-outline-primary {
+  color: #007bff;
+}
+
+.comment-btn-outline-danger {
+  color: #dc3545;
+}
+
+.comment-btn-outline-info {
+  color: #17a2b8;
+}
+
+.comment-btn:hover {
+  background-color: #f8f9fa;
+  transition: background-color 0.3s ease;
+}
+
+.comment-btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.comment-btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.comment-btn-outline-info:hover {
+  background-color: #17a2b8;
+  color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
