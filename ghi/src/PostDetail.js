@@ -11,20 +11,20 @@ function PostDetail({ getPosts }) {
   const { userData } = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const postOwner = users.find(
-  (user) => post.owner_username === user.username
+    (user) => post && post.owner_username === user.username
   );
 
   async function getalluser() {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_HOST}/users/`);
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/users`);
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
       } else {
-        console.error("Failed to fetch jobs");
+        console.error("Failed to fetch users");
       }
     } catch (error) {
-      console.error("Error occurred during job fetching: ", error);
+      console.error("Error occurred during user fetching: ", error);
     }
   }
 
@@ -114,7 +114,6 @@ function PostDetail({ getPosts }) {
     }
   );
 
-
   // console.log(postOwner.picture)
 
   return (
@@ -124,7 +123,7 @@ function PostDetail({ getPosts }) {
           <div className="row d-flex justify-content-center">
             <div className="col-md-11 col-lg-9 col-xl-7">
               <div className="d-flex flex-start mb-4">
-                 {postOwner ? (
+                {postOwner ? (
                   <img
                     className="rounded-circle shadow-1-strong me-3"
                     src={postOwner.picture}
