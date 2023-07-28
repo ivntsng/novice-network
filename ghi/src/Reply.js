@@ -4,8 +4,6 @@ import "./Reply.css";
 import "./Comment.css";
 
 function Reply({ reply, post_id, comment_id, fetchComments }) {
-  const { userData } = useContext(UserContext);
-
   async function deleteReply() {
     try {
       const response = await fetch(
@@ -25,12 +23,14 @@ function Reply({ reply, post_id, comment_id, fetchComments }) {
     }
   }
 
+  const { userData } = useContext(UserContext);
+
   return (
     <div className="reply">
       <div className="reply-card w-100 mb-4">
         <div className="card-body p-4 d-flex justify-content-between align-items-start">
           <div className="text-left mr-auto">
-            <h6>{userData.username}</h6>
+            <h6>{reply.owner_username}</h6>
             <p>{reply.reply}</p>
           </div>
           <div className="text-right ml-auto">
@@ -38,7 +38,7 @@ function Reply({ reply, post_id, comment_id, fetchComments }) {
               Replied on: {new Date(reply.created_on).toLocaleString()}
             </small>
             <div className="mt-2" style={{ marginLeft: "auto" }}>
-              {userData.username === reply.owner_username && (
+              {reply.owner_username === userData.username && (
                 <>
                   <button
                     className="btn btn-sm comment-btn-outline-danger"
