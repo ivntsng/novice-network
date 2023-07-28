@@ -5,7 +5,6 @@ const CreateComment = ({ post_id, onCommentCreated }) => {
   const [newComment, setnewComment] = useState("");
   const { userData } = useContext(UserContext); // Extract userData from UserContext
   const username = userData.username; // Extract username from userData
-  console.log(username);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,9 +13,6 @@ const CreateComment = ({ post_id, onCommentCreated }) => {
       owner_username: username,
       comment: newComment,
     };
-
-    console.log("post_id:", post_id);
-    console.log("username:", username);
 
     const response = await fetch(
       `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments`,
