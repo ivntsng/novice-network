@@ -19,6 +19,7 @@ import UserProfile from "./UserProfile";
 import Logout from "./Logout";
 import EditUser from "./EditUser";
 import { UserContext } from "./UserContext";
+import MentorListView from "./MentorsList";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -168,6 +169,7 @@ function App() {
                 }
               />
               <Route path="/users/edit" element={<EditUser />} />
+              <Route path="/mentors" element={<MentorListView />} />
             </Routes>
           </div>
         </BrowserRouter>

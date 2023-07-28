@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "./UserContext";
 
-function CreateReply({ post_id, comment_id, onReplyCreated }) {
+function CreateReply({ post_id, comment_id, reply_id, onReplyCreated }) {
   const [newReply, setNewReply] = useState("");
   const { userData } = useContext(UserContext);
   const username = userData.username;
@@ -16,6 +16,7 @@ function CreateReply({ post_id, comment_id, onReplyCreated }) {
     const replyData = {
       owner_username: username,
       comment_id: comment_id,
+      reply_id: reply_id,
       reply: newReply,
     };
 
@@ -31,8 +32,9 @@ function CreateReply({ post_id, comment_id, onReplyCreated }) {
     );
 
     if (response.ok) {
+      const newReply = await response.json();
       setNewReply("");
-      onReplyCreated && onReplyCreated(comment_id);
+      onReplyCreated && onReplyCreated(newReply);
     } else {
       console.log("Error adding reply");
     }
