@@ -21,7 +21,6 @@ export default function EditReply({
       const data = await response.json();
       setReplyDetails(data);
       setReply(data.reply);
-      console.log("comment_id", comment_id);
     } else {
       console.error("Error fetching reply details");
     }

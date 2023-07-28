@@ -43,9 +43,6 @@ export default function JobDetail({ setCurrentJobId, deleteJob }) {
     fetchData();
   }, [jobs_id, setCurrentJobId]);
 
-  console.log("created by:", job && job.created_by);
-  console.log("userData: ", userData.username);
-
   return (
     <div className="job-detail-container">
       {job ? (

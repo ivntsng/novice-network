@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
@@ -8,7 +8,13 @@ export default function Nav() {
   const jobsPage = location.pathname === "/jobs";
   const { userData } = useContext(UserContext);
 
-  console.log(userData);
+  // State to keep track of the visibility of the navigation list
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+
+  // Function to toggle the visibility of the navigation list
+  const handleNavToggle = () => {
+    setIsNavCollapsed(!isNavCollapsed);
+  };
 
   const handleLogoutClick = () => {
     navigate("/logout");
@@ -23,15 +29,21 @@ export default function Nav() {
         <button
           className="navbar-toggler"
           type="button"
+          // Use the state to determine the collapsed or expanded state of the navigation list
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent"
-          aria-expanded="false"
+          aria-expanded={!isNavCollapsed}
           aria-label="Toggle navigation"
+          onClick={handleNavToggle} // Toggle the state when the hamburger menu is clicked
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        {/* Add the `show` class based on the state to show or hide the navigation list */}
+        <div
+          className={`collapse navbar-collapse ${isNavCollapsed ? "" : "show"}`}
+          id="navbarSupportedContent"
+        >
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               <NavLink className="nav-link" to="/">
@@ -63,11 +75,11 @@ export default function Nav() {
                     Mentors
                   </NavLink>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <NavLink className="nav-link" to="/about-us">
                     About Us
                   </NavLink>
-                </li>
+                </li> */}
               </>
             )}
           </ul>
@@ -85,8 +97,11 @@ export default function Nav() {
         </div>
       </div>
       {userData.username && (
-        <div className="user-info">
-          <span className="nav-link">Hello {userData.username}</span>
+        <div className="user-info d-flex align-items-center">
+          {" "}
+          {/* Use flexbox to align the elements */}
+          <span className="nav-link mr-2">Hello {userData.username}</span>{" "}
+          {/* Added 'mr-2' class to add some margin */}
           <button
             className="btn btn-danger"
             id="logout"

@@ -17,7 +17,7 @@ function MentorListView() {
           console.error('Failed to get mentors');
         }
       } catch (error) {
-        console.error('Error occurred whilee fetching: ', error);
+        console.error('Error occurred while fetching: ', error);
       }
     }
 
