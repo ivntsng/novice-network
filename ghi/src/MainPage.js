@@ -1,27 +1,11 @@
 import { useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import MyCarousel from "./carousel";
 
 export default function MainPage() {
-  const navigate = useNavigate();
   const { userData } = useContext(UserContext);
 
-  const handleSignUpClick = () => {
-    if (userData && userData.username) {
-      alert("You are currently logged in.");
-    } else {
-      navigate("/signup");
-    }
-  };
-
-  const handleLoginClick = () => {
-    if (userData && userData.username) {
-      alert("You are logged in already!");
-    } else {
-      navigate("/login");
-    }
-  };
 
   return (
     <div className="container" id="mainpage">

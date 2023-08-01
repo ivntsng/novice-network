@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
-import { NavLink, useLocation, useNavigate, Link } from "react-router-dom";
+import { NavLink, useLocation, Link } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import logo from "./image/pplogo.png";
 
 export default function Nav() {
   const location = useLocation();
-  const navigate = useNavigate();
   const jobsPage = location.pathname === "/jobs";
   const { userData } = useContext(UserContext);
 
@@ -34,7 +33,7 @@ export default function Nav() {
           aria-label="Toggle navigation"
           onClick={handleNavToggle} // Toggle the state when the hamburger menu is clicked
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon" ></span>
         </button>
         {/* Add the `show` class based on the state to show or hide the navigation list */}
         <div
@@ -108,7 +107,7 @@ export default function Nav() {
                 role="button"
                 >Logout
           </Link>
-          &nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;
         </div>
       )}
     </nav>
