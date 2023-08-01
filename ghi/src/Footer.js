@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function Footer() {
 
     return (
-        <footer className="text-center text-white" style={{backgroundColor: '#faa45e',}}>
+        <footer className="text-center text-white" style={{backgroundColor: '#757191',}}>
         <div className="container p-4 pb-0">
             <section className="mb-4" >
             <Link
@@ -57,9 +57,9 @@ function Footer() {
 
         </div>
 
-        <div className="text-center p-3" style={{backgroundColor: '#2b0909',}}>
+        <div className="text-center p-3" style={{backgroundColor: '#231d3c',}}>
             © 2023 Copyright:
-            <Link className="text-white" href="https://mdbootstrap.com/">NoviceNetwork</Link>
+            <Link className="text-white" to="/">NoviceNetwork</Link>
         </div>
         </footer>
     );

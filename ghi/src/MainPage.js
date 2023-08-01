@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import MyCarousel from "./carousel";
 
@@ -38,20 +38,20 @@ export default function MainPage() {
             <p></p>
           ) : (
             <>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleSignUpClick}
-              >
-                Sign Up!
-              </button>
-              <button
-                type="button"
-                className="btn btn-success"
-                onClick={handleLoginClick}
-              >
-                Log in!
-              </button>
+              <Link
+                    className="btn text-white btn-floating m-1"
+                    style={{backgroundColor: '#757191'}}
+                    to="/signup"
+                    role="button"
+                    >Sign Up
+              </Link>
+              <Link
+                    className="btn text-white btn-floating m-1"
+                    style={{backgroundColor: '#231d3c'}}
+                    to="/login"
+                    role="button"
+                    >Log In
+              </Link>
             </>
           )}
         </div>

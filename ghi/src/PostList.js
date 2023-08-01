@@ -10,7 +10,7 @@ function PostList({ posts }) {
         <div className="text-center">
           <Link
                 className="btn text-white btn-floating m-1"
-                style={{backgroundColor: '#f1512f'}}
+                style={{backgroundColor: '#757191'}}
                 to="/posts/create"
                 role="button"
                 >Write a post
@@ -20,7 +20,7 @@ function PostList({ posts }) {
           <div className="row mt-4">
             {posts.map((post) => (
               <div className="col-md-4 mb-4" key={post.id}>
-                <div className="card h-100" style={{backgroundColor: '#faa45e',}}>
+                <div className="card h-100" style={{backgroundColor: '#eef',}}>
                   <div className="card-body">
                     <h5 className="card-title line-clamp-1">{post.title}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">

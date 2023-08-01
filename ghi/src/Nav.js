@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, Link } from "react-router-dom";
 import { UserContext } from "./UserContext";
-import logo from "./image/logonn.png";
+import logo from "./image/pplogo.png";
 
 export default function Nav() {
   const location = useLocation();
@@ -15,10 +15,6 @@ export default function Nav() {
   // Function to toggle the visibility of the navigation list
   const handleNavToggle = () => {
     setIsNavCollapsed(!isNavCollapsed);
-  };
-
-  const handleLogoutClick = () => {
-    navigate("/logout");
   };
 
   return (
@@ -47,32 +43,33 @@ export default function Nav() {
         >
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/">
+              <NavLink id="Navitem" className="nav-link" to="/">
                 Home
               </NavLink>
             </li>
             {userData.username && (
               <>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/jobs">
+                  <NavLink id="Navitem" className="nav-link" to="/jobs">
                     Jobs
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/posts">
+                  <NavLink id="Navitem" className="nav-link" to="/posts">
                     Forum
                   </NavLink>
                 </li>
                 <li>
                   <NavLink
                     className="nav-link"
+                    id="Navitem"
                     to={`/users/${userData.username}/`}
                   >
                     My Profile
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/mentors">
+                  <NavLink id="Navitem" className="nav-link" to="/mentors">
                     Mentors
                   </NavLink>
                 </li>
@@ -89,7 +86,7 @@ export default function Nav() {
             (userData.role === "mentor" || userData.role === "recruiter") && (
               <ul className="navbar-nav ml-auto jobs-page">
                 <li className="nav-create-job">
-                  <NavLink className="nav-link" to="/jobs/create">
+                  <NavLink id="Navitem" className="nav-link" to="/jobs/create">
                     Create Job
                   </NavLink>
                 </li>
@@ -103,13 +100,14 @@ export default function Nav() {
           {/* Use flexbox to align the elements */}
           <span id="usernav" className="nav-link mr-2">Hello {userData.username}</span>{" "}
           {/* Added 'mr-2' class to add some margin */}
-          <button
-            className="btn btn-danger"
-            id="logout"
-            onClick={handleLogoutClick}
-          >
-            Logout
-          </button>
+          &nbsp;&nbsp;
+          <Link
+                className="btn text-white btn-floating m-1"
+                style={{backgroundColor: '#231d3c'}}
+                to="/logout"
+                role="button"
+                >Logout
+          </Link>
         </div>
       )}
     </nav>
