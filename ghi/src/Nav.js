@@ -108,6 +108,7 @@ export default function Nav() {
                 role="button"
                 >Logout
           </Link>
+          &nbsp;&nbsp;&nbsp;&nbsp;
         </div>
       )}
     </nav>
