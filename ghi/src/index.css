@@ -92,6 +92,7 @@ code {
 
 .job-container {
   position: relative;
+  padding-bottom: 200px;
 }
 
 .additional-details {
@@ -347,4 +348,9 @@ h1.detail-job-title {
 
 #mainpage {
   background-color: #f5f6f8
+}
+
+.mentor-block {
+  padding-bottom: 500px;
+  position: relative;
 }

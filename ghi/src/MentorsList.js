@@ -26,6 +26,7 @@ function MentorListView() {
 
   return (
     <>
+    <div className="mentor-block">
     <div className="container mt-5">
       <h2 className="mb-4">Contact Your Mentors!</h2>
       <p className="mb-3">Logged in as: {userData.username}</p>
@@ -43,6 +44,7 @@ function MentorListView() {
           </li>
         ))}
       </ul>
+    </div>
     </div>
     </>
   );

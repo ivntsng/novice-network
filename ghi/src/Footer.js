@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 function Footer() {
 
     return (
-        <footer className="text-center text-white" style={{backgroundColor: '#757191',}}>
+        <footer className="text-center text-white"
+        style={{
+        backgroundColor: "#757191",
+        }}
+        >
         <div className="container p-4 pb-0">
             <section className="mb-4" >
             <Link
