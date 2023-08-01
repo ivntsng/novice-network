@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
+import logo from "./image/logonn.png";
 
 export default function Nav() {
   const location = useLocation();
@@ -24,7 +25,7 @@ export default function Nav() {
     <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container">
         <NavLink className="navbar-brand" to="/">
-          NoviceNetwork
+          <img src={logo} height="50" alt="" />
         </NavLink>
         <button
           className="navbar-toggler"
@@ -100,7 +101,7 @@ export default function Nav() {
         <div className="user-info d-flex align-items-center">
           {" "}
           {/* Use flexbox to align the elements */}
-          <span className="nav-link mr-2">Hello {userData.username}</span>{" "}
+          <span id="usernav" className="nav-link mr-2">Hello {userData.username}</span>{" "}
           {/* Added 'mr-2' class to add some margin */}
           <button
             className="btn btn-danger"

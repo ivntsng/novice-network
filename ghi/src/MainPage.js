@@ -24,7 +24,7 @@ export default function MainPage() {
   };
 
   return (
-    <div className="container">
+    <div className="container" id="mainpage">
       <div className="px-4 py-5 my-5 text-center">
         <h1 className="display-5 fw-bold">
           Helping all graduates from All Bootcamps!
