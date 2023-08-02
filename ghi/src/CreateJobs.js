@@ -84,7 +84,7 @@ export default function CreateJob({ getJobs }) {
   };
 
   return (
-    <div className="row">
+    <div className="row vh-100">
       <div className="offset-3 col-6">
         <div className="shadow p-4 mt-4">
           <h1>Create job listing</h1>

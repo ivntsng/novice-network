@@ -1,13 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto&display=swap");
 
-
-
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f5f6f8;
+  min-height: 100vh;
 }
 
 code {
@@ -92,6 +91,7 @@ code {
 
 .job-container {
   position: relative;
+  min-height: 100vh;
   padding-bottom: 200px;
 }
 
@@ -183,7 +183,7 @@ code {
 }
 
 .job-detail-container {
-  margin: 20px;
+  margin: 50px 350px 50px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -347,10 +347,58 @@ h1.detail-job-title {
 }
 
 #mainpage {
-  background-color: #f5f6f8
+  background-color: #f5f6f8;
 }
 
 .mentor-block {
   padding-bottom: 500px;
   position: relative;
+}
+
+.footer {
+  position: relative;
+  width: 100%;
+  bottom: 0;
+  color: white;
+}
+
+.mentor-block {
+  padding-bottom: 500px;
+  position: relative;
+}
+
+.post-list-container {
+  position: relative;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.mentor-block {
+  position: relative;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.my-profile-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.my-post-container {
+  position: relative;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.sign-up-row {
+  position: relative;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.login-page-container {
+  position: relative;
+  min-height: 100vh;
+  padding: 20px;
 }

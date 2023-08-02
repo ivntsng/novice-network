@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function ListJobs({ listJobs, getJobs }) {
   if (!listJobs || listJobs.length === 0) {
-    return <div>There are no jobs available.</div>;
+    return <div className="vh-100">There are no jobs available.</div>;
   }
 
   const sortJob = Array.isArray(listJobs)
