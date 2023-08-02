@@ -1,13 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto&display=swap");
 
-
-
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f5f6f8;
+  min-height: 100vh;
 }
 
 code {
@@ -347,7 +346,7 @@ h1.detail-job-title {
 }
 
 #mainpage {
-  background-color: #f5f6f8
+  background-color: #f5f6f8;
 }
 
 .mentor-block {
@@ -356,6 +355,8 @@ h1.detail-job-title {
 }
 
 .footer {
-  padding-top: 300px;
+  margin-top: auto;
+  position: fixed;
   bottom: 0;
+  width: 100%;
 }
