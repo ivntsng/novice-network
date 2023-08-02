@@ -172,8 +172,9 @@ function App() {
               <Route path="/users/edit" element={<EditUser />} />
               <Route path="/mentors" element={<MentorListView />} />
             </Routes>
+            <div className="footer">
             <Footer />
-
+            </div>
         </BrowserRouter>
       </UserContext.Provider>
 

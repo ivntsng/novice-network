@@ -354,3 +354,8 @@ h1.detail-job-title {
   padding-bottom: 500px;
   position: relative;
 }
+
+.footer {
+  padding-top: 300px;
+  bottom: 0;
+}
