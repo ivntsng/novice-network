@@ -25,17 +25,28 @@ function MentorListView() {
   }, []);
 
   return (
-    <div>
-      <h2>Contact Your Mentors!</h2>
-      <p>Logged in as: {userData.username}</p>
-      <ul>
+    <>
+    <div className="mentor-block">
+    <div className="container mt-5">
+      <h2 className="mb-4">Contact Your Mentors!</h2>
+      <p className="mb-3">Logged in as: {userData.username}</p>
+      <ul className="list-group">
         {mentors.map((mentor) => (
-          <li key={mentor.id}>
-            <strong>Username:</strong> {mentor.username}    <strong>Email:</strong> {mentor.email}
+          <li key={mentor.id} className="list-group-item">
+            <div className="d-flex justify-content-between">
+              <div>
+                <strong>Username:</strong> {mentor.username}
+              </div>
+              <div>
+                <strong>Email:</strong> {mentor.email}
+              </div>
+            </div>
           </li>
         ))}
       </ul>
     </div>
+    </div>
+    </>
   );
 }
 

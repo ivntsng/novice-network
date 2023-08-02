@@ -1,11 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto&display=swap");
 
+
+
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f9f9f9;
+  background-color: #f5f6f8;
 }
 
 code {
@@ -14,7 +16,7 @@ code {
 }
 
 .navbar {
-  background-color: #008080;
+  background-color: #f5f6f8;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.2rem;
   display: flex;
@@ -25,8 +27,8 @@ code {
   font-weight: bold;
 }
 
-.nav-link {
-  color: #333333;
+#Navitem {
+  color: #231d3c;
   font-weight: bold;
   margin-left: 1rem;
   margin-right: 1rem;
@@ -40,12 +42,12 @@ code {
 }
 
 .nav-link:hover {
-  color: #ffffff;
+  color: #757191;
 }
 
 .display-5 {
   font-size: 48px;
-  color: #333333;
+  color: #231d3c;
   margin-bottom: 20px;
 }
 
@@ -90,6 +92,7 @@ code {
 
 .job-container {
   position: relative;
+  padding-bottom: 200px;
 }
 
 .additional-details {
@@ -336,4 +339,18 @@ h1.detail-job-title {
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#usernav {
+  color: #231d3c;
+  font-weight: bold;
+}
+
+#mainpage {
+  background-color: #f5f6f8
+}
+
+.mentor-block {
+  padding-bottom: 500px;
+  position: relative;
 }
