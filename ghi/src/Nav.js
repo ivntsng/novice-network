@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, Link } from "react-router-dom";
 import { UserContext } from "./UserContext";
+import logo from "./image/pplogo.png";
 
 export default function Nav() {
   const location = useLocation();
-  const navigate = useNavigate();
   const jobsPage = location.pathname === "/jobs";
   const { userData } = useContext(UserContext);
 
@@ -16,15 +16,11 @@ export default function Nav() {
     setIsNavCollapsed(!isNavCollapsed);
   };
 
-  const handleLogoutClick = () => {
-    navigate("/logout");
-  };
-
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container">
         <NavLink className="navbar-brand" to="/">
-          NoviceNetwork
+          <img src={logo} height="50" alt="" />
         </NavLink>
         <button
           className="navbar-toggler"
@@ -37,7 +33,7 @@ export default function Nav() {
           aria-label="Toggle navigation"
           onClick={handleNavToggle} // Toggle the state when the hamburger menu is clicked
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon" ></span>
         </button>
         {/* Add the `show` class based on the state to show or hide the navigation list */}
         <div
@@ -46,32 +42,33 @@ export default function Nav() {
         >
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/">
+              <NavLink id="Navitem" className="nav-link" to="/">
                 Home
               </NavLink>
             </li>
             {userData.username && (
               <>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/jobs">
+                  <NavLink id="Navitem" className="nav-link" to="/jobs">
                     Jobs
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/posts">
+                  <NavLink id="Navitem" className="nav-link" to="/posts">
                     Forum
                   </NavLink>
                 </li>
                 <li>
                   <NavLink
                     className="nav-link"
+                    id="Navitem"
                     to={`/users/${userData.username}/`}
                   >
                     My Profile
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/mentors">
+                  <NavLink id="Navitem" className="nav-link" to="/mentors">
                     Mentors
                   </NavLink>
                 </li>
@@ -88,7 +85,7 @@ export default function Nav() {
             (userData.role === "mentor" || userData.role === "recruiter") && (
               <ul className="navbar-nav ml-auto jobs-page">
                 <li className="nav-create-job">
-                  <NavLink className="nav-link" to="/jobs/create">
+                  <NavLink id="Navitem" className="nav-link" to="/jobs/create">
                     Create Job
                   </NavLink>
                 </li>
@@ -100,15 +97,17 @@ export default function Nav() {
         <div className="user-info d-flex align-items-center">
           {" "}
           {/* Use flexbox to align the elements */}
-          <span className="nav-link mr-2">Hello {userData.username}</span>{" "}
+          <span id="usernav" className="nav-link mr-2">Hello {userData.username}</span>{" "}
           {/* Added 'mr-2' class to add some margin */}
-          <button
-            className="btn btn-danger"
-            id="logout"
-            onClick={handleLogoutClick}
-          >
-            Logout
-          </button>
+          &nbsp;&nbsp;
+          <Link
+                className="btn text-white btn-floating m-1"
+                style={{backgroundColor: '#231d3c'}}
+                to="/logout"
+                role="button"
+                >Logout
+          </Link>
+          &nbsp;&nbsp;&nbsp;
         </div>
       )}
     </nav>
