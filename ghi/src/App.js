@@ -102,10 +102,10 @@ function App() {
 
   return (
     <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
-    <div style={{backgroundColor: '#f5f6f8',}}>
-      <UserContext.Provider value={{ userData, setUserData }}>
-        <BrowserRouter basename={basename}>
-          <Nav setCurrentJobId={setCurrentJobId} />
+      <div style={{ backgroundColor: "#f5f6f8" }}>
+        <UserContext.Provider value={{ userData, setUserData }}>
+          <BrowserRouter basename={basename}>
+            <Nav setCurrentJobId={setCurrentJobId} />
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/jobs" element={<ListJobs listJobs={jobs} />} />
@@ -172,12 +172,12 @@ function App() {
               <Route path="/users/edit" element={<EditUser />} />
               <Route path="/mentors" element={<MentorListView />} />
             </Routes>
-            <Footer />
-
-        </BrowserRouter>
-      </UserContext.Provider>
-
-    </div>
+            <div className="footer">
+              <Footer />
+            </div>
+          </BrowserRouter>
+        </UserContext.Provider>
+      </div>
     </AuthProvider>
   );
 }

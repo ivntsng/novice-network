@@ -95,7 +95,7 @@ export default function CreateUser() {
   }, [token]);
 
   return (
-    <div className="row">
+    <div className="sign-up-row">
       <div className="offset-3 col-6">
         <div className="shadow p-4 mt-4">
           <h1>Create a User</h1>

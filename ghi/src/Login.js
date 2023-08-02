@@ -56,14 +56,12 @@ export default function LoginPage() {
   }, [token]);
 
   return (
-    <div className="offset-3 col-6">
+    <div className="login-page-container offset-3 col-6">
       <div className="shadow p-4 mt-4">
         <h1>Login</h1>
         <form onSubmit={(e) => handleSubmit(e)}>
           <div className="form-floating">
-
             <input
-
               type="text"
               className="form-control"
               id="floatingUsername"
@@ -71,7 +69,7 @@ export default function LoginPage() {
               onChange={(e) => setUsername(e.target.value)}
               required
             />
-            <label htmlFor ="floatingUsername">Username</label>
+            <label htmlFor="floatingUsername">Username</label>
           </div>
 
           <div className="form-floating mb-3">
@@ -79,20 +77,25 @@ export default function LoginPage() {
               name="password"
               type="password"
               className="form-control"
-              id = "floating input"
+              id="floating input"
               placeholder="password"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <label htmlFor = "floating input">Password</label>
+            <label htmlFor="floating input">Password</label>
           </div>
-
 
           <input type="submit" className="btn btn-primary" value="Login" />
 
-          <p className="text-center mt-2 mb-3 text-muted">Dont have an account? <NavLink style={{textDecoration: 'none'}} to="/signup" >Sign Up!</NavLink></p>
-          <p className="text-center mt-5 mb-3 text-muted">© 2023 Novice Network Inc.</p>
-
+          <p className="text-center mt-2 mb-3 text-muted">
+            Dont have an account?{" "}
+            <NavLink style={{ textDecoration: "none" }} to="/signup">
+              Sign Up!
+            </NavLink>
+          </p>
+          <p className="text-center mt-5 mb-3 text-muted">
+            © 2023 Novice Network Inc.
+          </p>
         </form>
       </div>
     </div>

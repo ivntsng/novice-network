@@ -106,7 +106,7 @@ export default function EditUser() {
   }, [token]);
 
   return (
-    <div className="row">
+    <div className="row vh-100">
       <div className="offset-3 col-6">
         <div className="shadow p-4 mt-4">
           <h1>Edit User</h1>

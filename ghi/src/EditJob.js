@@ -112,7 +112,7 @@ export default function EditJob({ currentJobId, getJobs }) {
   };
 
   return (
-    <div className="row">
+    <div className="row vh-100">
       <div className="offset-3 col-6">
         <div className="shadow p-4 mt-4">
           <h1>Edit job listing</h1>

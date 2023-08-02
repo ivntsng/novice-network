@@ -10,7 +10,9 @@ function PostDetail({ getPosts }) {
   const [comments, setComments] = useState([]);
   const { userData } = useContext(UserContext);
   const [users, setUsers] = useState([]);
-  const postOwner = users.find((user) => post && post.owner_username === user.username);
+  const postOwner = users.find(
+    (user) => post && post.owner_username === user.username
+  );
 
   async function getalluser() {
     try {
@@ -112,17 +114,16 @@ function PostDetail({ getPosts }) {
     }
   );
 
-
   // console.log(postOwner.picture)
 
   return (
     <>
-      <section>
+      <section className="vh-100">
         <div className="container my-5 py-5 text-dark">
           <div className="row d-flex justify-content-center">
             <div className="col-md-11 col-lg-9 col-xl-7">
               <div className="d-flex flex-start mb-4">
-                 {postOwner ? (
+                {postOwner ? (
                   <img
                     className="rounded-circle shadow-1-strong me-3"
                     src={postOwner.picture}
