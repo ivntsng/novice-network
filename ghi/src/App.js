@@ -20,7 +20,7 @@ import Logout from "./Logout";
 import EditUser from "./EditUser";
 import { UserContext } from "./UserContext";
 import MentorListView from "./MentorsList";
-import Footer from "./Footer";
+// import Footer from "./Footer";
 
 function App() {
   const [jobs, setJobs] = useState([]);
@@ -172,9 +172,9 @@ function App() {
               <Route path="/users/edit" element={<EditUser />} />
               <Route path="/mentors" element={<MentorListView />} />
             </Routes>
-            <div className="footer">
+            {/* <div className="footer">
               <Footer />
-            </div>
+            </div> */}
           </BrowserRouter>
         </UserContext.Provider>
       </div>

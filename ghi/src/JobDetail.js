@@ -44,7 +44,7 @@ export default function JobDetail({ setCurrentJobId, deleteJob }) {
   }, [jobs_id, setCurrentJobId]);
 
   return (
-    <div className="job-detail-container vh-100">
+    <div className="job-detail-container">
       {job ? (
         <div className="job-detail">
           <div>
