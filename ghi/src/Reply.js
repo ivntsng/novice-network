@@ -7,7 +7,7 @@ function Reply({ reply, post_id, comment_id, fetchComments }) {
   async function deleteReply() {
     try {
       const response = await fetch(
-        `http://localhost:8000/posts/${post_id}/comments/${comment_id}/replies/${reply.reply_id}`,
+        `${process.env.REACT_APP_API_HOST}/posts/${post_id}/comments/${comment_id}/replies/${reply.reply_id}`,
         {
           method: "DELETE",
         }
